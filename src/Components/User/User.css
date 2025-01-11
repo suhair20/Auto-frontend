@@ -1,0 +1,129 @@
+/* Header.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@font-face {
+  font-family:"Playball";
+  src: url("./assets/playball.zip");
+}
+
+@font-face {
+  font-family: "Passion";
+  src: url("./assets/Passion_One.zip");
+
+}
+/* .navbar-color {
+    background-color:#1f2937; /* 45% opacity */
+    /* color: #ffffff; /* White text color */
+  /* } */ */
+
+ 
+  .navbar-color {
+    background-color:#0fe2a3;; /* 45% opacity */
+    color: #ffffff; /* White text color */
+  }
+  .footer-color {
+    background-color:#0d3d3dd2; /* 45% opacity */
+    color: #ffffff; /* White text color */
+  }
+
+  .bold-navbar{
+    background-color: #1f2937 ;
+    color: white;
+  }
+  .mix-color{
+    background-color: rgba(31, 41, 55, 0.7);
+    color: white;
+  }
+
+
+
+
+  .navbar-color .font-playball{
+    color: #ffffff;
+    text-align: center;
+    font-size: 2.5rem; 
+  
+  }
+  
+  .container-width{
+    width: 100px;
+  }
+
+
+  .button-color{
+    background-color: #353567;
+    color: white;
+  }
+
+
+
+/*////////////////*modal css //////////////////////////
+
+/* modal.css */
+/* modal.css */
+
+/* Add the 3D entrance animation */
+@keyframes enter-3d {
+  0% {
+    transform: perspective(1000px) rotateY(90deg) scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: perspective(1000px) rotateY(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Apply the animation to the text and button */
+.animate-3d {
+  animation: enter-3d 1s ease-out forwards;
+}
+
+.animate-3d-button {
+  animation: enter-3d 1.2s ease-in forwards;
+}
+
+/* Keyframes for sliding down animation */
+@keyframes slide-down {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Keyframes for sliding up the button */
+@keyframes slide-up {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Apply the slide-down animation to the text */
+.animate-slide-down {
+  animation: slide-down 1s ease-out forwards;
+}
+
+/* Apply the slide-up animation to the button */
+.animate-slide-up {
+  animation: slide-up 2.2s ease-out forwards;
+}
+
+.fixed {
+  z-index: 50;
+}
+
+.overlay {
+  z-index: 40;
+}

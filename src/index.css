@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@font-face {
+  font-family:"Playball";
+  src: url("./assets/playball/Playball.ttf");
+}
+
+@font-face {
+  font-family: "Passion";
+  src: url("./assets/Passion_One/PassionOne-Bold.ttf");
+}
+@font-face {
+  font-family: "Robot";
+  src: url("./assets/Roboto/Roboto-Regular.ttf");
+}
+@font-face {
+  font-family: "Robot-bold";
+  src: url("./assets/Roboto/Roboto-Bold.ttf");
+}
+
+.navbar-color{
+  background:   #02a16c ;
+  color:#02a16c ;
+}
+
+.button-color{
+  color: #353567;
+}
+.full-width {
+  width: 100vw; /* 100% of the viewport width */
+  height: 500px;
+}
+.mix-color{
+  background-color: rgba(31, 41, 55, 0.7);
+  color: white;
+}
