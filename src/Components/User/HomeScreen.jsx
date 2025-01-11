@@ -305,7 +305,7 @@ const handleStart=(e)=>{
         className='footer-color h-[90vh]   relative position-relative  items-center justify-center ' 
         style={{ backgroundImage: 'url("./banner2.jpg")', backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
-        <div className=" absolute inset-0 bg-black opacity-80 z-0"></div>
+        <div className=" absolute inset-0 bg-black md:opacity-90 opacity-75 z-0"></div>
         <div className=' fixed-top  ml-15 z-10 lg:ml-16 sm:w-11/12   md:w-11/12 md:py-6 items-center justify-center animate-slide-down  '  >
           <Header  />
           </div>
@@ -324,7 +324,7 @@ const handleStart=(e)=>{
               <div className="    text-navbar-color items-end  text-sm">
                 <p>Hop in, Let's Go!</p>
               </div>
-              <div  className=' flex flex-col  gap-3 md:gap-4 w-full items-center ' >
+              <div  className=' flex flex-col  gap-3 md:gap-4 w-full items-center relative' >
                 <input
                   type="text"
                   value={query}
@@ -337,7 +337,7 @@ const handleStart=(e)=>{
                  {showSuggestion && (
         <div
           id="suggestionBox"
-          className="absolute  border md:w-[500px] w-[327px]  rounded  bg-white  p-6  mt-[43px] felx items-center "
+          className="absolute  border md:w-[500px] sm:w-2/3 w-full rounded  bg-white  p-6  mt-[43px] felx items-center "
         >
           <p className=" text-black cursor-pointer  rounded font-robot-bold flex items-center "  onMouseDown={()=>handleSuggestion2Click(false)}>
           <FaMapLocation className='mr-2 text-2xl' /><div className='ml-2' > Set Location on Map</div>
@@ -362,13 +362,13 @@ const handleStart=(e)=>{
                    onFocus={()=>setshowDestinationSuggestion(true)}
                   onBlur={handledestinationInputBlur}
                    onChange={handleDestinationInputChange}
-                   className=" p-2 lg:p-2   md:w-[500px] w-full text-white bg-transparent border rounded   "
+                   className=" p-2 lg:p-2   md:w-[500px] sm:w-2/3 w-full text-white bg-transparent border rounded   "
                    placeholder="Enter Destination"
                 />
                 {showDestinationSuggestion&&(
                    <div
                    id="suggestionBox"
-                   className="absolute bg-white rounded  md:w-[500px] w-[325px] mt-[101px] gap-4  p-6   "
+                   className="absolute bg-white rounded  md:w-[500px] sm:w-2/3 w-full mt-[101px] gap-4  p-6   "
                   
                  >
                    <div className=" text-black cursor-pointer rounded font-robot-bold  flex items-center "  onMouseDown={()=>handleSuggestion2Click(true)}>
