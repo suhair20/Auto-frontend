@@ -62,7 +62,7 @@ const Login =({isOpen,onRequestClose})=>{
       overlayClassName="fixed inset-0 bg-black z-50 bg-opacity-50"
     >
     
-      <div className='bg-white navbar-color p-6 rounded shadow-md md:w-[350px]  w-[300px] '>
+      <div className='bg-white navbar-color p-6 rounded shadow-md md:w-[350px]  w-[350px] '>
       <div className="    text-2xl font-bold cursor-pointer" onClick={onRequestClose}>
       <IoClose />
         </div>
@@ -114,7 +114,18 @@ const Login =({isOpen,onRequestClose})=>{
             </button>
            
           </div>
-        
+          <div className="flex items-center my-2 w-full mx-auto">
+          <hr className="flex-grow border-gray-300" />
+          <span className="mx-2 text-gray-500">or</span>
+          <hr className="flex-grow border-gray-300" />
+        </div>
+        <button
+          className="w-full text-black rounded py-2 flex items-center justify-center"
+        >
+          <img src="https://img.icons8.com/color/48/000000/google-logo.png"
+            alt="Google icon" className="w-5 h-5 mr-2" />
+          Continue with Google
+        </button>
         </div>
       </div>
     
