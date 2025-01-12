@@ -415,10 +415,10 @@ const handleStart=(e)=>{
           <Modal.Title>Set Location on Map</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div ref={mapContainerRef} className="map-container" style={{height:'300px'}}  />
+          <div ref={mapContainerRef} className="map-container h-[600px] sm:h-[500px] md:h-[300px] "   />
         </Modal.Body>
         <Modal.Footer>
-          <Button className='navbar-color rounded' onClick={handleConfirmlocation}>
+          <Button className='navbar-color text-white rounded' onClick={handleConfirmlocation}>
             confirm location
           </Button>
         </Modal.Footer>
