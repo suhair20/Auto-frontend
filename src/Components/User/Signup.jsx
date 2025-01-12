@@ -90,11 +90,11 @@ const Signup = ({isOpen,onRequestClose})=>{
       className="fixed inset-0 flex items-center justify-center p-4"
       overlayClassName="fixed inset-0 bg-black z-50 bg-opacity-50"
     >
-      <div className="bg-white p-6 rounded shadow-md max-w-md w-full">
+      <div className="bg-white navbar-color p-6 rounded shadow-md max-w-md w-[400px]">
       <div className=" text-zinc-500   text-2xl font-bold cursor-pointer" onClick={onRequestClose}>
       <RiCloseCircleFill />
         </div>
-        <h1 className="font-robot-bold text-black text-center  uppercase text-2xl py-4 mb-4">create an account</h1>
+        <h1 className="font-robot-bold  text-center  uppercase text-2xl py-4 mb-4">create an account</h1>
         <form onSubmit={submitHandler} className="flex flex-col gap-4 items-center w-full">
           <div className="flex gap-2 w-full">
             <input
@@ -135,7 +135,7 @@ const Signup = ({isOpen,onRequestClose})=>{
           )}
           <button
             type="submit"
-            className="w-full bold-navbar uppercase text-white rounded p-3 "
+            className="w-full navbar-color uppercase text-white rounded p-3 "
           >
             Continue
           </button>

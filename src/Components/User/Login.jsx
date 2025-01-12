@@ -62,14 +62,19 @@ const Login =({isOpen,onRequestClose})=>{
       overlayClassName="fixed inset-0 bg-black z-50 bg-opacity-50"
     >
     
-      <div className='bg-white p-6 rounded shadow-md max-w-md w-full'>
-      <div className="   text-black text-2xl font-bold cursor-pointer" onClick={onRequestClose}>
+      <div className='bg-white navbar-color p-6 rounded shadow-md md:w-[350px]  w-[300px] '>
+      <div className="    text-2xl font-bold cursor-pointer" onClick={onRequestClose}>
       <IoClose />
         </div>
-        <p className=' font-robot-bold top-4 text-black text-center uppercase text-2xl  '>Login</p>
+        <p className=' font-robot-bold top-4  text-center uppercase text-2xl  '>Login</p>
         <div className=' flex flex-col items-center mt-8' >
         <form onSubmit={handleSubmit} className="flex flex-col gap-2 w-full">
-        <label className=' text-black text-xs font-robot-bold mr-8  uppercase  '>email</label>
+        <div className="flex gap-2 w-full">
+        <label className='  text-xs font-robot-bold   uppercase  '>email</label>
+        <label className='  text-xs font-robot-bold   uppercase  ' style={{paddingLeft:'112px'}} >password</label>
+        </div>
+        <div className="flex gap-2 w-full">
+        
           <input
             type="text"
             value={email}
@@ -78,7 +83,7 @@ const Login =({isOpen,onRequestClose})=>{
             className="p-2 border-1 w-full border-gray-500 rounded "
             placeholder="Enter your email "
           />
-          <label className=' text-black text-xs font-robot-bold mr-8  uppercase  '>password</label>
+          
           <input
             type="password"
             value={password}
@@ -91,9 +96,10 @@ const Login =({isOpen,onRequestClose})=>{
               {error}
             </div>
           )}
+          </div>
           <button
             type="submit"
-            className="w-full p-3 uppercase bold-navbar text-white rounded  "
+            className="w-full p-3 uppercase navbar-color text-white  rounded  "
           >
             Login
           </button>

@@ -305,7 +305,7 @@ const handleStart=(e)=>{
         className='footer-color h-[90vh]   relative position-relative  items-center justify-center ' 
         style={{ backgroundImage: 'url("./banner2.jpg")', backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
-        <div className=" absolute inset-0 bg-black md:opacity-90 opacity-75 z-0"></div>
+        <div className=" absolute inset-0 bg-black md:opacity-90 opacity-80 z-0"></div>
         <div className=' fixed-top  ml-15 z-10 lg:ml-16 sm:w-11/12   md:w-11/12 md:py-6 items-center justify-center animate-slide-down  '  >
           <Header  />
           </div>
