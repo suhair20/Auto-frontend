@@ -1,24 +1,36 @@
-// App.jsx
-import React from 'react';
-import Header from './Components/User/Header';
+import React, { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './index.css';
-import store from './slices/Store';
 import { Provider } from 'react-redux';
 import Modal from 'react-modal';
-Modal.setAppElement('#root'); 
+import Loading from './Components/User/Loading'; // Import the Loading component
+import store from './slices/Store';
+import './index.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-const App = () => (
-  <>
-  <Provider  store={store} >
-    
-    <div className=" ">
-      <Outlet />
-    </div>
+Modal.setAppElement('#root');
+
+const App = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading time (e.g., waiting for initial data or assets)
+    const timer = setTimeout(() => setIsLoading(false), 2000);
+
+    return () => clearTimeout(timer); // Cleanup timer
+  }, []);
+
+  return (
+    <Provider store={store}>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <div>
+          <Outlet />
+        </div>
+      )}
     </Provider>
-  </>
-);
+  );
+};
 
 export default App;
 
