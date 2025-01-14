@@ -75,7 +75,7 @@
     transform: translateX(50%); /* Center */
   }
   100% {
-    transform: translateX(110%); /* Move off-screen on the right */
+    transform: translateX(110%);
   }
 }
 
