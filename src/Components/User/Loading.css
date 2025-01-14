@@ -79,22 +79,21 @@
   }
 }
 
-.pp {
-  margin-top: 20px;
-  font-size: 1.5rem;
-  color: #349377; /* Match your theme color */
-}
 
-.pp {
-  animation: fadeIn 2s infinite alternate;
-}
 
-@keyframes fadeIn {
+/* Vendor prefixes for better browser support */
+@-webkit-keyframes moveAcross {
   0% {
-    opacity: 0;
+    -webkit-transform: translateX(-100%);
   }
   100% {
-    opacity: 1;
+    -webkit-transform: translateX(100%);
   }
 }
+
+.auto-rickshaw {
+  animation: moveAcross 3s linear infinite ease-in-out;
+  -webkit-animation: moveAcross 3s linear infinite ease-in-out; /* For Safari */
+}
+
 
