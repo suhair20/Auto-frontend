@@ -61,8 +61,8 @@
 }
 
 .auto-rickshaw {
-    max-width: 50%; /* Scale image responsively */
-    height: 35%; /* Maintain aspect ratio */
+    max-width: 50%; 
+    height: 35%; 
     animation: moveAcross 4s linear infinite;
 }
 
