@@ -20,7 +20,7 @@ function Header() {
    
   return (
     
-    <header className="sticky top-0 z-0 bg-navbar-color rounded">
+    <header className="sticky top-0 z-0  rounded">
     <div className="navbar-color h-14 flex justify-between  rounded sm:justify-end items-center">
 
       <div className="   font-playball sm:absolute left-0 right-0 sm:mx-auto w-1/4">
@@ -45,28 +45,28 @@ function Header() {
     >
       <MdOutlineMenu
         onClick={onToggleMenu}
-        className="text-3xl cursor-pointer md:hidden"
+        className="text-2xl cursor-pointer md:hidden"
       />
       <ul
         className={`flex flex-col md:flex-row items-center gap-[7vw] ${isMenuOpen ? "block" : "hidden"} md:flex`}
       >
         <li>
-          <a href="#" className="text-black">
+          <a href="#" className=" font-passion">
             Home
           </a>
         </li>
         <li>
-          <a href="#" className="text-black">
+          <a href="#" className=" font-passion">
             Driver
           </a>
         </li>
         <li>
-          <a href="#" className="text-black">
+          <a href="#" className=" font-passion">
             Ride
           </a>
         </li>
         <li>
-          <a href="#" className="text-black">
+          <a href="#" className=" font-passion">
             About
           </a>
         </li>

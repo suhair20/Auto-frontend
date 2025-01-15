@@ -75,7 +75,7 @@ function Header() {
 
       )}
         <div
-      className={`absolute  bg-white left-0 top-full  w-full items-center  ${isMenuOpen ? "min-h-[35vh]" : "md:min-h-fit"}  `}
+      className={`absolute  bg-white left-0 top-full  w-full items-center px-5  ${isMenuOpen ? "min-h-[35vh]" : "md:min-h-fit"}  `}
       style={{ top: 'calc(100% + 0px)' }}  // Adjust to position below the header
     >
       <MdOutlineMenu
@@ -83,7 +83,7 @@ function Header() {
         className=" text-2xl cursor-pointer md:hidden"
       />
       <ul
-        className={`flex flex-col px-3 md:flex-row items-center  gap-[7vw] ${isMenuOpen ? "block" : "hidden"} md:flex`}
+        className={`flex flex-col px-3 md:flex-row items-center   gap-[7vw] ${isMenuOpen ? "block" : "hidden"} md:flex`}
       >
         <li>
           <a href="#" className=" font-passion    ">
