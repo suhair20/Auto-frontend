@@ -80,7 +80,7 @@ function Header() {
     >
       <MdOutlineMenu
         onClick={onToggleMenu}
-        className=" cursor-pointer md:hidden"
+        className=" text-2xl cursor-pointer md:hidden"
       />
       <ul
         className={`flex flex-col px-3 md:flex-row items-center  gap-[7vw] ${isMenuOpen ? "block" : "hidden"} md:flex`}

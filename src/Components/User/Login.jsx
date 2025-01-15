@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useLoginMutation } from '../../slices/userSlice'
 import { useDispatch,useSelector } from 'react-redux';
 import { setCredentials } from '../../slices/Auth.slice';
 import { IoClose } from "react-icons/io5";
+import Signup from "./Signup";
 
 
 import Modal from 'react-modal';
@@ -17,13 +18,15 @@ const Login =({isOpen,onRequestClose})=>{
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
-
+   const [SignupOpen,setSignupOpen]=useState(false)
 
 
 
   const [login, { isLoading: loginLoading }] = useLoginMutation()
 
-
+  const OpenSignup=()=>{
+    setSignupOpen(true)
+  }
 
   const userToken=useSelector((state)=>state.auth.userToken)
   useEffect(()=>{
@@ -106,12 +109,18 @@ const Login =({isOpen,onRequestClose})=>{
           </form>
           <div className='flex gap-2 mt-4 '>
             <p>Not a member?</p>
+          
             <button
-              onClick={() => navigate('/signup')}
+           onClick={() => {
+            onRequestClose(); // Close the login modal
+            OpenSignup();     // Open the signup modal
+          }}
+            
               className="text-blue-500"
             >
               Sign up
             </button>
+        
            
           </div>
           <div className="flex items-center my-2 w-full mx-auto">
@@ -130,6 +139,11 @@ const Login =({isOpen,onRequestClose})=>{
       </div>
     
     </Modal>
+    <Signup 
+ isOpen={SignupOpen}
+ onRequestClose={()=>setSignupOpen(false)}
+
+/>
     </>
   )
 }
