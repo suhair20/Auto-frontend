@@ -14,7 +14,8 @@ const store =configureStore({
     reducer:rootReducer,
     middleware:(getDefaultMidleware)=>
         getDefaultMidleware().concat(
-      
+            userSlice.middleware, 
+            driverSlice.middleware
         )
 })
 

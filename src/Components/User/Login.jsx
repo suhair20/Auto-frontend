@@ -102,9 +102,17 @@ const Login =({isOpen,onRequestClose})=>{
           </div>
           <button
             type="submit"
-            className="w-full p-3 uppercase navbar-color text-white  rounded  "
+            className="w-full p-3 uppercase navbar-color text-white  rounded flex items-center justify-center "
+            disabled={loginLoading}
           >
-            Login
+            {loginLoading?(
+            <span className="loader p-2 ">
+  
+            </span> 
+          ):(
+            'Login'
+          )}
+           
           </button>
           </form>
           <div className='flex gap-2 mt-4 '>

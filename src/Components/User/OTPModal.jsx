@@ -50,8 +50,8 @@ const OTPModal = ({ isOpen, onRequestClose, onSubmit, onResendOtp,error }) => {
       className="fixed inset-0 flex items-center justify-center p-4"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50"
     >
-      <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
-        <h2 className="text-xl font-bold mb-4 text-center">Enter OTP</h2>
+      <div className="bg-white navbar-color p-6 rounded-lg shadow-lg max-w-sm w-full">
+        <h1 className="text-xl font-bold mb-4 text-center"> OTP</h1>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input
             type="text"
@@ -67,18 +67,18 @@ const OTPModal = ({ isOpen, onRequestClose, onSubmit, onResendOtp,error }) => {
           )}
           <button
             type="submit"
-            className="bg-teal-600 text-white py-2 rounded-md hover:bg-teal-700"
+            className=" navbar-color text-white py-2 rounded-md hover:bg-green-950 "
           >
             Verify OTP
           </button>
           <div className="flex justify-between items-center mt-4">
-            <span className="text-gray-600">
+            <span className="">
               {canResend ? 'You can resend OTP now.' : `Resend OTP in ${timer}s`}
             </span>
             {canResend && (
               <button
                 onClick={handleResendOtp}
-                className="text-teal-600 hover:underline"
+                className=" font-passion hover:underline"
               >
                 Resend OTP
               </button>

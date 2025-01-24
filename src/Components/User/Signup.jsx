@@ -6,7 +6,7 @@ import OTPModal from './OTPModal';
 import Header from './Header';
 import Modal from 'react-modal';
 import  Login from './Login'
-import { RiCloseCircleFill } from "react-icons/ri";
+import { IoClose } from "react-icons/io5";
 
 
 
@@ -63,17 +63,17 @@ const Signup = ({isOpen,onRequestClose})=>{
         onRequestClose();
         setOtpModalOpen(true);  
       } else {
-        console.log('Signup was not successful:', response); // Log if the response does not indicate success
+        console.log('Signup was not successful:', response); 
       }
       
     } catch (error) {
-      console.error('Error during signup:', error); // Log the error for debugging
+      console.error('Error during signup:', error); 
       if (error?.data && error?.data?.message) {
         setError(error.data.message);
       } else {
         console.log(error);
         
-        setError('An unexpected error occurred'); // Handle unexpected errors
+        setError('An unexpected error occurred'); 
       }
     }
   }
@@ -123,7 +123,7 @@ const Signup = ({isOpen,onRequestClose})=>{
     >
       <div className="bg-white navbar-color p-6 rounded shadow-md max-w-md w-[400px]">
       <div className=" text-zinc-500   text-2xl font-bold cursor-pointer" onClick={onRequestClose}>
-      <RiCloseCircleFill />
+       <IoClose />
         </div>
         <h1 className="font-robot-bold  text-center  uppercase text-2xl py-4 mb-4">create an account</h1>
         <form onSubmit={submitHandler} className="flex flex-col gap-4 items-center w-full">
@@ -164,12 +164,19 @@ const Signup = ({isOpen,onRequestClose})=>{
               {error}
             </div>
           )}
-          <button
-            type="submit"
-            className="w-full navbar-color uppercase text-white rounded p-3 "
-          >
-            Continue
-          </button>
+        <button
+        type="submit"
+  className="w-full navbar-color uppercase text-white rounded p-3 flex items-center justify-center"
+  disabled={isSignupLoading} // Disable the button while loading
+>
+  {isSignupLoading ? (
+    <span className="loader p-2 ">
+  
+  </span> // Replace with your preferred loading spinner
+  ) : (
+    'Continue'
+  )}
+</button>
         </form>
         <div className="flex items-center my-2 w-full mx-auto">
           <hr className="flex-grow border-gray-300" />
