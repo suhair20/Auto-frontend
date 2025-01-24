@@ -57,19 +57,59 @@ function BookingScreen() {
   
     return( 
       
-      <div>
+      <div className='  navbar-color '   >
         
-      <div className="border rounded     items-center">
-      <div className=' fixed-top md:ml-14  z-10 lg:ml-32 sm:w-12 py-6  md:w-5/6 items-center justify-center  '  >
+      <div className="border rounded navbar-color items-center justify-center">
+      <div className='   z-10  sm:w-12 md:w-full  items-center justify-center  '  >
           <Header  />
           </div>
-        <div ref={mapContainerRef} className="map-container rounded " style={{ height: '500px', width:'100%' }} />
-        
-        <div className="flex flex-col h-full mt-16">
-    
-    <div className="navbar-color items-center rounded h-40 ">
-      <p>suahir</p>
-      
+          <div  className='pt-10 items-center justify-center ' >
+            
+        <div ref={mapContainerRef} className="map-container rounded " style={{ height: '300px', width:'50%' }} />
+        </div>
+        <div className="flex navbar-color  flex-col  h-screen "  >
+         <div  className='p-3' >
+          <h1  className='text-white text-3xl  text-center font-passion ' >Meet your Drivers </h1>
+          </div>
+          <div className=" naavabr items-center justify-center rounded p-4 w-5/6 md:w-4/4 lg:w-4/4 mx-auto">
+      <ul className="text-white flex flex-col items-center justify-center space-y-4">
+
+
+        <li className="flex items-center justify-between p-1 bg-slate-100  w-full md:w-4/6 rounded text-black space-x-4">
+          <div className="bg-gray-800 rounded-full h-10 w-10 flex   items-center justify-center">
+            <span>S</span>
+          </div>
+          <h1 className="ml-4  text-lg font-semibold">Suhir</h1>
+          <h1 className="text-sm ml-20 font-medium">200mt</h1>
+          <button className=" bg-blue-500 text-white text-sm px-2 py-2 rounded hover:bg-blue-600">
+         Book Now
+        </button>
+        </li>
+
+
+        <li className="flex items-center justify-between p-1 bg-slate-100  w-full md:w-4/6 rounded text-black space-x-4">
+          <div className="bg-gray-800 rounded-full h-10 w-10 flex   items-center justify-center">
+            <span>S</span>
+          </div>
+          <h1 className="ml-4  text-lg font-semibold">Suhir</h1>
+          <h1 className="text-sm ml-20 font-medium">200mt</h1>
+          <button className=" bg-blue-500 text-white text-sm px-2 py-2 rounded hover:bg-blue-600">
+         Book Now
+        </button>
+        </li>
+
+        <li className="flex items-center justify-between p-1 bg-slate-100  w-full md:w-4/6 rounded text-black space-x-4">
+          <div className="bg-gray-800 rounded-full h-10 w-10 flex   items-center justify-center">
+            <span>S</span>
+          </div>
+          <h1 className="ml-4  text-lg font-semibold">Suhir</h1>
+          <h1 className="text-sm ml-20 font-medium">200mt</h1>
+          <button className=" button-color text-white text-sm px-2 py-2 rounded hover:bg-blue-600">
+         Book Now
+        </button>
+        </li>
+        {/* Add more drivers as needed */}
+      </ul>
     </div>
   </div>
       </div>

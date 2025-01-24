@@ -410,18 +410,17 @@ const handleStart=(e)=>{
 
       <div className=''>
         
-        <Modal show={showMapModal} onHide={handleCloseMapModal} size="lg" centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Set Location on Map</Modal.Title>
+        <Modal show={showMapModal}  onHide={handleCloseMapModal} size="lg" centered>
+        <Modal.Header className='navbar-color '>
+          <Modal.Title className='text-white' >Set Location on Map</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <div ref={mapContainerRef} className="map-container h-[400px] sm:h-[500px] md:h-[300px] "   />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button className='navbar-color text-white rounded' onClick={handleConfirmlocation}>
+        <Modal.Body className='navbar-color' >
+          <div ref={mapContainerRef} className="map-container rounded h-[400px] sm:h-[500px] md:h-[300px] "   />
+          <Button className='px-1'  onClick={handleConfirmlocation}>
             confirm location
           </Button>
-        </Modal.Footer>
+        </Modal.Body>
+       
       </Modal>
       </div>
       <Footer className='' />
