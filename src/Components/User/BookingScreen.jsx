@@ -84,81 +84,65 @@ function BookingScreen() {
          <div  className=' py-2  naavabr ' >
           <h1  className='text-white md:text-4xl text-3xl text-center font-passion ' >Meet your Drivers </h1>
           </div>
-          <div className=" naavfabr items-center justify-center rounded  p-3 w-5/6 md:w-2/4 lg:w-4/4 mx-auto">
+          <div className=" naavfabr items-center justify-center rounded  p-3 w-5/6 md:w-2/4 lg:w-4/4 mx-auto ">
       
       
-          <ul className="text-white overflow-x-auto flex  items-center justify-center space-x-4">
-
-
-          <li className="flex flex-col items-center justify-between p-3 bg-white shadow-lg rounded-lg text-black   md:w-44 space-y-2 md:space-y-4  "
-          >
-            
+          <div className="overflow-hidden w-full gap-2">
+      <div className="flex w-[calc(5*156px)] gap-3 animate-slide">
+        {/* Duplicate the list to create a seamless loop */}
+        <ul className="text-white flex space-x-4">
+          {['Ashwin', 'Askar', 'Manoj', 'Rheem', 'Achu'].map((name, index) => (
+            <li
+              key={index}
+              className="flex flex-col items-center justify-between p-3 bg-white shadow-lg rounded-lg text-black md:w-44 space-y-2 md:space-y-4 relative"
+              onMouseEnter={(e) =>
+                e.currentTarget.parentElement.parentElement.classList.add('animate-play-paused')
+              }
+              onMouseLeave={(e) =>
+                e.currentTarget.parentElement.parentElement.classList.remove('animate-play-paused')
+              }
+            >
               <div className="bg-gray-800 rounded-full h-16 w-16 flex items-center justify-center">
-              <span className="text-white font-bold text-xl">A</span>
-                </div>
-                       <h1 className="text-lg font-semibold">Ashwin</h1>
-                       <h1 className="ttext-sm font-medium text-gray-600  whitespace-nowrap ">800 meters</h1>
-               <button className="navbar-color text-white text-xs sm:text-sm  px-2 md:px-3  py-1 rounded hover:bg-green-950 whitespace-nowrap ">
-                 Book now
-               </button>
-          </li>
+                <span className="text-white font-bold text-xl">{name.charAt(0)}</span>
+              </div>
+              <h1 className="text-lg font-semibold">{name}</h1>
+              <h1 className="text-sm font-medium text-gray-600 whitespace-nowrap">{`${index * 200 + 100} meters`}</h1>
+              <button className="navbar-color text-white text-xs sm:text-sm px-2 md:px-3 py-1 rounded hover:bg-green-950 whitespace-nowrap">
+                Book now
+              </button>
+            </li>
+          ))}
+        </ul>
 
 
-          <li className="flex flex-col items-center justify-between p-3 bg-white shadow-lg rounded-lg text-black   md:w-44 space-y-2 md:space-y-4  "
-          >
-            
-              <div className="bg-gray-800 rounded-full h-16 w-16 flex items-center justify-center">
-              <span className="text-white font-bold text-xl">A</span>
-                </div>
-                       <h1 className="text-lg font-semibold">Askar</h1>
-                       <h1 className="ttext-sm font-medium text-gray-600  whitespace-nowrap ">100 meters</h1>
-               <button className="navbar-color text-white text-xs sm:text-sm  px-2 md:px-3  py-1 rounded hover:bg-green-950 whitespace-nowrap ">
-                 Book now
-               </button>
-          </li>
 
+    {/* Duplicate for seamless rotation */}
+    <ul className="text-white flex space-x-4">
+      {['Ashwin', 'Askar', 'Manoj', 'Rheem', 'Achu'].map((name, index) => (
+        <li
+          key={`duplicate-${index}`}
+          className="flex flex-col items-center justify-between p-3 bg-white shadow-lg rounded-lg text-black md:w-44 space-y-2 md:space-y-4 relative  "
+          onMouseEnter={(e) =>
+            e.currentTarget.parentElement.parentElement.classList.add('animate-play-paused')
+          }
+          onMouseLeave={(e) =>
+            e.currentTarget.parentElement.parentElement.classList.remove('animate-play-paused')
+          }
+         >
+          <div className="bg-gray-800 rounded-full h-16 w-16 flex items-center justify-center">
+            <span className="text-white font-bold text-xl">{name.charAt(0)}</span>
+          </div>
+          <h1 className="text-lg font-semibold">{name}</h1>
+          <h1 className="text-sm font-medium text-gray-600 whitespace-nowrap">{`${index * 200 + 100} meters`}</h1>
+          <button className="navbar-color text-white text-xs sm:text-sm px-2 md:px-3 py-1 rounded hover:bg-green-950 whitespace-nowrap">
+            Book now
+          </button>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>
 
-          <li className="flex flex-col items-center justify-between p-3 bg-white shadow-lg rounded-lg text-black   md:w-44 space-y-2 md:space-y-4  "
-          >
-            
-              <div className="bg-gray-800 rounded-full h-16 w-16 flex items-center justify-center">
-              <span className="text-white font-bold text-xl">M</span>
-                </div>
-                       <h1 className="text-lg font-semibold">Manoj</h1>
-                       <h1 className="ttext-sm font-medium text-gray-600  whitespace-nowrap ">600 meters</h1>
-               <button className="navbar-color text-white text-sm  px-2 md:px-3  py-1 rounded hover:bg-green-950 whitespace-nowrap ">
-                 Book now
-               </button>
-          </li>
-
-          <li className="flex flex-col items-center justify-between p-3 bg-white shadow-lg rounded-lg text-black   md:w-44 space-y-2 md:space-y-4  "
-          >
-            
-              <div className="bg-gray-800 rounded-full h-16 w-16 flex items-center justify-center">
-              <span className="text-white font-bold text-xl">R</span>
-                </div>
-                       <h1 className="text-lg font-semibold">Rheem</h1>
-                       <h1 className="ttext-sm font-medium text-gray-600  whitespace-nowrap ">900 meters</h1>
-               <button className="navbar-color text-white text-xs sm:text-sm  px-2 md:px-3  py-1 rounded hover:bg-green-950 whitespace-nowrap ">
-                 Book now
-               </button>
-          </li>
-
-
-          <li className="flex flex-col items-center justify-between p-3 bg-white shadow-lg rounded-lg text-black   md:w-44 space-y-2 md:space-y-4  "
-          >
-            
-              <div className="bg-gray-800 rounded-full h-16 w-16 flex items-center justify-center">
-              <span className="text-white font-bold text-xl">A</span>
-                </div>
-                       <h1 className="text-lg font-semibold">achu</h1>
-                       <h1 className="ttext-sm font-medium text-gray-600  whitespace-nowrap ">200 meters</h1>
-               <button className="navbar-color text-white text-xs sm:text-sm  px-2 md:px-3  py-1 rounded hover:bg-green-950 whitespace-nowrap ">
-                 Book now
-               </button>
-          </li>
-        
-      </ul>
     </div>
    
   </div>
@@ -166,6 +150,10 @@ function BookingScreen() {
       </div>
       
     </div>
+
+
+
+
     )
   }
 

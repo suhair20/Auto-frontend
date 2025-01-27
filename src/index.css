@@ -108,3 +108,11 @@
   }
 }
 
+
+.animate-play-paused {
+  animation-play-state: paused 
+}
+
+.animate-play-running {
+  animation-play-state: running 
+}
