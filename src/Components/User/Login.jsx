@@ -28,12 +28,7 @@ const Login =({isOpen,onRequestClose})=>{
     setSignupOpen(true)
   }
 
-  const userToken=useSelector((state)=>state.auth.userToken)
-  useEffect(()=>{
-    if(userToken){
-      navigate('/')
-    }
-  })
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault()

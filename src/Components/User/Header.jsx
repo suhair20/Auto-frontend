@@ -20,9 +20,11 @@ function Header() {
   const [loginOpen,setLoginOpen]=useState(false)
   const [SignupOpen,setSignupOpen]=useState(false)
   const userToken=useSelector((state)=>state.auth.userToken)
+
+  
    const logouthandler=async(req,res)=>{
     try {
-
+      
     dispatch(logout())
       Navigate('/')
       
@@ -54,14 +56,16 @@ function Header() {
         Auto
       </div>
       {userToken?(
-              <div className="flex items-center   cursor-pointer">
+         
+              <div className="flex items-center  cursor-pointer">
              
               <MdCardTravel  onClick={logouthandler} className="text-white mr-5 text-3xl" />
               
-              <Link to={''}>
-              <CgProfile className="mr-8 text-white text-3xl" />
+              <Link to={'/profile'}>
+              <CgProfile className=" text-white text-3xl" />
               </Link>
             </div>
+           
       ):(
         <div className="flex items-center cursor-pointer">
         

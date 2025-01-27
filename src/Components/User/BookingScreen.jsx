@@ -5,6 +5,7 @@ import mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import Header from './Header'
+import Footer from './Footer';
 
 
 
@@ -32,7 +33,7 @@ function BookingScreen() {
         zoom: 12,
       });
   
-      map.current.addControl(new mapboxgl.NavigationControl(), 'top-left');
+      map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
   
       const geocoder = new MapboxGeocoder({
         accessToken: mapboxgl.accessToken,
@@ -57,62 +58,113 @@ function BookingScreen() {
   
     return( 
       
-      <div className='  navbar-color '   >
+      <div className=' naavabr h-screen  '   >
         
-      <div className="border rounded navbar-color items-center justify-center">
-      <div className='   z-10  sm:w-12 md:w-full  items-center justify-center  '  >
-          <Header  />
+      <div className=" items-center justify-center">
+      <div className=' relative ml-15  lg:ml-16 sm:w-11/12   md:w-11/12 md:py-6 items-center justify-center animate-slide-down  z-20  '  >
+              <Header   />
+     </div>
+     <div className="pt-10 flex items-center justify-center z-30 ">
+  <div
+    className=" rounded  w-11/12 shadow-md "
+   
+  >
+    <div
+      ref={mapContainerRef}
+      className="map-container w-full rounded bg-gray-100"
+      style={{
+        height: '300px',
+        padding: '10px', // Optional spacing inside the map container
+        border: '8px solid white', // White border outside the map
+      }}
+    />
+  </div>
+</div>
+        <div className="flex py-3  flex-col   naavabr "  >
+         <div  className=' py-2  naavabr ' >
+          <h1  className='text-white md:text-4xl text-3xl text-center font-passion ' >Meet your Drivers </h1>
           </div>
-          <div  className='pt-10 items-center justify-center ' >
+          <div className=" naavfabr items-center justify-center rounded  p-3 w-5/6 md:w-2/4 lg:w-4/4 mx-auto">
+      
+      
+          <ul className="text-white overflow-x-auto flex  items-center justify-center space-x-4">
+
+
+          <li className="flex flex-col items-center justify-between p-3 bg-white shadow-lg rounded-lg text-black   md:w-44 space-y-2 md:space-y-4  "
+          >
             
-        <div ref={mapContainerRef} className="map-container rounded " style={{ height: '300px', width:'50%' }} />
-        </div>
-        <div className="flex navbar-color  flex-col  h-screen "  >
-         <div  className='p-3' >
-          <h1  className='text-white text-3xl  text-center font-passion ' >Meet your Drivers </h1>
-          </div>
-          <div className=" naavabr items-center justify-center rounded p-4 w-5/6 md:w-4/4 lg:w-4/4 mx-auto">
-      <ul className="text-white flex flex-col items-center justify-center space-y-4">
+              <div className="bg-gray-800 rounded-full h-16 w-16 flex items-center justify-center">
+              <span className="text-white font-bold text-xl">A</span>
+                </div>
+                       <h1 className="text-lg font-semibold">Ashwin</h1>
+                       <h1 className="ttext-sm font-medium text-gray-600  whitespace-nowrap ">800 meters</h1>
+               <button className="navbar-color text-white text-xs sm:text-sm  px-2 md:px-3  py-1 rounded hover:bg-green-950 whitespace-nowrap ">
+                 Book now
+               </button>
+          </li>
 
 
-        <li className="flex items-center justify-between p-1 bg-slate-100  w-full md:w-4/6 rounded text-black space-x-4">
-          <div className="bg-gray-800 rounded-full h-10 w-10 flex   items-center justify-center">
-            <span>S</span>
-          </div>
-          <h1 className="ml-4  text-lg font-semibold">Suhir</h1>
-          <h1 className="text-sm ml-20 font-medium">200mt</h1>
-          <button className=" bg-blue-500 text-white text-sm px-2 py-2 rounded hover:bg-blue-600">
-         Book Now
-        </button>
-        </li>
+          <li className="flex flex-col items-center justify-between p-3 bg-white shadow-lg rounded-lg text-black   md:w-44 space-y-2 md:space-y-4  "
+          >
+            
+              <div className="bg-gray-800 rounded-full h-16 w-16 flex items-center justify-center">
+              <span className="text-white font-bold text-xl">A</span>
+                </div>
+                       <h1 className="text-lg font-semibold">Askar</h1>
+                       <h1 className="ttext-sm font-medium text-gray-600  whitespace-nowrap ">100 meters</h1>
+               <button className="navbar-color text-white text-xs sm:text-sm  px-2 md:px-3  py-1 rounded hover:bg-green-950 whitespace-nowrap ">
+                 Book now
+               </button>
+          </li>
 
 
-        <li className="flex items-center justify-between p-1 bg-slate-100  w-full md:w-4/6 rounded text-black space-x-4">
-          <div className="bg-gray-800 rounded-full h-10 w-10 flex   items-center justify-center">
-            <span>S</span>
-          </div>
-          <h1 className="ml-4  text-lg font-semibold">Suhir</h1>
-          <h1 className="text-sm ml-20 font-medium">200mt</h1>
-          <button className=" bg-blue-500 text-white text-sm px-2 py-2 rounded hover:bg-blue-600">
-         Book Now
-        </button>
-        </li>
+          <li className="flex flex-col items-center justify-between p-3 bg-white shadow-lg rounded-lg text-black   md:w-44 space-y-2 md:space-y-4  "
+          >
+            
+              <div className="bg-gray-800 rounded-full h-16 w-16 flex items-center justify-center">
+              <span className="text-white font-bold text-xl">M</span>
+                </div>
+                       <h1 className="text-lg font-semibold">Manoj</h1>
+                       <h1 className="ttext-sm font-medium text-gray-600  whitespace-nowrap ">600 meters</h1>
+               <button className="navbar-color text-white text-sm  px-2 md:px-3  py-1 rounded hover:bg-green-950 whitespace-nowrap ">
+                 Book now
+               </button>
+          </li>
 
-        <li className="flex items-center justify-between p-1 bg-slate-100  w-full md:w-4/6 rounded text-black space-x-4">
-          <div className="bg-gray-800 rounded-full h-10 w-10 flex   items-center justify-center">
-            <span>S</span>
-          </div>
-          <h1 className="ml-4  text-lg font-semibold">Suhir</h1>
-          <h1 className="text-sm ml-20 font-medium">200mt</h1>
-          <button className=" button-color text-white text-sm px-2 py-2 rounded hover:bg-blue-600">
-         Book Now
-        </button>
-        </li>
-        {/* Add more drivers as needed */}
+          <li className="flex flex-col items-center justify-between p-3 bg-white shadow-lg rounded-lg text-black   md:w-44 space-y-2 md:space-y-4  "
+          >
+            
+              <div className="bg-gray-800 rounded-full h-16 w-16 flex items-center justify-center">
+              <span className="text-white font-bold text-xl">R</span>
+                </div>
+                       <h1 className="text-lg font-semibold">Rheem</h1>
+                       <h1 className="ttext-sm font-medium text-gray-600  whitespace-nowrap ">900 meters</h1>
+               <button className="navbar-color text-white text-xs sm:text-sm  px-2 md:px-3  py-1 rounded hover:bg-green-950 whitespace-nowrap ">
+                 Book now
+               </button>
+          </li>
+
+
+          <li className="flex flex-col items-center justify-between p-3 bg-white shadow-lg rounded-lg text-black   md:w-44 space-y-2 md:space-y-4  "
+          >
+            
+              <div className="bg-gray-800 rounded-full h-16 w-16 flex items-center justify-center">
+              <span className="text-white font-bold text-xl">A</span>
+                </div>
+                       <h1 className="text-lg font-semibold">achu</h1>
+                       <h1 className="ttext-sm font-medium text-gray-600  whitespace-nowrap ">200 meters</h1>
+               <button className="navbar-color text-white text-xs sm:text-sm  px-2 md:px-3  py-1 rounded hover:bg-green-950 whitespace-nowrap ">
+                 Book now
+               </button>
+          </li>
+        
       </ul>
     </div>
+   
   </div>
+  
       </div>
+      
     </div>
     )
   }

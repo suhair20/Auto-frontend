@@ -2,6 +2,7 @@ import React, { useState,useEffect,useRef } from 'react'
 import Header from './Header'
 import { Button } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from "react-redux";
 import './User.css';
 import Footer from './Footer'
 import axios from 'axios';
@@ -11,6 +12,7 @@ import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import { FaMapLocation } from "react-icons/fa6";
 import { IoLocationSharp } from "react-icons/io5";
+import  Login from './Login';
 
 
 
@@ -31,6 +33,7 @@ function HomeScreen() {
   const [query, setQuery] = useState('');
   const [DestinationQuery,setDestinationQuery]=useState('')
   const [suggestions,setSuggestions]=useState()
+  const [loginOpen,setLoginOpen]=useState(false)
   const [DestinationSuggestion,setDestinationSuggestion]=useState()
   const [showSuggestion, setShowSuggestion] = useState(false);
   const [showDestinationSuggestion,setshowDestinationSuggestion]=useState(false)
@@ -43,7 +46,7 @@ function HomeScreen() {
   const map = useRef(null)
   const userMarker = useRef(null);
   const selectedMarker=useRef(null)
-
+  const userToken=useSelector((state)=>state.auth.userToken)
 
   useEffect(() => {
     if (query.length > 2) {
@@ -283,12 +286,15 @@ const handleStart=(e)=>{
   try {
     if(!query&& !DestinationQuery){
       setErrorMessage('Please select both the location and destination.');
+    }else if(!userToken){
+      setErrorMessage('')
+      setLoginOpen(true)
     }else{
       setErrorMessage('')
       Navigate('/booking')
     }
   } catch (error) {
-    
+    console.error( error);
   }
 }
 
@@ -301,15 +307,15 @@ const handleStart=(e)=>{
   return (
     <>
       
-      <div 
-        className='footer-color h-[90vh]   relative position-relative  items-center justify-center ' 
-        style={{ backgroundImage: 'url("./banner2.jpg")', backgroundSize: 'cover', backgroundPosition: 'center' }}
+<div 
+  className='footer-color h-[90vh]   relative position-relative  items-center justify-center ' 
+   style={{ backgroundImage: 'url("./banner2.jpg")', backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
-        <div className=" absolute inset-0 bg-black md:opacity-90 opacity-80 z-0"></div>
-        <div className=' fixed-top  ml-15 z-10 lg:ml-16 sm:w-11/12   md:w-11/12 md:py-6 items-center justify-center animate-slide-down  '  >
-          <Header  />
-          </div>
-        <div  className=' '>
+    <div className=" absolute inset-0 bg-black md:opacity-90 opacity-80 z-0"></div>
+     <div className=' fixed-top  ml-15 z-10 lg:ml-16 sm:w-11/12   md:w-11/12 md:py-6 items-center justify-center   '  >
+              <Header  />
+     </div>
+<div  className=' '>
          
           <div className=' py-56 bottom-8' >
          
@@ -322,6 +328,7 @@ const handleStart=(e)=>{
 
               <form className="  flex flex-col  items-center"  onSubmit={handleStart} >
               <div className="    text-navbar-color items-end  text-sm">
+              
                 <p>Hop in, Let's Go!</p>
               </div>
               <div  className=' flex flex-col  gap-3 md:gap-4 w-full items-center relative' >
@@ -411,19 +418,28 @@ const handleStart=(e)=>{
       <div className=''>
         
         <Modal show={showMapModal}  onHide={handleCloseMapModal} size="lg" centered>
-        <Modal.Header className='navbar-color '>
-          <Modal.Title className='text-white' >Set Location on Map</Modal.Title>
+        <Modal.Header className=' text-color items-center justify-center'>
+          <Modal.Title className='text-color font-robot-bold ' >Set Location on Map</Modal.Title>
         </Modal.Header>
-        <Modal.Body className='navbar-color' >
+        <Modal.Body className='' >
           <div ref={mapContainerRef} className="map-container rounded h-[400px] sm:h-[500px] md:h-[300px] "   />
-          <Button className='px-1'  onClick={handleConfirmlocation}>
+         
+        </Modal.Body>
+
+        <Modal.Footer  className='navbar-color' >
+        <Button style={{background:'#016342' }} className='  hover:bg-green-900 ' onClick={handleConfirmlocation}>
             confirm location
           </Button>
-        </Modal.Body>
+        </Modal.Footer>
        
       </Modal>
       </div>
       <Footer className='' />
+      <Login 
+  isOpen={loginOpen}
+  onRequestClose={() =>setLoginOpen(false) }
+
+/>
     </>
   );
 }

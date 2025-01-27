@@ -4,7 +4,8 @@ import Footer from './Footer'
 import Login from './Login'
 
 function HomeScreen() {
-
+  console.log("driver");
+  
   const [loginOpen,SetLoginOpen]=useState(false)
 
   const OpenLoginModal=()=>{
