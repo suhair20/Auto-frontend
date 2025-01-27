@@ -54,7 +54,15 @@ function BookingScreen() {
      
     }, []);
   
-   
+    const slideLeft = () => {
+      const slider = document.getElementById('slider');
+      slider.scrollLeft -= 256; // Adjust the value based on the width of your card
+    };
+    
+    const slideRight = () => {
+      const slider = document.getElementById('slider');
+      slider.scrollLeft += 256; // Adjust the value based on the width of your card
+    };
   
     return( 
       
@@ -88,7 +96,25 @@ function BookingScreen() {
       
       
           <div className="overflow-hidden w-full gap-2">
-      <div className="flex w-[calc(5*156px)] gap-3 animate-slide">
+
+         {/* Buttons for Sliding */}
+      <button
+        onClick={() => slideLeft()}
+        className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full z-10"
+      >
+        ◀
+      </button>
+      <button
+        onClick={() => slideRight()}
+        className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full z-10"
+      >
+        ▶
+      </button>
+
+
+      <div className="flex w-[calc(5*156px)] gap-3 animate-slide transition-transform duration-500"
+        id="slider"
+      >
         {/* Duplicate the list to create a seamless loop */}
         <ul className="text-white flex space-x-4">
           {['Ashwin', 'Askar', 'Manoj', 'Rheem', 'Achu'].map((name, index) => (

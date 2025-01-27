@@ -2,8 +2,8 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 
 
-// const baseQuery=fetchBaseQuery({baseUrl:"https://auto-backend-jq5w.onrender.com"})
-const baseQuery=fetchBaseQuery({baseUrl:"http://localhost:5000"})
+const baseQuery=fetchBaseQuery({baseUrl:"https://auto-backend-jq5w.onrender.com"})
+// const baseQuery=fetchBaseQuery({baseUrl:"http://localhost:5000"})
 const Users_URL='/user'
 export const userSlice=createApi({
     reducerPath:"userApi",
