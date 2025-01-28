@@ -1,4 +1,5 @@
 import React, { useState,useEffect,useRef } from 'react'
+
 import axios from 'axios';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
@@ -92,27 +93,14 @@ function BookingScreen() {
          <div  className=' py-2  naavabr ' >
           <h1  className='text-white md:text-4xl text-3xl text-center font-passion ' >Meet your Drivers </h1>
           </div>
-          <div className=" naavfabr items-center justify-center rounded  p-3 w-5/6 md:w-2/4 lg:w-4/4 mx-auto ">
+          <div className=" naavfabr items-center justify-center rounded shadow-md p-3 w-5/6 md:w-2/4 lg:w-4/4 mx-auto ">
       
       
           <div className="overflow-hidden w-full gap-2">
 
-         {/* Buttons for Sliding */}
-      <button
-        onClick={() => slideLeft()}
-        className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full z-10"
-      >
-        ◀
-      </button>
-      <button
-        onClick={() => slideRight()}
-        className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full z-10"
-      >
-        ▶
-      </button>
 
 
-      <div className="flex w-[calc(5*156px)] gap-3 animate-slide transition-transform duration-500"
+      <div className="flex w-[calc(5*150px)] gap-3  animate-slide transition-transform duration-500"
         id="slider"
       >
         {/* Duplicate the list to create a seamless loop */}
@@ -166,7 +154,10 @@ function BookingScreen() {
         </li>
       ))}
     </ul>
+   
+
   </div>
+ 
 </div>
 
     </div>

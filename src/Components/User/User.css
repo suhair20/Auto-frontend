@@ -153,6 +153,12 @@
 .animate-play-running {
   animation-play-state: running 
 }
+::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Opera */
+}
+-ms-overflow-style: none; /* For Internet Explorer and Edge */
+scrollbar-width: none; /* For Firefox */
+
 
 
 
