@@ -1,5 +1,5 @@
 import React, { useState,useEffect,useRef } from 'react'
-
+import { Link } from "react-router-dom";
 import axios from 'axios';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
@@ -70,8 +70,8 @@ function BookingScreen() {
       <div className=' naavabr h-screen  '   >
         
       <div className=" items-center justify-center">
-      <div className=' relative ml-15  lg:ml-16 sm:w-11/12   md:w-11/12 md:py-6 items-center justify-center animate-slide-down  z-20  '  >
-              <Header   />
+      <div className='   sm:ml-7 sm:w-11/12 md:px-4 z-10 lg:ml-16   md:w-11/12 md:py-6 items-center justify-center animate-slide-down  '  >
+              <Header  />
      </div>
      <div className="pt-10 flex items-center justify-center z-30 ">
   <div
@@ -106,6 +106,9 @@ function BookingScreen() {
         {/* Duplicate the list to create a seamless loop */}
         <ul className="text-white flex space-x-4">
           {['Ashwin', 'Askar', 'Manoj', 'Rheem', 'Achu'].map((name, index) => (
+            
+<Link to={`/booking/detials/${name}`} key={`duplicate-${index}`}>
+
             <li
               key={index}
               className="flex flex-col items-center justify-between p-3 bg-white shadow-lg rounded-lg text-black md:w-44 space-y-2 md:space-y-4 relative"
@@ -125,6 +128,7 @@ function BookingScreen() {
                 Book now
               </button>
             </li>
+            </Link>
           ))}
         </ul>
 
@@ -133,6 +137,8 @@ function BookingScreen() {
     {/* Duplicate for seamless rotation */}
     <ul className="text-white flex space-x-4">
       {['Ashwin', 'Askar', 'Manoj', 'Rheem', 'Achu'].map((name, index) => (
+         <Link to={`/booking/detials${name.toLowerCase()}`} key={`duplicate-${index}`}>
+
         <li
           key={`duplicate-${index}`}
           className="flex flex-col items-center justify-between p-3 bg-white shadow-lg rounded-lg text-black md:w-44 space-y-2 md:space-y-4 relative  "
@@ -152,7 +158,9 @@ function BookingScreen() {
             Book now
           </button>
         </li>
+        </Link>
       ))}
+     
     </ul>
    
 
@@ -163,9 +171,9 @@ function BookingScreen() {
     </div>
    
   </div>
-  
+ 
       </div>
-      
+      <Footer className='mt-3' />
     </div>
 
 

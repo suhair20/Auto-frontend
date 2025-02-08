@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { MdOutlineMenu } from "react-icons/md";
 import { Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import { Link, Navigate } from "react-router-dom";
-import { useSelector,useDispatch } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { CgProfile } from "react-icons/cg";
 import { MdCardTravel } from "react-icons/md";
-import { logout } from "../../slices/Auth.slice";
+
 import  Login from './Login';
 import Signup from "./Signup";
 import FocusTrap from 'focus-trap-react';
@@ -16,22 +16,14 @@ import "./User.css";
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const dispatch=useDispatch()
+  
   const [loginOpen,setLoginOpen]=useState(false)
   const [SignupOpen,setSignupOpen]=useState(false)
   const userToken=useSelector((state)=>state.auth.userToken)
-
   
-   const logouthandler=async(req,res)=>{
-    try {
-      
-    dispatch(logout())
-      Navigate('/')
-      
-    } catch (error) {
-      console.log(error);
-    }
-   }
+  const location= useLocation()
+  
+  const isBookingPage = location.pathname === "/booking";
  
 
   const onToggleMenu = () => {
@@ -57,17 +49,17 @@ function Header() {
       </div>
       {userToken?(
          
-              <div className="flex items-center  cursor-pointer">
-             
-              <MdCardTravel  onClick={logouthandler} className="text-white mr-5 text-3xl" />
-              
+              <div className="flex items-center p-2 cursor-pointer">
+             <Link   to={'/RideHistory'} >
+              <MdCardTravel className="text-white mr-5 text-3xl" />
+              </Link>
               <Link to={'/profile'}>
               <CgProfile className=" text-white text-3xl" />
               </Link>
             </div>
            
       ):(
-        <div className="flex items-center cursor-pointer">
+        <div className="flex items-center p-2 cursor-pointer">
         
           <Button onClick={OpenLogin} className="bg-transparent border-0">Login</Button>
         
@@ -79,17 +71,28 @@ function Header() {
 
       )}
         <div
-      className={`absolute  bg-white left-0 top-full  w-full items-center px-5  ${isMenuOpen ? "min-h-[35vh]" : "md:min-h-fit"}  `}
-      style={{ top: 'calc(100% + 0px)' }}  // Adjust to position below the header
-    >
+  className={`absolute bg-white left-0 top-full w-full items-center px-5 
+  ${isBookingPage ? "min-h-fit" : isMenuOpen ? "min-h-[35vh]" : "md:min-h-fit"}`}
+  style={{ top: 'calc(100% + 0px)' }}
+>
+      {!isBookingPage && (
       <MdOutlineMenu
         onClick={onToggleMenu}
         className=" text-2xl cursor-pointer md:hidden"
       />
+    )}
       <ul
-        className={`flex flex-col px-3 md:flex-row items-center   gap-[7vw] ${isMenuOpen ? "block" : "hidden"} md:flex`}
+        className={`flex flex-col px-3 md:flex-row items-center justify-center   gap-[7vw]  ${isBookingPage ? "flex" : isMenuOpen ? "flex" : "hidden"} md:flex`}
       >
-        <li>
+        {location.pathname==='/booking'?(
+          <li className="     md:px-52" >
+         <a href="#" className="relative font-passion after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-full  after:rounded after:h-[3px] after:bg-lime-900 after:animate-[underline_1.5s_infinite]">
+  Ride
+</a>
+        </li>
+        ):(
+          <>
+          <li>
           <a href="#" className=" font-passion    ">
             Home
           </a>
@@ -113,6 +116,9 @@ function Header() {
             About
           </a>
         </li>
+        </>
+        )}
+        
       </ul>
     </div>
     </div>
