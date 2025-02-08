@@ -71,7 +71,7 @@ function BookingDetials({ ratings =  {
       </div>
 
       {totalRatings === 0 ? (
-        <p className="text-gray-500">No ratings yet</p>
+        <p className="text-gray-500">No ratings ye</p>
       ) : (
         Object.entries(ratings)
           .reverse()
