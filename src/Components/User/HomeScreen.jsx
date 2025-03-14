@@ -46,7 +46,7 @@ function HomeScreen() {
   const map = useRef(null)
   const userMarker = useRef(null);
   const selectedMarker=useRef(null)
-  const userToken=useSelector((state)=>state.auth.userToken)
+   const {isAuthenticated}=useSelector((state)=>state.auth)
 
   useEffect(() => {
     if (query.length > 2) {
@@ -286,12 +286,12 @@ const handleStart=(e)=>{
   try {
     if(!query&& !DestinationQuery){
       setErrorMessage('Please select both the location and destination.');
-    }else if(!userToken){
+    }else if(!isAuthenticated){
       setErrorMessage('')
       setLoginOpen(true)
     }else{
       setErrorMessage('')
-      Navigate('/booking')
+      Navigate('/booking',{state:{query}})
     }
   } catch (error) {
     console.error( error);
@@ -309,7 +309,7 @@ const handleStart=(e)=>{
       
 <div 
   className='footer-color h-[90vh]   relative position-relative  items-center justify-center ' 
-   style={{ backgroundImage: 'url("./banner2.jpg")', backgroundSize: 'cover', backgroundPosition: 'center' }}
+   style={{ backgroundImage: 'url("./autobanner.png")', backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
     <div className=" absolute inset-0 bg-black md:opacity-90 opacity-80 z-0"></div>
     <div className=' fixed-top  sm:ml-7 sm:w-11/12 md:px-4 z-10 lg:ml-16   md:w-11/12 md:py-6 items-center justify-center animate-slide-down  '  >

@@ -3,7 +3,9 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 
 // const baseQuery=fetchBaseQuery({baseUrl:"https://auto-backend-jq5w.onrender.com"})
-const baseQuery=fetchBaseQuery({baseUrl:"http://localhost:5000"})
+const baseQuery=fetchBaseQuery({baseUrl:"http://localhost:5000",
+  credentials:"include"
+})
 const Users_URL='/user'
 export const userSlice=createApi({
     reducerPath:"userApi",
@@ -39,6 +41,19 @@ export const userSlice=createApi({
         method:'POST',
         body:data
       })
+     }),
+     UsercheckAuth:builder.query({
+      query:()=>({
+      url:'/user/checkAuth',
+      method:'GET',
+     
+      })
+     }),
+     UserLogot:builder.mutation({
+      query:()=>({
+        url:'/user/logout',
+        method:'POST'
+      })
      })
    }),
   
@@ -46,5 +61,5 @@ export const userSlice=createApi({
    
 })
 
-export const {useSignupMutation,useOtpMutation,useResendotpMutation,useLoginMutation}=userSlice
+export const {useSignupMutation,useOtpMutation,useResendotpMutation,useLoginMutation,useUsercheckAuthQuery,useUserLogotMutation}=userSlice
 

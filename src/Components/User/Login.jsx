@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { useLoginMutation } from '../../slices/userSlice'
 import { useDispatch,useSelector } from 'react-redux';
-import { setCredentials } from '../../slices/Auth.slice';
+import { setauthenticated } from '../../slices/Auth.slice';
 import { IoClose } from "react-icons/io5";
 import Signup from "./Signup";
 
@@ -28,15 +28,15 @@ const Login =({isOpen,onRequestClose})=>{
     setSignupOpen(true)
   }
 
-  
+
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
       const res = await login({ email, password }).unwrap()
-      console.log(res.Token);
+      console.log(res.user);
       if(res.success){
-        dispatch(setCredentials(res.Token)); 
+        dispatch(setauthenticated(res.User)); 
         onRequestClose()
       navigate('/')
      
@@ -55,7 +55,7 @@ const Login =({isOpen,onRequestClose})=>{
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       shouldCloseOnOverlayClick={true}
-     contentLabel="Login Modal"
+     contentLabel="Login Modal" 
       className="fixed inset-0 flex items-center z-50 justify-center p-4"
       overlayClassName="fixed inset-0 bg-black z-50 bg-opacity-50"
     >
@@ -72,7 +72,7 @@ const Login =({isOpen,onRequestClose})=>{
         <label className='  text-xs font-robot-bold   uppercase  ' style={{paddingLeft:'112px'}} >password</label>
         </div>
         <div className="flex gap-2 w-full">
-        
+
           <input
             type="text"
             value={email}
@@ -89,12 +89,13 @@ const Login =({isOpen,onRequestClose})=>{
              className="p-2 w-full rounded border-1 border-gray-500"
             placeholder="Enter Password"
           />
+          
+          </div>
           {error && (
-            <div className="text-red-500 text-xs mt-6">
+            <div className="text-red-500 text-xs text-center  ">
               {error}
             </div>
           )}
-          </div>
           <button
             type="submit"
             className="w-full p-3 uppercase navbar-color text-white  rounded flex items-center justify-center "

@@ -40,7 +40,42 @@ const Signup = ({isOpen,onRequestClose})=>{
   const [OTP, { isLoading: isOtpLoading }] = useOtpMutation()
   const [resendOtp, { isLoading: isResendLoading }] = useResendotpMutation()
 
-
+  const validateForm = (name, email, password, confirmPassword) => {
+    if (!name) {
+      setError('Name is required');
+      return false;
+    }
+  
+    if (!email) {
+      setError('Email is required');
+      return false;
+    }
+  
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Email format regex
+    if (!emailRegex.test(email)) {
+      setError('Invalid email format');
+      return false;
+    }
+  
+    if (!password) {
+      setError('Password is required');
+      return false;
+    }
+  
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters long');
+      return false;
+    }
+  
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return false;
+    }
+  
+    setError(''); // Clear previous errors if all validations pass
+    return true;
+  };
+  
 
 
 
@@ -48,13 +83,12 @@ const Signup = ({isOpen,onRequestClose})=>{
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
+   
     try {
+
+      const isvalid=validateForm(name,email,password,confirmPassword)
       console.log("jiii");
-      
+      if(isvalid){
       const response = await signup({ name, email, password }).unwrap();
       
       console.log('Response from signup:', response); // Log the entire response
@@ -65,7 +99,7 @@ const Signup = ({isOpen,onRequestClose})=>{
       } else {
         console.log('Signup was not successful:', response); 
       }
-      
+    }
     } catch (error) {
       console.error('Error during signup:', error); 
       if (error?.data && error?.data?.message) {
@@ -122,17 +156,19 @@ const Signup = ({isOpen,onRequestClose})=>{
       overlayClassName="fixed inset-0 bg-black z-50 bg-opacity-50"
     >
       <div className="bg-white navbar-color p-6 rounded shadow-md max-w-md w-[400px]">
-      <div className=" text-zinc-500   text-2xl font-bold cursor-pointer" onClick={onRequestClose}>
+      <div className="  text-2xl font-bold cursor-pointer" onClick={onRequestClose}>
        <IoClose />
         </div>
         <h1 className="font-robot-bold  text-center  uppercase text-2xl py-4 mb-4">create an account</h1>
         <form onSubmit={submitHandler} className="flex flex-col gap-4 items-center w-full">
+        
           <div className="flex gap-2 w-full">
+            
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="p-2 border-1 w-full border-gray-500 rounded"
+              className="p-2 border-1  w-full border-gray-500 rounded"
               placeholder="Enter your name"
             />
             <input
@@ -180,7 +216,7 @@ const Signup = ({isOpen,onRequestClose})=>{
         </form>
         <div className="flex items-center my-2 w-full mx-auto">
           <hr className="flex-grow border-gray-300" />
-          <span className="mx-2 text-gray-500">or</span>
+          <span className="mx-2 ">or</span>
           <hr className="flex-grow border-gray-300" />
         </div>
         <button

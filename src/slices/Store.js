@@ -2,11 +2,12 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { userSlice } from "./userSlice";
 import { driverSlice } from "./driverSlice";
 import AuthReducer from './Auth.slice'
-
+import driverAuthSlice from './driverAuthSlice'
 const rootReducer=combineReducers({
     [userSlice.reducerPath]:userSlice.reducer,
     [driverSlice.reducerPath]:driverSlice.reducer,
-    auth:AuthReducer
+    auth:AuthReducer,
+    driverAuth: driverAuthSlice,
 })
 
 const store =configureStore({

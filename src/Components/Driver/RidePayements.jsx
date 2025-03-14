@@ -51,10 +51,10 @@ function RidePayements() {
             <li>
             <Link to={'/dashboard'} >
                <button
-                  className="flex items-center p-2 w-full text-left hover:bg-gray-700 rounded-lg"
+                  className="flex items-center p-2 w-full text-left hover:bg-green-800 rounded-lg"
                  >
                   <FaTachometerAlt className="mr-3 text-2xl" />
-                   {isOpen && <span className="origin-left duration-200">Dashboard</span>}
+                   {isOpen && <span className="origin-left hover:text-white  duration-200">Dashboard</span>}
                </button>
             </Link>
             </li>
@@ -62,12 +62,12 @@ function RidePayements() {
   
      
             <li> 
-            <Link to={'/ridehistory'} >
+            <Link to={'/driver/ridehistory'} >
                <button
-                   className="flex items-center p-2 w-full text-left hover:bg-gray-700 rounded-lg"
+                   className="flex items-center p-2 w-full text-left hover:bg-green-800 rounded-lg"
                >
                    <FaHistory className="mr-3 text-2xl" />
-                   {isOpen && <span className="origin-left duration-200">Ride History</span>}
+                   {isOpen && <span className="origin-left  hover:text-white duration-200">Ride History</span>}
                </button>
             </Link>
            </li>
@@ -78,10 +78,10 @@ function RidePayements() {
            <li>
            <Link to={'/ridepayements'} >
               <button
-                   className="flex items-center p-2 w-full text-left bg-gray-700 rounded-lg"
+                   className="flex items-center p-2 w-full text-left bg-green-800 rounded-lg"
                   >
                   <FaMoneyCheckAlt className="mr-3 text-2xl" />
-                  {isOpen && <span className="origin-left duration-200">Ride Payement</span>}
+                  {isOpen && <span className="origin-left hover:text-white  duration-200">Ride Payement</span>}
               </button>
           </Link>
             </li>
@@ -92,10 +92,10 @@ function RidePayements() {
             <li>
             <Link>
               <button
-                  className="flex items-center p-2 w-full text-left hover:bg-gray-700 rounded-lg"
+                  className="flex items-center p-2 w-full text-left hover:bg-green-800 rounded-lg"
               >
                    <FaCog className="mr-3 text-2xl" />
-                  {isOpen && <span className="origin-left duration-200">Settings</span>}
+                  {isOpen && <span className="origin-left hover:text-white  duration-200">Settings</span>}
               </button>
           </Link>
             </li>

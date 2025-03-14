@@ -4,11 +4,47 @@ import { Link } from 'react-router-dom';
 import { FaHistory } from 'react-icons/fa';
 import { FaMoneyCheckAlt } from 'react-icons/fa';
 
+import io from 'socket.io-client'
+import { useEffect } from 'react';
+  const socket= io('http://localhost:5000')
 
 
 function Dashboard() {
   const [isActive,setIsActive]=useState(false)    
   const [isOpen, setIsOpen] = useState(true); // State to toggle sidebar
+  
+useEffect(()=>{
+  let locationInterval;
+  console.log("heloo");
+  
+  if(isActive){
+    console.log('act');
+    
+    locationInterval=setInterval(()=>{
+      console.log("2");
+      
+      if(navigator.geolocation){
+        console.log("not");
+        
+        navigator.geolocation.getCurrentPosition((position)=>{
+          console.log(position);
+          
+          const {latitude ,longitude}=position.coords;
+          
+         
+          
+          socket.emit('driverLocation',{latitude,longitude, driverId:'driver123'})
+        })
+      }
+    },5000)
+  }else{
+    clearInterval(locationInterval);
+    socket.emit('driverInactive',{driverId:'driver123'})
+  }
+  return ()=>clearInterval(locationInterval)
+
+},[isActive]);
+
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -52,12 +88,12 @@ function Dashboard() {
 
      
           <li>
-          <Link to={'/adminhome'} >
+          <Link to={'/dashboard'} >
              <button
-                className="flex items-center p-2 w-full text-left bg-gray-700 rounded-lg"
+                className="flex items-center p-2 w-full text-left bg-green-800 rounded-lg"
                >
                 <FaTachometerAlt className="mr-3 text-2xl" />
-                 {isOpen && <span className="origin-left duration-200">Dashboard</span>}
+                 {isOpen && <span className="origin-left hover:text-white duration-200">Dashboard</span>}
              </button>
           </Link>
           </li>
@@ -65,12 +101,12 @@ function Dashboard() {
 
    
           <li> 
-          <Link to={'/ridehistory'} >
+          <Link to={'/driver/ridehistory'} >
              <button
-                 className="flex items-center p-2 w-full text-left hover:bg-gray-700 rounded-lg"
+                 className="flex items-center p-2 w-full text-left hover:bg-green-800 rounded-lg"
              >
                  <FaHistory className="mr-3 text-2xl" />
-                 {isOpen && <span className="origin-left duration-200">Ride History</span>}
+                 {isOpen && <span className="origin-left hover:text-white duration-200">Ride History</span>}
              </button>
           </Link>
          </li>
@@ -81,10 +117,10 @@ function Dashboard() {
          <li>
          <Link to={'/ridepayements'} >
             <button
-                 className="flex items-center p-2 w-full text-left hover:bg-gray-700 rounded-lg"
+                 className="flex items-center p-2 w-full text-left hover:bg-green-800 rounded-lg"
                 >
                 <FaMoneyCheckAlt className="mr-3 text-2xl" />
-                {isOpen && <span className="origin-left duration-200">Ride Payement</span>}
+                {isOpen && <span className="origin-left hover:text-white duration-200">Ride Payement</span>}
             </button>
         </Link>
           </li>
@@ -95,10 +131,10 @@ function Dashboard() {
           <li>
           <Link>
             <button
-                className="flex items-center p-2 w-full text-left hover:bg-gray-700 rounded-lg"
+                className="flex items-center p-2 w-full text-left hover:bg-green-800 rounded-lg"
             >
                  <FaCog className="mr-3 text-2xl" />
-                {isOpen && <span className="origin-left duration-200">Settings</span>}
+                {isOpen && <span className="origin-left hover:text-white duration-200">Settings</span>}
             </button>
         </Link>
           </li>
@@ -151,7 +187,12 @@ function Dashboard() {
     <div className="flex flex-col  justify-center items-center bg-white w-full sm:w-52  sm:h-36 rounded shadow-lg">
       <div className="text-center font-bold">Driver Status</div>
       <div className="text-center">
-        <button className="bg-green-500 text-white py-2 px-4 rounded">Active</button> {/* Toggle between Active/Inactive */}
+      <button
+        className={`p-2 text-white rounded ${isActive ? 'bg-red-500' : 'bg-green-500'}`}
+        onClick={() => setIsActive(!isActive)}
+      >
+        {isActive ? 'Go Offline' : 'Go Active'}
+      </button> {/* Toggle between Active/Inactive */}
       </div>
     </div>
 

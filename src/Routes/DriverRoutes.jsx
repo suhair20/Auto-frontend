@@ -16,7 +16,7 @@ const DriverRoutes=(
     <Route path="/driverLogin" element={<Login/>}/>
     <Route path="/verification" element={<Verification/>}/>
     <Route  path="/dashboard" element={< Dashboard/>} />
-    <Route  path="/ridehistory" element={<RideHistory />} />
+    <Route  path="/driver/ridehistory" element={<RideHistory />} />
     <Route  path="/ridepayements" element={<RidePayements />} />
     </>
 )

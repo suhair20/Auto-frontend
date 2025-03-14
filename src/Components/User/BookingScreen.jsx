@@ -1,5 +1,5 @@
 import React, { useState,useEffect,useRef } from 'react'
-import { Link } from "react-router-dom";
+import { Link,useLocation } from "react-router-dom";
 import axios from 'axios';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
@@ -18,51 +18,119 @@ function BookingScreen() {
     const mapContainerRef = useRef(null);
     const map = useRef(null);
     const userMarker = useRef(null);
-
+    const locationstate=useLocation()
+    const {query}=locationstate.state||{};
     
     const [location, setLocation] = useState(null);
     const [destinationLocation, setDestinationLocation] = useState(null);
   
     useEffect(() => {
       if (map.current) {
-        map.current.remove(); // Remove previous map if any
+        map.current.remove();
       }
       map.current = new mapboxgl.Map({
         container: mapContainerRef.current,
         style: 'mapbox://styles/mapbox/streets-v11',
         center: [75.0017, 12.4996], // Default center
-        zoom: 12,
+        zoom: 5,
       });
   
       map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
   
-      const geocoder = new MapboxGeocoder({
-        accessToken: mapboxgl.accessToken,
-        mapboxgl: mapboxgl,
-      });
-      map.current.addControl(geocoder, 'top-left');
+      // Convert user-entered location to coordinates
+      if (query) {
+        fetch(
+          `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?access_token=${mapboxgl.accessToken}`
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.features.length > 0) {
+              const [lng, lat] = data.features[0].center;
   
-      // Add user location marker (optional)
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((position) => {
-          const userLocation = [position.coords.longitude, position.coords.latitude];
-          map.current.flyTo({ center: userLocation, zoom: 14 });
-          userMarker.current = new mapboxgl.Marker({ color: 'red' }).setLngLat(userLocation).addTo(map.current);
-        });
+              // Move the map to the searched location
+              map.current.flyTo({ center: [lng, lat], zoom: 14 });
+  
+              // Add user-entered location marker
+              userMarker.current = new mapboxgl.Marker({ color: 'red' })
+                .setLngLat([lng, lat])
+                .setPopup(new mapboxgl.Popup().setText(query))
+                .addTo(map.current);
+  
+              // Add dummy auto-rickshaw markers nearby
+              addDummyAutos(map.current, lng, lat);
+            }
+          })
+          .catch((err) => console.error('Error fetching location:', err));
       }
+    }, [query]);
   
-     
-     
-    }, []);
-  
-    const slideLeft = () => {
-      const slider = document.getElementById('slider');
-      slider.scrollLeft -= 256; // Adjust the value based on the width of your card
+    const accessToken = mapboxgl.accessToken; // Replace with your Mapbox token
+
+    // Function to add dummy autos and fetch route from user location
+    const addDummyAutos = (mapInstance, userLng, userLat) => {
+      const dummyDrivers = [
+        { lng: userLng + 0.01, lat: userLat + 0.01 },
+        { lng: userLng - 0.01, lat: userLat - 0.01 },
+        { lng: userLng + 0.008, lat: userLat - 0.004 },
+        { lng: userLng + 0.008, lat: userLat - 0.009 },
+        { lng: userLng + 0.008, lat: userLat - 0.005 },
+      ];
+    
+      dummyDrivers.forEach(({ lng, lat }, index) => {
+        // Add auto-rickshaw marker
+        new mapboxgl.Marker({ element: createAutoIcon() })
+          .setLngLat([lng, lat])
+          .setPopup(new mapboxgl.Popup().setText("Auto Rickshaw"))
+          .addTo(mapInstance);
+    
+        // Fetch the route from the user to the auto
+        fetchRoute(mapInstance, userLng, userLat, lng, lat, index);
+      });
     };
     
-    const slideRight = () => {
-      const slider = document.getElementById('slider');
-      slider.scrollLeft += 256; // Adjust the value based on the width of your card
+    // Function to fetch the route using Mapbox Directions API
+    const fetchRoute = (mapInstance, startLng, startLat, endLng, endLat, index) => {
+      const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${startLng},${startLat};${endLng},${endLat}?geometries=geojson&access_token=${accessToken}`;
+    
+      fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.routes.length > 0) {
+            const routeData = {
+              type: "Feature",
+              geometry: data.routes[0].geometry, // Get road-following path
+            };
+    
+            // Add the route as a layer
+            mapInstance.addLayer({
+              id: `route-${index}`, // Unique ID for each route
+              type: "line",
+              source: {
+                type: "geojson",
+                data: routeData,
+              },
+              layout: {
+                "line-join": "round",
+                "line-cap": "round",
+              },
+              paint: {
+                "line-color": "green", // Red color for the route
+                "line-width": 3, // Make it visible
+                "line-opacity": 0.9, // Slight transparency
+              },
+            });
+          }
+        })
+        .catch((err) => console.error("Error fetching route:", err));
+    };
+  
+    // Function to create an auto-rickshaw icon
+    const createAutoIcon = () => {
+      const auto = document.createElement('img');
+      auto.src = './banner.png'; // Replace with an actual auto icon
+      auto.style.width = '20px';
+      auto.style.height = '20px';
+      return auto;
     };
   
     return( 

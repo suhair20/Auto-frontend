@@ -1,16 +1,24 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from './Header'
 import Footer from './Footer'
 import Login from './Login'
-
+import { useSelector } from "react-redux";
+import { useNavigate } from 'react-router-dom';
 function HomeScreen() {
   console.log("driver");
-  
+  const {isAuthenticated}=useSelector((state)=>state.driverAuth)
   const [loginOpen,SetLoginOpen]=useState(false)
-
+ const navigate=useNavigate()
   const OpenLoginModal=()=>{
     SetLoginOpen(true)
   }
+useEffect(()=>{
+  if(isAuthenticated){
+      navigate('/dashboard')
+  }
+},[navigate,isAuthenticated])
+
+
   return (
     <>
    

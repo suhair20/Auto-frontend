@@ -2,21 +2,27 @@ import React from 'react'
 import Header from './Header'
 import Footer from './Footer'
 import { useDispatch } from "react-redux";
-import { Navigate} from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import { logout } from "../../slices/Auth.slice";
-
+import { useUserLogotMutation } from '../../slices/userSlice';
 
 function Profile() {
 
+
+  const  navigate=useNavigate()
   const dispatch=useDispatch()
+   const [userLogout]=useUserLogotMutation()
+ 
 
   const logouthandler=async()=>{
    
     try {
-      
+     const response=await userLogout()
+
+       if(response?.data?.success){
     dispatch(logout())
-      Navigate('/')
-      
+      navigate('/')
+    }
     } catch (error) {
       console.log(error);
     }

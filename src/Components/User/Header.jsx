@@ -19,7 +19,7 @@ function Header() {
   
   const [loginOpen,setLoginOpen]=useState(false)
   const [SignupOpen,setSignupOpen]=useState(false)
-  const userToken=useSelector((state)=>state.auth.userToken)
+  const {isAuthenticated}=useSelector((state)=>state.auth)
   
   const location= useLocation()
   
@@ -47,7 +47,7 @@ function Header() {
       <div className="   font-playball sm:absolute left-0 right-0 sm:mx-auto w-1/4">
         Auto
       </div>
-      {userToken?(
+      {isAuthenticated?(
          
               <div className="flex items-center p-2 cursor-pointer">
              <Link   to={'/RideHistory'} >
@@ -81,9 +81,10 @@ function Header() {
         className=" text-2xl cursor-pointer md:hidden"
       />
     )}
-      <ul
-        className={`flex flex-col px-3 md:flex-row items-center justify-center   gap-[7vw]  ${isBookingPage ? "flex" : isMenuOpen ? "flex" : "hidden"} md:flex`}
-      >
+     <ul
+  className={`flex flex-col md:flex-row items-center      gap-[7vw] 
+    ${isBookingPage ? "flex" : isMenuOpen ? "flex" : "hidden"} md:flex`}
+>
         {location.pathname==='/booking'?(
           <li className="     md:px-52" >
          <a href="#" className="relative font-passion after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-full  after:rounded after:h-[3px] after:bg-lime-900 after:animate-[underline_1.5s_infinite]">
@@ -93,28 +94,34 @@ function Header() {
         ):(
           <>
           <li>
-          <a href="#" className=" font-passion    ">
+          <Link to={'/'} >
+          <a href="#" className=" font-semibold    ">
             Home
           </a>
+          </Link>
         </li>
         <li>
           <Link to={'/driver'} >
-          <a  className=" font-passion rounded ">
+          <a  className=" font-semibold  ">
             Driver
           </a>
           </Link>
         </li>
         <li>
-          <a  className=" font-passion ">
+        <Link to={'/'} >
+          <a  className=" font-semibold   ">
           
             Ride
           </a>
+          </Link>
         </li>
         <li>
-          <a  className=" font-passion ">
-          
+        <Link to={'/'} >
+          <a  className=" font-semibold   ">
+  
             About
           </a>
+          </Link>
         </li>
         </>
         )}

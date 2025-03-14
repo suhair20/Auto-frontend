@@ -1,6 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const baseQuery=fetchBaseQuery({baseUrl:"http://localhost:5000"})
+const baseQuery=fetchBaseQuery({baseUrl:"http://localhost:5000",
+    credentials:"include"
+  })
 
 
 export const driverSlice=createApi({
@@ -34,8 +36,27 @@ export const driverSlice=createApi({
             method:'POST',
             body:data
         })
+       }),
+       driverLogin :builder.mutation({
+        query:(data)=>({
+            url:'/driver/login',
+            method:'POST',
+            body:data
+        })
+       }),
+       drivercheckAuth:builder.query({
+        query:()=>({
+            url:'/driver/checkAuth',
+            method:'GET'
+        })
+       }),
+       dlogout:builder.mutation({
+        query:()=>({
+            url:'/driver/logout',
+            method:'POST'
+        })
        })
     })
 })
 
-export const {useSignupMutation,useOtpMutation,useResendotpMutation,useVerificationMutation}=driverSlice
+export const {useSignupMutation,useOtpMutation,useResendotpMutation,useVerificationMutation,useDriverLoginMutation,useDrivercheckAuthQuery}=driverSlice

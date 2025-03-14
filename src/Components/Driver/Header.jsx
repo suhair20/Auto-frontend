@@ -50,26 +50,36 @@ function Header() {
       <ul
         className={`flex flex-col md:flex-row items-center gap-[7vw] ${isMenuOpen ? "block" : "hidden"} md:flex`}
       >
-        <li>
-          <a href="#" className=" font-passion">
-            Home
-          </a>
-        </li>
-        <li>
-          <a href="#" className=" font-passion">
-            Driver
-          </a>
-        </li>
-        <li>
-          <a href="#" className=" font-passion">
-            Ride
-          </a>
-        </li>
-        <li>
-          <a href="#" className=" font-passion">
-            About
-          </a>
-        </li>
+       <li>
+                 <Link to={'/'} >
+                 <a href="#" className=" font-semibold    ">
+                   Home
+                 </a>
+                 </Link>
+               </li>
+               <li>
+                 <Link to={'/driver'} >
+                 <a  className=" font-semibold  ">
+                   Driver
+                 </a>
+                 </Link>
+               </li>
+               <li>
+               <Link to={'/'} >
+                 <a  className=" font-semibold   ">
+                 
+                   Ride
+                 </a>
+                 </Link>
+               </li>
+               <li>
+               <Link to={'/'} >
+                 <a  className=" font-semibold   ">
+         
+                   About
+                 </a>
+                 </Link>
+               </li>
       </ul>
     </div>
       

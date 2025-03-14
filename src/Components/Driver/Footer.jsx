@@ -4,9 +4,9 @@ function Footer() {
   return (
     <div>
       
-<footer class="navbar-color   pt-4 pb-8 xl:pt-8    ">
+<footer className="navbar-color   pt-4 pb-8 xl:pt-8    ">
 <div className="  inset-0 bg-black opacity-70 z-0"></div>
-    <div class="max-w-screen-lg px-4 mx-auto text-gray-400 xl:max-w-screen-xl sm:px-6 md:px-8 dark:text-gray-300    ">
+    <div className="max-w-screen-lg px-4 mx-auto text-gray-400 xl:max-w-screen-xl sm:px-6 md:px-8 dark:text-gray-300    ">
         <ul class="flex flex-wrap justify-center pb-8 text-lg font-light">
             <li class="w-1/2 md:w-1/3 lg:w-1/3">
                 <div class="text-center   ">
