@@ -3,10 +3,29 @@ import { FaBars, FaTachometerAlt, FaUsers, FaCar, FaCog } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { FaHistory } from 'react-icons/fa';
 import { FaMoneyCheckAlt } from 'react-icons/fa';
-
+import { FaUser,FaQuestionCircle,FaInfoCircle } from 'react-icons/fa';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer
+} from 'recharts';
 import io from 'socket.io-client'
 import { useEffect } from 'react';
   const socket= io('http://localhost:5000')
+
+
+  const data = [
+    { month: 'Jan', rides: 20, earnings: 200, rating: 4.5, fuelEfficiency: 15 },
+    { month: 'Feb', rides: 35, earnings: 400, rating: 4.7, fuelEfficiency: 14 },
+    { month: 'Mar', rides: 50, earnings: 600, rating: 4.8, fuelEfficiency: 13 },
+    { month: 'Apr', rides: 45, earnings: 550, rating: 4.6, fuelEfficiency: 12 },
+    { month: 'May', rides: 60, earnings: 700, rating: 4.9, fuelEfficiency: 14 }
+  ];
 
 
 function Dashboard() {
@@ -53,6 +72,7 @@ useEffect(()=>{
   return (
    <>
    <div className="flex">
+   
       {/* Sidebar */}
       <div
         className={`h-screen bg-gray-300 text-black  transition-all duration-300 ${
@@ -66,14 +86,13 @@ useEffect(()=>{
         <h1 className="font-playball  ">
                  {isOpen? 'A-auto':'A'}
                </h1>
-         
+              
         </div>
+        
         <div className="flex bg-white flex-col h-16 items-center justify-center   ">
          
           
-         <h1 className="font-playball  ">
-                 
-                </h1>
+       
           
          </div>
 
@@ -90,7 +109,7 @@ useEffect(()=>{
           <li>
           <Link to={'/dashboard'} >
              <button
-                className="flex items-center p-2 w-full text-left bg-green-800 rounded-lg"
+                className="flex items-center p-2 w-full text-left bg-green-800 "
                >
                 <FaTachometerAlt className="mr-3 text-2xl" />
                  {isOpen && <span className="origin-left hover:text-white duration-200">Dashboard</span>}
@@ -103,7 +122,7 @@ useEffect(()=>{
           <li> 
           <Link to={'/driver/ridehistory'} >
              <button
-                 className="flex items-center p-2 w-full text-left hover:bg-green-800 rounded-lg"
+                 className="flex items-center p-2 w-full text-left hover:bg-green-800 "
              >
                  <FaHistory className="mr-3 text-2xl" />
                  {isOpen && <span className="origin-left hover:text-white duration-200">Ride History</span>}
@@ -117,7 +136,7 @@ useEffect(()=>{
          <li>
          <Link to={'/ridepayements'} >
             <button
-                 className="flex items-center p-2 w-full text-left hover:bg-green-800 rounded-lg"
+                 className="flex items-center p-2 w-full text-left hover:bg-green-800 "
                 >
                 <FaMoneyCheckAlt className="mr-3 text-2xl" />
                 {isOpen && <span className="origin-left hover:text-white duration-200">Ride Payement</span>}
@@ -131,7 +150,7 @@ useEffect(()=>{
           <li>
           <Link>
             <button
-                className="flex items-center p-2 w-full text-left hover:bg-green-800 rounded-lg"
+                className="flex items-center p-2 w-full text-left hover:bg-green-800 "
             >
                  <FaCog className="mr-3 text-2xl" />
                 {isOpen && <span className="origin-left hover:text-white duration-200">Settings</span>}
@@ -167,28 +186,35 @@ useEffect(()=>{
               <FaBars className="text-2xl" />
             )}
           </button>
-            <FaCog className="text-2xl ml-auto mr-6" />
+         
+            <FaCog className="text-2xl ml-auto mr-6 " />
+            <div className='mr-4 mt-2 ' >
+            <FaInfoCircle className='md:text-2xl text-2xl  text-white ' />
+            </div>
+            <div className=' md:mr-10 mr-4 ' >
+            <FaUser  className='md:text-3xl text-3xl  text-white ' />
+            </div>
             </div>
             <div className="w-full flex justify-center  items-center mt-24 ">
-  <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-10  justify-center items-center w-full px-10 ">
+  <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-10  justify-center items-center w-full px-3  ">
     {/* Total Payment Box */}
-    <div className="flex flex-col justify-center  items-center bg-white   w-full sm:w-52  sm:h-36 rounded shadow-lg">
-      <div className="text-center font-bold">Total Payment</div>
-      <div className="text-center text-2xl">$500</div> {/* Replace with dynamic data */}
+    <div className="flex flex-col justify-center  items-center bg-green-500   w-full sm:w-52  md:h-36 h-20 rounded shadow-lg">
+      <div className="text-center text-white md:text-xl text-sm font-bold">Total Payment</div>
+      <div className="text-center text-white md:text-xl text-sm ">$500</div> {/* Replace with dynamic data */}
     </div>
 
     {/* Total Rides Box */}
-    <div className="flex flex-col justify-center  items-center bg-white w-full sm:w-52  sm:h-36 rounded shadow-lg">
-      <div className="text-center font-bold">Total Rides</div>
-      <div className="text-center text-2xl">120</div> {/* Replace with dynamic data */}
+    <div className="flex flex-col justify-center  items-center bg-green-600 w-full sm:w-52  md:h-36 h-20 rounded shadow-lg">
+      <div className="text-center text-white md:text-xl text-sm font-bold">Total Rides</div>
+      <div className="text-center text-white md:text-xl text-sm ">120</div> {/* Replace with dynamic data */}
     </div>
 
     {/* Driver Status Box */}
-    <div className="flex flex-col  justify-center items-center bg-white w-full sm:w-52  sm:h-36 rounded shadow-lg">
-      <div className="text-center font-bold">Driver Status</div>
-      <div className="text-center">
+    <div className="flex flex-col  justify-center items-center bg-green-500 w-full sm:w-52  md:h-36 h-20 rounded shadow-lg">
+      <div className="text-center text-white md:text-xl text-sm  font-bold">Driver Status</div>
+      <div className="text-center text-white  text-sm  ">
       <button
-        className={`p-2 text-white rounded ${isActive ? 'bg-red-500' : 'bg-green-500'}`}
+        className={`md:p-2 p-1 text-sm text-white rounded ${isActive ? 'bg-red-500' : 'bg-blue-500'}`}
         onClick={() => setIsActive(!isActive)}
       >
         {isActive ? 'Go Offline' : 'Go Active'}
@@ -197,16 +223,62 @@ useEffect(()=>{
     </div>
 
     {/* Fourth Box (Additional metric) */}
-    <div className="flex flex-col justify-center items-center bg-white w-full sm:w-52  sm:h-36 rounded shadow-lg">
-      <div className="text-center font-bold">Other Metric</div>
-      <div className="text-center text-2xl">Value</div> {/* Replace with dynamic data */}
+    <div className="flex flex-col justify-center items-center bg-green-800 w-full sm:w-52  md:h-36 h-20 rounded shadow-lg">
+      <div className="text-center text-white md:text-xl text-sm  font-bold">Other Metric</div>
+      <div className="text-center  text-white md:text-xl text-sm  ">Value</div> {/* Replace with dynamic data */}
     </div>
   </div>
 </div>
-
+<div  className=' w-full mt-5 mb-5 px-6' >
+<div className="w-full md:h-80 h-96 p-2 bg-gradient-to-br from-green-600 to-gray-700 rounded-3xl shadow-2xl">
+      <h2 className="text-2xl font-bold mb-6 text-green-300 tracking-wider">Driver Performance</h2>
+      <ResponsiveContainer width="100%" height="80%">
+        <LineChart data={data}>
+          <defs>
+            <linearGradient id="greenGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#34D399" stopOpacity={0.9} />
+              <stop offset="95%" stopColor="#34D399" stopOpacity={0.1} />
+            </linearGradient>
+            <linearGradient id="blueGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#60A5FA" stopOpacity={0.9} />
+              <stop offset="95%" stopColor="#60A5FA" stopOpacity={0.1} />
+            </linearGradient>
+            <linearGradient id="orangeGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#F59E0B" stopOpacity={0.9} />
+              <stop offset="95%" stopColor="#F59E0B" stopOpacity={0.1} />
+            </linearGradient>
+          </defs>
+          <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.1} />
+          <XAxis dataKey="month" tick={{ fill: '#9AE6B4' }} />
+          <YAxis tick={{ fill: '#9AE6B4' }} />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: '#1a2a1f',
+              color: '#34D399',
+              borderRadius: '10px',
+              boxShadow: '0 4px 10px rgba(0, 255, 128, 0.3)'
+            }}
+          />
+          <Legend iconType="circle" wrapperStyle={{ color: '#34D399' }} />
+          <Line type="monotone" dataKey="rides" stroke="url(#greenGradient)" strokeWidth={4} dot={{ r: 5 }} activeDot={{ r: 8 }} />
+          <Line type="monotone" dataKey="earnings" stroke="url(#blueGradient)" strokeWidth={4} dot={{ r: 5 }} activeDot={{ r: 8 }} />
+          <Line type="monotone" dataKey="rating" stroke="url(#orangeGradient)" strokeWidth={4} dot={{ r: 5 }} activeDot={{ r: 8 }} />
+          <Line type="monotone" dataKey="fuelEfficiency" stroke="#F43F5E" strokeWidth={4} dot={{ r: 5 }} activeDot={{ r: 8 }} />
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
+  </div>
 
      </div>  
+         
+
+
+    
+
+
  </div>
+
+ 
    </>
   )
 }

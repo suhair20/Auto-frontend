@@ -71,17 +71,27 @@ function Signup() {
 
   
   return (
-    <>
-  <div className='absolute inset-0 navbar-color opacity-30 z-0'></div>
-  <div className='h-screen flex flex-col items-center relative px-4'>
-    <div className='text-center mt-28'>
+    <
+
+      
+    >
+    
+   <div className='absolute inset-0 navbar-color opacity-5 z-0'  ></div>
+   
+  <div className='h-screen flex md:flex-row  flex-col items-center relative  '  >
+   
+   <div className='  bg-cover bg-center  items-center  justify-center w-full footer-color md:h-full h-96  relative position-relative' style={{ backgroundImage: 'url(./Signupbanner.jpg)  ' }}>
+   
+    <div className='text-center mb-28 mt-28 
+    '>
       <h1 className='font-robot-bold text-5xl'>Sign Up</h1>
-      <div className='mt-2 flex items-center justify-center text-black'>
+      <div className='mt-2 flex items-center justify-center text-white'>
         <p>Already have an account?</p>
         <p className='ml-2 text-blue-500 cursor-pointer'>Log in</p>
       </div>
     </div>
-    <div className='flex flex-col lg:flex-row w-full max-w-4xl'>
+    </div>
+    <div className='flex flex-col  items-center w-full max-w-4xl'>
       <div className='lg:w-1/2 p-4'>
         {/* Email and Password Form */}
         <form onSubmit={submithandler} className='space-y-4'>
@@ -129,42 +139,51 @@ function Signup() {
           </div>
           <button
             type='submit'
-            className='w-full bold-navbar text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
+            className='w-full navbar-color text-white py-2 px-4 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
           >
             Sign Up
           </button>
         </form>
+      
       </div>
-      <div className='lg:w-1/2 p-4 flex flex-col items-center space-y-4 mt-20'>
+       
+      <div className="w-full flex items-center justify-center ">
+    {/* Horizontal line */}
+    <hr className="w-1/3 border-t border-black-300" />
+    <span className="px-4 text-gray-500">or</span>
+    <hr className="w-1/3 border-t border-black-300" />
+  </div>
+    
+      <div className='lg:w-1/2 p-4 flex flex-col items-center space-y-4'>
         <div className='relative w-full text-center'>
           <div className='absolute inset-x-0 flex items-center'>
-            <hr className='w-full border-gray-300' />
-            <span className='bg-white px-4 text-gray-500'>or</span>
+    
+           
           </div>
         </div>
 
-        <button className='w-full flex items-center justify-center'>
-          <div className='flex-shrink-0 border-1 border-blue-500 h-10 flex items-center justify-center px-2'>
+        <button className='w-full  rounded  flex items-center justify-center'>
+          <div className='flex-shrink-0 border-1 border-blue-500  h-10 flex items-center justify-center px-2'>
             <img
               src='https://img.icons8.com/color/48/000000/google-logo.png'
               alt='Google icon'
               className='w-5 h-5'
             />
           </div>
-          <div className='bg-blue-500 text-white px-4 py-2 flex items-center'>
+          <div className='bg-blue-500 w-full text-center text-white  py-2 flex items-center justify-center'>
             Continue with Google
-          </div>
+          </div> 
         </button>
 
-        <button className='w-full flex items-center justify-center'>
-          <div className='flex-shrink-0 border-1 border-blue-900 h-10 flex items-center justify-center px-2'>
+        <button className='w-full rounded   flex items-center justify-center'>
+          <div className='flex-shrink-0 border-1 border-blue-900   h-10 flex items-center justify-center px-2'>
             <img
               src='https://img.icons8.com/color/48/000000/facebook-new.png'
               alt='Facebook icon'
               className='w-5 h-5'
             />
           </div>
-          <div className='bg-blue-900 text-white px-4 py-2 flex items-center'>
+          <div className='bg-blue-900  w-full text-white px-4 py-2 flex items-center justify-center'>
             Continue with Facebook
           </div>
         </button>
@@ -179,6 +198,7 @@ function Signup() {
       error={otpError}
     />
   </div>
+ 
 </>
 
   

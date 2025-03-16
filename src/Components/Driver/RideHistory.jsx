@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { FaBars, FaTachometerAlt, FaUsers, FaCar, FaCog } from 'react-icons/fa'; // Example icons
+
 import { Link } from 'react-router-dom';
 import { FaHistory } from 'react-icons/fa';
 import { FaMoneyCheckAlt } from 'react-icons/fa';
+
+
+
 
 function rideHistory() {
    
@@ -131,43 +135,28 @@ function rideHistory() {
             </button>
               <FaCog className="text-2xl ml-auto mr-6" />
               </div>
-              <div className="flex justify-center  items-center ">
-  <div className=" w-[1200px] mt-16 navbar-color rounded shadow-lg  ">
-    <table className="w-full bg-white ">
-      <thead className="bg-gray-200 rounded-lg">
-        <tr>
-          <th className="py-2 px-4">Location</th>
-          <th className="py-2 px-4">Destination</th>
-          <th className="py-2 px-4">Date</th>
-          <th className="py-2 px-4">Time</th>
-          <th className="py-2 px-4">Details</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr className="border-b">
-          <td className="py-2 px-4">Badarnagr,chowki</td>
-          <td className="py-2 px-4">thalangara,kasragod</td>
-          <td className="py-2 px-4">2/4/24</td>
-          <td className="py-2 px-4">Reject</td>
-          <td className="py-2 px-4">
-          
-            <button className="navbar-color rounded p-1  text-white">view</button>
-            
-          </td>
-        </tr>
-        <tr className="border-b">
-          <td className="py-2 px-4">thalngara,kasragod</td>
-          <td className="py-2 px-4">Jane Smith</td>
-          <td className="py-2 px-4">jane@example.com</td>
-          <td className="py-2 px-4">Accept</td>
-          <td className="py-2 px-4">
-          
-          <button className="navbar-color rounded p-1  text-white">view</button>
-          </td>
-        </tr>
-        {/* Add more rows as needed */}
-      </tbody>
-    </table>
+              
+              <div  className='h-full   flex flex-col items-center justify-centere  py-10 ' >
+      <div  className='    w-11/12 md:h-[500px] rounded ' >
+        <div className='  px-4 py-4  space-y-4'>
+  <div className='border-b px-4 py-3 rounded  border  transition duration-300 ease-in-out bg-green-900 text-white cursor-pointer flex flex-col sm:flex-row justify-between items-center gap-y-2 sm:gap-y-0 text-center'>
+  {/* Locations with Animated Underline */}
+  <span className='font-semibold  md:text-lg text-sm relative flex sm:flex-row items-center gap-x-2 after:content-[""] after:absolute after:left-0 after:bottom-0 after:w-full after:h-[2px] after:bg-white after:animate-[underline_1.5s_infinite]'>
+    <span>Kozhikode</span>
+    <span className=" sm:inline">→</span> 
+   
+    <span>Kasargod</span>
+  </span>
+
+  
+  
+  <span className='md:text-lg text-sm opacity-80'>04/09/24</span>
+  <span className='md:text-lg text-sm opacity-80'>300 km</span>
+  {/* View Button */}
+  <button className=' text-sm bg-white text-black  md:px-3 px-2 py-1 rounded-md shadow-md  ease-in-out    hover:bg-red-900  transition duration-300'>
+    View
+  </button>
+</div>
   </div>
 </div>
        
@@ -176,9 +165,11 @@ function rideHistory() {
 
        </div>  
 
-     
-
+   </div> 
    </div>
+   
+
+  
    
      </>
   )
