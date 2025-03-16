@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { FaBars, FaTachometerAlt, FaUsers, FaCar, FaCog } from 'react-icons/fa'; // Example icons
-
+import Footer from './Footer'
 import { Link } from 'react-router-dom';
 import { FaHistory } from 'react-icons/fa';
-import { FaMoneyCheckAlt } from 'react-icons/fa';
+import { FaMoneyCheckAlt ,FaInfoCircle,FaUser} from 'react-icons/fa';
 
 
 
@@ -34,7 +34,7 @@ function rideHistory() {
                  </h1>
            
           </div>
-          <div className="flex bg-white flex-col h-16 items-center justify-center   ">
+          <div className="flex bg-white flex-col h-10 items-center justify-center   ">
            
             
            <h1 className="font-playball  ">
@@ -108,7 +108,7 @@ function rideHistory() {
   
   
       </ul>
-      <div className="flex bg-white flex-col h-24 items-center justify-center   ">
+      <div className="flex bg-white flex-col h-14 items-center justify-center   ">
            
             
            <h1 className="font-playball  ">
@@ -134,6 +134,12 @@ function rideHistory() {
               )}
             </button>
               <FaCog className="text-2xl ml-auto mr-6" />
+               <div className='mr-4 mt-2 ' >
+                          <FaInfoCircle className='md:text-2xl text-2xl  text-white ' />
+                          </div>
+                          <div className=' md:mr-10 mr-4 ' >
+                          <FaUser  className='md:text-3xl text-3xl  text-white ' />
+                          </div>
               </div>
               
               <div  className='h-full   flex flex-col items-center justify-centere  py-10 ' >
@@ -168,7 +174,7 @@ function rideHistory() {
    </div> 
    </div>
    
-
+   <Footer className='' />
   
    
      </>

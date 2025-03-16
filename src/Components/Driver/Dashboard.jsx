@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { FaBars, FaTachometerAlt, FaUsers, FaCar, FaCog } from 'react-icons/fa'; // Example icons
+  import Footer from './Footer'
 import { Link } from 'react-router-dom';
 import { FaHistory } from 'react-icons/fa';
 import { FaMoneyCheckAlt } from 'react-icons/fa';
-import { FaUser,FaQuestionCircle,FaInfoCircle } from 'react-icons/fa';
+import { FaUser,FaInfoCircle } from 'react-icons/fa';
+import { FaMoneyBillWave, FaUserTie, FaTaxi,FaChartLine } from 'react-icons/fa';
 import {
   LineChart,
   Line,
@@ -75,7 +77,7 @@ useEffect(()=>{
    
       {/* Sidebar */}
       <div
-        className={`h-screen bg-gray-300 text-black  transition-all duration-300 ${
+        className={` bg-gray-300 text-black  transition-all duration-300 ${
           isOpen ? 'w-60' : 'w-30'
         } flex flex-col justify-between`}
       >
@@ -89,7 +91,7 @@ useEffect(()=>{
               
         </div>
         
-        <div className="flex bg-white flex-col h-16 items-center justify-center   ">
+        <div className="flex bg-white flex-col h-8 items-center justify-center   ">
          
           
        
@@ -161,7 +163,7 @@ useEffect(()=>{
 
 
     </ul>
-    <div className="flex bg-white flex-col h-24 items-center justify-center   ">
+    <div className="flex bg-white flex-col h-14 items-center justify-center   ">
          
           
          <h1 className="font-playball  ">
@@ -195,22 +197,27 @@ useEffect(()=>{
             <FaUser  className='md:text-3xl text-3xl  text-white ' />
             </div>
             </div>
-            <div className="w-full flex justify-center  items-center mt-24 ">
-  <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-10  justify-center items-center w-full px-3  ">
+            <div className="  w-full flex justify-center  items-center md:mt-14 mt-8 ">
+           
+  <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-10  justify-center items-center w-full px-3 md:ml-20 ">
     {/* Total Payment Box */}
-    <div className="flex flex-col justify-center  items-center bg-green-500   w-full sm:w-52  md:h-36 h-20 rounded shadow-lg">
-      <div className="text-center text-white md:text-xl text-sm font-bold">Total Payment</div>
+    <div className="flex flex-col justify-center  items-center bg-green-500   w-full sm:w-52  md:h-36 h-24 rounded shadow-lg">
+     < FaMoneyBillWave  className='text-4xl text-yellow-500' />
+      <div className="text-center text-white md:text-xl text-sm font-bold">Total Earnings</div>
       <div className="text-center text-white md:text-xl text-sm ">$500</div> {/* Replace with dynamic data */}
     </div>
 
     {/* Total Rides Box */}
-    <div className="flex flex-col justify-center  items-center bg-green-600 w-full sm:w-52  md:h-36 h-20 rounded shadow-lg">
+    <div className="flex flex-col justify-center  items-center bg-green-600 w-full sm:w-52  md:h-36 h-24 rounded shadow-lg">
+    <FaTaxi className='  text-3xl text-blue-500  ' />
       <div className="text-center text-white md:text-xl text-sm font-bold">Total Rides</div>
       <div className="text-center text-white md:text-xl text-sm ">120</div> {/* Replace with dynamic data */}
     </div>
 
     {/* Driver Status Box */}
-    <div className="flex flex-col  justify-center items-center bg-green-500 w-full sm:w-52  md:h-36 h-20 rounded shadow-lg">
+    <div className="flex flex-col  justify-center items-center bg-green-500 w-full sm:w-52  md:h-36 h-24 rounded shadow-lg">
+      
+      <FaUserTie  className='text-3xl ' />
       <div className="text-center text-white md:text-xl text-sm  font-bold">Driver Status</div>
       <div className="text-center text-white  text-sm  ">
       <button
@@ -223,14 +230,15 @@ useEffect(()=>{
     </div>
 
     {/* Fourth Box (Additional metric) */}
-    <div className="flex flex-col justify-center items-center bg-green-800 w-full sm:w-52  md:h-36 h-20 rounded shadow-lg">
-      <div className="text-center text-white md:text-xl text-sm  font-bold">Other Metric</div>
+    <div className="flex flex-col justify-center items-center bg-green-800 w-full sm:w-52  md:h-36 h-24 rounded shadow-lg">
+      <FaChartLine className='text-3xl text-red-500' />
+      <div className="text-center text-white md:text-xl text-sm  font-bold">Today's Earnings</div>
       <div className="text-center  text-white md:text-xl text-sm  ">Value</div> {/* Replace with dynamic data */}
     </div>
   </div>
 </div>
 <div  className=' w-full mt-5 mb-5 px-6' >
-<div className="w-full md:h-80 h-96 p-2 bg-gradient-to-br from-green-600 to-gray-700 rounded-3xl shadow-2xl">
+<div className="w-full md:h-96 h-96 p-2 bg-gradient-to-br from-green-600 to-gray-700 rounded-3xl shadow-2xl">
       <h2 className="text-2xl font-bold mb-6 text-green-300 tracking-wider">Driver Performance</h2>
       <ResponsiveContainer width="100%" height="80%">
         <LineChart data={data}>
@@ -275,10 +283,10 @@ useEffect(()=>{
 
     
 
-
+   
  </div>
+ <Footer className='' />
 
- 
    </>
   )
 }
