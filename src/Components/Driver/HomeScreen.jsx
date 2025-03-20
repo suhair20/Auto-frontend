@@ -56,7 +56,7 @@ useEffect(()=>{
 
     <div className='bg-gradient-to-l justify-center p-3 from-green-600 items-center min-h-screen to-gray-800' >
         <div className='px-36' >
-            <p className='p-3 text-4xl text-white font-bold' >Why drive with us ?</p>
+            <p className='text-4xl text-white font-bold md:p-3' >Why drive with us ?</p>
         </div>
        <div className='px-8' >
        <div className='bg-center h-[70vh] items-center'  >
@@ -98,28 +98,28 @@ useEffect(()=>{
             <p className='p-3 text-4xl text-white font-bold' >Here's what you need to sign up</p>
         </div>
         <div  className='flex flex-col gap-5 md:flex-row md:ml-28 md:px-8' >
-         <div  className='flex-col h-40 justify-center rounded w-1/3 items-center md:p-4' >
+         <div  className='flex flex-col h-40 justify-center rounded items-center md:p-4 md:w-1/3' >
          < FaStar className='text-3xl text-white mb-3' />
          <p className='text-2xl text-white' >Requirements</p>
-         <p className='text-gray-300 ml-8' >  • Be at least 18 years old</p>
-         <p className='text-gray-300 ml-8' > • Clear a background screening</p>
+         <p className='text-gray-300 md:ml-8' >  • Be at least 18 years old</p>
+         <p className='text-gray-300 md:ml-8' > • Clear a background screening</p>
          </div>
          
 
-         <div className='flex-col h-40 justify-center rounded w-1/3 items-center md:p-4' >
+         <div  className='flex flex-col h-40 justify-center rounded items-center md:p-4 md:w-1/3' >
          <FaFileAlt className='text-3xl text-white mb-3' />
          <p className='text-2xl text-white' >Documents</p>
-         <p className='text-gray-300 ml-8' > • Valid driver's license (private or commercial), if you plan to drive</p>
-         <p className='text-gray-300 ml-8' > • Proof of residency in your city, state or province</p>
-         <p className='text-gray-300 ml-8' > • Auto documents such as commercial insurance, vehicle registration certificate, permit</p>
+         <p className='text-gray-300 md:ml-8' > • Valid driver's license (private or commercial), if you plan to drive</p>
+         <p className='text-gray-300 md:ml-8' > • Proof of residency in your city, state or province</p>
+         <p className='text-gray-300 md:ml-8' > • Auto documents such as commercial insurance, vehicle registration certificate, permit</p>
          </div>
 
 
-         <div className='flex-col h-40 justify-center rounded w-1/3 items-center md:p-4' >
+         <div  className='flex flex-col h-40 justify-center rounded items-center md:p-4 md:w-1/3' >
          <FaUserPlus className='text-3xl text-white mb-3' />
          <p className='text-2xl text-white' >Signup process</p>
-         <p className='text-gray-300 ml-8' > • Submit documents and photo </p>
-         <p className='text-gray-300 ml-8' > • Provide information for a background check </p>
+         <p className='text-gray-300 md:ml-8' > • Submit documents and photo </p>
+         <p className='text-gray-300 md:ml-8' > • Provide information for a background check </p>
          </div>
 
       </div>

@@ -21,7 +21,7 @@ function Header() {
   return (
     
     <header className="rounded sticky top-0 z-0">
-    <div className="flex navbar-c bg-gradient-to-br h-14 justify-between rounded from-green-600 items-center olor sm:justify-end to-gray-800">
+    <div className="flex navbar-color bg-gradient-to-br h-14 justify-between rounded from-green-600 items-center sm:justify-end to-gray-800">
 
       <div className="w-1/4 font-playball left-0 right-0 sm:absolute sm:mx-auto">
         Auto
