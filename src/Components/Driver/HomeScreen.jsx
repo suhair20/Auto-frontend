@@ -98,7 +98,7 @@ useEffect(()=>{
             <p className='p-3 text-4xl text-white font-bold' >Here's what you need to sign up</p>
         </div>
         <div  className='flex flex-col gap-5 md:flex-row md:ml-28 md:px-8' >
-         <div  className='flex flex-col h-40 justify-center rounded items-center md:p-4 md:w-1/3' >
+        <div className="flex flex-col h-40 justify-center rounded text-center w-full items-center md:items-start md:text-left md:w-1/3 p">
          < FaStar className='text-3xl text-white mb-3' />
          <p className='text-2xl text-white' >Requirements</p>
          <p className='text-gray-300 md:ml-8' >  • Be at least 18 years old</p>
@@ -106,16 +106,16 @@ useEffect(()=>{
          </div>
          
 
-         <div  className='flex flex-col h-40 justify-center rounded items-center md:p-4 md:w-1/3' >
+         <div className="flex flex-col justify-center rounded text-center w-full h items-center md:items-start md:text-left md:w-1/3 p">
          <FaFileAlt className='text-3xl text-white mb-3' />
          <p className='text-2xl text-white' >Documents</p>
-         <p className='text-gray-300 md:ml-8' > • Valid driver's license (private or commercial), if you plan to drive</p>
-         <p className='text-gray-300 md:ml-8' > • Proof of residency in your city, state or province</p>
-         <p className='text-gray-300 md:ml-8' > • Auto documents such as commercial insurance, vehicle registration certificate, permit</p>
+         <p className='text-gray-300 md:ml-6' > • Valid driver's license (private or commercial), if you plan to drive</p>
+         <p className='text-gray-300 md:ml-6' > • Proof of residency in your city, state or province</p>
+         <p className='text-gray-300 md:ml-6' > • Auto documents such as commercial insurance, vehicle registration certificate, permit</p>
          </div>
 
 
-         <div  className='flex flex-col h-40 justify-center rounded items-center md:p-4 md:w-1/3' >
+         <div className="flex flex-col h-40 rounded text-center w-full hjustify-center items-center md:items-start md:text-left md:w-1/3 p">
          <FaUserPlus className='text-3xl text-white mb-3' />
          <p className='text-2xl text-white' >Signup process</p>
          <p className='text-gray-300 md:ml-8' > • Submit documents and photo </p>
