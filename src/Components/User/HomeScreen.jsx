@@ -308,55 +308,55 @@ const handleStart=(e)=>{
     <>
       
 <div 
-  className='footer-color   relative position-relative  items-center justify-center ' 
+  className='justify-center position-relative footer-color items-center relative' 
    style={{ backgroundImage: 'url("./autobanner.png")', backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
-    <div className=" absolute inset-0 bg-black md:opacity-95 opacity-80 z-0"></div>
-    <div className=' fixed-top  sm:ml-7 sm:w-11/12 md:px-4 z-10 lg:ml-16   md:w-11/12 md:py-6 items-center justify-center animate-slide-down  '  >
+    <div className="bg-black absolute inset-0 md:opacity-95 opacity-80 z-0"></div>
+    <div className='justify-center animate-slide-down fixed-top items-center lg:ml-16 md:px-4 md:py-6 md:w-11/12 sm:ml-7 sm:w-11/12 z-10'  >
               <Header  />
      </div>
 <div  className=' '>
          
-          <div className=' relative flex flex-col h-[700px] items-center justify-center ' >
+          <div className='flex flex-col h-[700px] justify-center items-center relative' >
          
-          <div className='relative text-center  py-2'>
-  <h1 className='font-passion  bg-transparent text-3xl sm:text-2xl md:text-5xl lg:text-6xl uppercase '>trust us to</h1>
-  <h1 className='font-passion  text-3xl sm:text-2xl bg-gradient-to-tl from-green-600 to-black bg-clip-text text-transparent md:text-5xl lg:text-6xl uppercase  '>Take you there</h1>
+          <div className='text-center py-2 relative'>
+  <h1 className='bg-transparent text-3xl font-passion lg:text-6xl md:text-5xl sm:text-2xl uppercase'>trust us to</h1>
+  <h1 className='bg-clip-text bg-gradient-to-tl text-3xl text-transparent font-passion from-green-600 lg:text-6xl md:text-5xl sm:text-2xl to-black uppercase'>Take you there</h1>
 </div>
 
             <div className=  " relative  flex-col items-center w-[300px] justify-between ">
 
-              <form className="  flex flex-col  items-center"  onSubmit={handleStart} >
-              <div className="    text-navbar-color items-end  text-sm">
+              <form className="flex flex-col items-center"  onSubmit={handleStart} >
+              <div className="text-navbar-color text-sm items-end">
               
                 <p>Hop in, Let's Go!</p>
               </div>
-              <div  className=' flex flex-col  gap-3 md:gap-4 w-full items-center relative' >
+              <div  className='flex flex-col w-full gap-3 items-center md:gap-4 relative' >
                 <input
                   type="text"
                   value={query}
                   onFocus={handleInputFocus}
                  onBlur={handleInputBlur}
                   onChange={handleInputChange}
-                  className=" p-2   md:w-[500px]  w-full  text-white  rounded bg-transparent border     "
+                  className="bg-transparent border p-2 rounded text-white w-full md:w-[500px]"
                   placeholder="Enter Location"
                 />
                  {showSuggestion && (
         <div
           id="suggestionBox"
-          className="absolute  border md:w-[500px]  w-full rounded  bg-white  p-6  mt-[43px] felx items-center "
+          className="bg-white border p-6 rounded w-full absolute felx items-center md:w-[500px] mt-[43px]"
         >
-          <p className=" text-black cursor-pointer  rounded font-robot-bold flex items-center "  onMouseDown={()=>handleSuggestion2Click(false)}>
-          <FaMapLocation className='mr-2 text-2xl' /><div className='ml-2' > Set Location on Map</div>
+          <p className="flex rounded text-black cursor-pointer font-robot-bold items-center"  onMouseDown={()=>handleSuggestion2Click(false)}>
+          <FaMapLocation className='text-2xl mr-2' /><div className='ml-2' > Set Location on Map</div>
           </p>
           {suggestions.map((suggestion, index) => (
                       <p
                         key={index}
-                        className="text-black rounded border cursor-pointer border-black-300 hover:bg-gray-100 flex items-center"
+                        className="flex border border-black-300 rounded text-black cursor-pointer hover:bg-gray-100 items-center"
                         onMouseDown={() => handleSuggestionClick(suggestion)}
                       >
-                       <IoLocationSharp className='mr-2 text-1xl' /> 
-                       <div className="ml-2 flex-1 truncate">{suggestion}</div>
+                       <IoLocationSharp className='text-1xl mr-2' /> 
+                       <div className="flex-1 ml-2 truncate">{suggestion}</div>
                       </p>
                     ))}
          
@@ -369,27 +369,27 @@ const handleStart=(e)=>{
                    onFocus={()=>setshowDestinationSuggestion(true)}
                   onBlur={handledestinationInputBlur}
                    onChange={handleDestinationInputChange}
-                   className=" p-2 lg:p-2   md:w-[500px] sm:w-2/3 w-full text-white  bg-transparent border rounded   "
+                   className="bg-transparent border p-2 rounded text-white w-full lg:p-2 md:w-[500px] sm:w-2/3"
                    placeholder="Enter Destination"
                 />
                 {showDestinationSuggestion&&(
                    <div
                    id="suggestionBox"
-                   className="absolute bg-white rounded  md:w-[500px] sm:w-2/3 w-full mt-[101px] gap-4  p-6   "
+                   className="bg-white p-6 rounded w-full absolute gap-4 md:w-[500px] mt-[101px] sm:w-2/3"
                   
                  >
-                   <div className=" text-black cursor-pointer rounded font-robot-bold  flex items-center "  onMouseDown={()=>handleSuggestion2Click(true)}>
-                   <FaMapLocation className='mr-2 text-2xl' /><div className='ml-2' > Set Location on Map</div>
+                   <div className="flex rounded text-black cursor-pointer font-robot-bold items-center"  onMouseDown={()=>handleSuggestion2Click(true)}>
+                   <FaMapLocation className='text-2xl mr-2' /><div className='ml-2' > Set Location on Map</div>
           </div>
 
           {DestinationSuggestion.map((suggestion, index) => (
                       <div
                         key={index}
-                        className=" absolute text-black rounded border cursor-pointer border-black-300 hover:bg-gray-100 flex items-center "style={{top:'150px'}}
+                        className="flex border border-black-300 rounded text-black absolute cursor-pointer hover:bg-gray-100 items-center"style={{top:'150px'}}
                         onMouseDown={() => handledestinationSuggestionClick(suggestion)}
                       >
-                       <IoLocationSharp className='mr-2 text-1xl' /> 
-                       <div className="ml-2 flex-1 truncate  ">{suggestion}</div>
+                       <IoLocationSharp className='text-1xl mr-2' /> 
+                       <div className="flex-1 ml-2 truncate">{suggestion}</div>
                       </div>
                     ))}
          
@@ -398,7 +398,7 @@ const handleStart=(e)=>{
                 </div>
                 <button
                   type="submit"
-                  className=" mt-2 p-1 font-robot-bold   bg-gradient-to-tl from-green-600 to-gray-800  border-0 uppercase text-white navbar-color rounded px-4 "
+                  className="navbar-color bg-gradient-to-tl border-0 p-1 rounded text-white font-robot-bold from-green-600 mt-2 px-4 to-gray-800 uppercase"
                 >
                   Start
                 </button>
@@ -417,33 +417,33 @@ const handleStart=(e)=>{
        
        
       </div>
-      <div className=' min-h-screen  bg-gradient-to-r items-center justify-center  p-3 from-green-600 to-gray-800' >
-       <div className='md:px-20 ' >
-        <p className='md:text-3xl text-3xl  text-white font-passion animate-bounce ' >  Suggetions &#8595;</p>
-         <div className='flex  md:flex-row flex-col items-center md:px-10 justify-center ' >
-         <img src="/taxii.png" alt="Image" className="h-[60vh] mx-auto  " />
-         <div className='md:w-2/3 flex flex-col items-center' >
-         <p className='text-5xl  font-passion text-white text-center ' >On Time, Every Time</p>
-         <p className='   text-white text-center w-2/3  ' >We use cutting-edge technology to get you where you need to be—right on schedule.</p>
+      <div className='bg-gradient-to-r justify-center p-3 from-green-600 items-center min-h-screen to-gray-800' >
+       <div className='md:px-20' >
+        <p className='text-4xl text-white animate-bounce font-passion md:text-4xl' >  Suggetions &#8595;</p>
+         <div className='flex flex-col justify-center items-center md:flex-row md:px-10' >
+         <img src="/taxii.png" alt="Image" className="h-[60vh] mx-auto" />
+         <div className='flex flex-col items-center md:w-2/3' >
+         <p className='text-5xl text-center text-white font-passion' >On Time, Every Time</p>
+         <p className='text-center text-white w-2/3' >We use cutting-edge technology to get you where you need to be—right on schedule.</p>
          </div>
          </div>
 
         
-         <div className='flex  md:flex-row flex-col-reverse items-center md:px-10 justify-center ' >
+         <div className='flex flex-col-reverse justify-center items-center md:flex-row md:px-10' >
          
-         <div className='md:w-2/3 flex flex-col items-center' >
-         <p className='text-5xl  font-passion text-white text-center ' >"Relax, We’ve Got You"</p>
-         <p className='   text-white text-center w-2/3  ' >Take your time—your ride comes with 15 minutes of complimentary wait time.</p>
+         <div className='flex flex-col items-center md:w-2/3' >
+         <p className='text-5xl text-center text-white font-passion' >"Relax, We’ve Got You"</p>
+         <p className='text-center text-white w-2/3' >Take your time—your ride comes with 15 minutes of complimentary wait time.</p>
          </div>
-         <img src="/taxxxiii.png" alt="Image" className="h-[60vh] mx-auto  " />
+         <img src="/taxxxiii.png" alt="Image" className="h-[60vh] mx-auto" />
          </div>
 
 
-         <div className='flex  md:flex-row flex-col items-center mb-5 md:px-10 justify-center ' >
-         <img src="ttaxii.png" alt="Image" className="h-[60vh] mx-auto  " />
-         <div className='md:w-2/3 flex flex-col items-center' >
-         <p className='text-5xl  font-passion text-white text-center ' >"Stress-Free Airport Rides"</p>
-         <p className='   text-white text-center w-2/3  ' >Travel with confidence—reserve your ride to and from major airports, with flight tracking to adjust for delays.</p>
+         <div className='flex flex-col justify-center items-center mb-5 md:flex-row md:px-10' >
+         <img src="ttaxii.png" alt="Image" className="h-[60vh] mx-auto" />
+         <div className='flex flex-col items-center md:w-2/3' >
+         <p className='text-5xl text-center text-white font-passion' >"Stress-Free Airport Rides"</p>
+         <p className='text-center text-white w-2/3' >Travel with confidence—reserve your ride to and from major airports, with flight tracking to adjust for delays.</p>
          </div>
          </div>
 
@@ -455,16 +455,16 @@ const handleStart=(e)=>{
       <div className=''>
         
         <Modal show={showMapModal}  onHide={handleCloseMapModal} size="lg" centered>
-        <Modal.Header className=' text-color items-center justify-center'>
-          <Modal.Title className='text-color font-robot-bold ' >Set Location on Map</Modal.Title>
+        <Modal.Header className='justify-center text-color items-center'>
+          <Modal.Title className='text-color font-robot-bold' >Set Location on Map</Modal.Title>
         </Modal.Header>
         <Modal.Body className='' >
-          <div ref={mapContainerRef} className="map-container rounded h-[400px] sm:h-[500px] md:h-[300px] "   />
+          <div ref={mapContainerRef} className="h-[400px] rounded map-container md:h-[300px] sm:h-[500px]"   />
          
         </Modal.Body>
 
         <Modal.Footer  className='navbar-color' >
-        <Button style={{background:'#016342' }} className='  hover:bg-green-900 ' onClick={handleConfirmlocation}>
+        <Button style={{background:'#016342' }} className='hover:bg-green-900' onClick={handleConfirmlocation}>
             confirm location
           </Button>
         </Modal.Footer>
