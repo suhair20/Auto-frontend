@@ -308,23 +308,23 @@ const handleStart=(e)=>{
     <>
       
 <div 
-  className='footer-color h-[90vh]   relative position-relative  items-center justify-center ' 
+  className='footer-color   relative position-relative  items-center justify-center ' 
    style={{ backgroundImage: 'url("./autobanner.png")', backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
-    <div className=" absolute inset-0 bg-black md:opacity-90 opacity-80 z-0"></div>
+    <div className=" absolute inset-0 bg-black md:opacity-95 opacity-80 z-0"></div>
     <div className=' fixed-top  sm:ml-7 sm:w-11/12 md:px-4 z-10 lg:ml-16   md:w-11/12 md:py-6 items-center justify-center animate-slide-down  '  >
               <Header  />
      </div>
 <div  className=' '>
          
-          <div className=' py-56 bottom-8' >
+          <div className=' relative flex flex-col h-[700px] items-center justify-center ' >
          
           <div className='relative text-center  py-2'>
   <h1 className='font-passion  bg-transparent text-3xl sm:text-2xl md:text-5xl lg:text-6xl uppercase '>trust us to</h1>
-  <h1 className='font-passion navbar-color text-3xl sm:text-2xl md:text-5xl lg:text-6xl uppercase bg-transparent'>Take you there</h1>
+  <h1 className='font-passion  text-3xl sm:text-2xl bg-gradient-to-tl from-green-600 to-black bg-clip-text text-transparent md:text-5xl lg:text-6xl uppercase  '>Take you there</h1>
 </div>
 
-            <div className=  " relative  flex-col items-center justify-between px-4 sm:px-8 lg:px-32">
+            <div className=  " relative  flex-col items-center w-[300px] justify-between ">
 
               <form className="  flex flex-col  items-center"  onSubmit={handleStart} >
               <div className="    text-navbar-color items-end  text-sm">
@@ -338,13 +338,13 @@ const handleStart=(e)=>{
                   onFocus={handleInputFocus}
                  onBlur={handleInputBlur}
                   onChange={handleInputChange}
-                  className=" p-2   md:w-[500px] sm:w-2/3 w-full  text-white  rounded bg-transparent border     "
+                  className=" p-2   md:w-[500px]  w-full  text-white  rounded bg-transparent border     "
                   placeholder="Enter Location"
                 />
                  {showSuggestion && (
         <div
           id="suggestionBox"
-          className="absolute  border md:w-[500px] sm:w-2/3 w-full rounded  bg-white  p-6  mt-[43px] felx items-center "
+          className="absolute  border md:w-[500px]  w-full rounded  bg-white  p-6  mt-[43px] felx items-center "
         >
           <p className=" text-black cursor-pointer  rounded font-robot-bold flex items-center "  onMouseDown={()=>handleSuggestion2Click(false)}>
           <FaMapLocation className='mr-2 text-2xl' /><div className='ml-2' > Set Location on Map</div>
@@ -369,7 +369,7 @@ const handleStart=(e)=>{
                    onFocus={()=>setshowDestinationSuggestion(true)}
                   onBlur={handledestinationInputBlur}
                    onChange={handleDestinationInputChange}
-                   className=" p-2 lg:p-2   md:w-[500px] sm:w-2/3 w-full text-white bg-transparent border rounded   "
+                   className=" p-2 lg:p-2   md:w-[500px] sm:w-2/3 w-full text-white  bg-transparent border rounded   "
                    placeholder="Enter Destination"
                 />
                 {showDestinationSuggestion&&(
@@ -385,7 +385,7 @@ const handleStart=(e)=>{
           {DestinationSuggestion.map((suggestion, index) => (
                       <div
                         key={index}
-                        className="text-black rounded border cursor-pointer border-black-300 hover:bg-gray-100 flex items-center "style={{top:'150px'}}
+                        className=" absolute text-black rounded border cursor-pointer border-black-300 hover:bg-gray-100 flex items-center "style={{top:'150px'}}
                         onMouseDown={() => handledestinationSuggestionClick(suggestion)}
                       >
                        <IoLocationSharp className='mr-2 text-1xl' /> 
@@ -398,7 +398,7 @@ const handleStart=(e)=>{
                 </div>
                 <button
                   type="submit"
-                  className=" mt-2 p-1 font-robot-bold   border-0 uppercase text-white navbar-color rounded px-4"
+                  className=" mt-2 p-1 font-robot-bold   bg-gradient-to-tl from-green-600 to-gray-800  border-0 uppercase text-white navbar-color rounded px-4 "
                 >
                   Start
                 </button>
@@ -410,9 +410,46 @@ const handleStart=(e)=>{
           <div>
            
           </div>
+
+          
         </div>
+
+       
        
       </div>
+      <div className=' min-h-screen  bg-gradient-to-r items-center justify-center  p-3 from-green-600 to-gray-800' >
+       <div className='md:px-20 ' >
+        <p className='md:text-3xl text-3xl  text-white font-passion animate-bounce ' >  Suggetions &#8595;</p>
+         <div className='flex  md:flex-row flex-col items-center md:px-10 justify-center ' >
+         <img src="/taxii.png" alt="Image" className="h-[60vh] mx-auto  " />
+         <div className='md:w-2/3 flex flex-col items-center' >
+         <p className='text-5xl  font-passion text-white text-center ' >On Time, Every Time</p>
+         <p className='   text-white text-center w-2/3  ' >We use cutting-edge technology to get you where you need to be—right on schedule.</p>
+         </div>
+         </div>
+
+        
+         <div className='flex  md:flex-row flex-col-reverse items-center md:px-10 justify-center ' >
+         
+         <div className='md:w-2/3 flex flex-col items-center' >
+         <p className='text-5xl  font-passion text-white text-center ' >"Relax, We’ve Got You"</p>
+         <p className='   text-white text-center w-2/3  ' >Take your time—your ride comes with 15 minutes of complimentary wait time.</p>
+         </div>
+         <img src="/taxxxiii.png" alt="Image" className="h-[60vh] mx-auto  " />
+         </div>
+
+
+         <div className='flex  md:flex-row flex-col items-center mb-5 md:px-10 justify-center ' >
+         <img src="ttaxii.png" alt="Image" className="h-[60vh] mx-auto  " />
+         <div className='md:w-2/3 flex flex-col items-center' >
+         <p className='text-5xl  font-passion text-white text-center ' >"Stress-Free Airport Rides"</p>
+         <p className='   text-white text-center w-2/3  ' >Travel with confidence—reserve your ride to and from major airports, with flight tracking to adjust for delays.</p>
+         </div>
+         </div>
+
+       </div>
+            
+</div>
     
 
       <div className=''>

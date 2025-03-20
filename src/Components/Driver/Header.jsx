@@ -20,21 +20,21 @@ function Header() {
    
   return (
     
-    <header className="sticky top-0 z-0  rounded">
-    <div className="navbar-color h-14 flex justify-between  rounded sm:justify-end items-center">
+    <header className="rounded sticky top-0 z-0">
+    <div className="flex navbar-c bg-gradient-to-br h-14 justify-between rounded from-green-600 items-center olor sm:justify-end to-gray-800">
 
-      <div className="   font-playball sm:absolute left-0 right-0 sm:mx-auto w-1/4">
+      <div className="w-1/4 font-playball left-0 right-0 sm:absolute sm:mx-auto">
         Auto
       </div>
      
              
     
-        <div className="flex items-center cursor-pointer">
+        <div className="flex cursor-pointer items-center">
         
           <Button  onClick={OpenloginModal} className="bg-transparent border-0">Login</Button>
         
         <Link to={'/driverSignup'}>
-          <Button className="rounded-full px-3 py-1 text-black bg-white border-0 mr-4 sm:mr-8">
+          <Button className="bg-white border-0 rounded-full text-black mr-4 px-3 py-1 sm:mr-8">
             Signup
           </Button>
         </Link>
@@ -52,21 +52,21 @@ function Header() {
       >
        <li>
                  <Link to={'/'} >
-                 <a href="#" className=" font-semibold    ">
+                 <a href="#" className="font-semibold">
                    Home
                  </a>
                  </Link>
                </li>
                <li>
                  <Link to={'/driver'} >
-                 <a  className=" font-semibold  ">
+                 <a  className="font-semibold">
                    Driver
                  </a>
                  </Link>
                </li>
                <li>
                <Link to={'/'} >
-                 <a  className=" font-semibold   ">
+                 <a  className="font-semibold">
                  
                    Ride
                  </a>
@@ -74,7 +74,7 @@ function Header() {
                </li>
                <li>
                <Link to={'/'} >
-                 <a  className=" font-semibold   ">
+                 <a  className="font-semibold">
          
                    About
                  </a>

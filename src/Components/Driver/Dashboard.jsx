@@ -22,11 +22,11 @@ import { useEffect } from 'react';
 
 
   const data = [
-    { month: 'Jan', rides: 20, earnings: 200, rating: 4.5, fuelEfficiency: 15 },
-    { month: 'Feb', rides: 35, earnings: 400, rating: 4.7, fuelEfficiency: 14 },
-    { month: 'Mar', rides: 50, earnings: 600, rating: 4.8, fuelEfficiency: 13 },
-    { month: 'Apr', rides: 45, earnings: 550, rating: 4.6, fuelEfficiency: 12 },
-    { month: 'May', rides: 60, earnings: 700, rating: 4.9, fuelEfficiency: 14 }
+    { month: 'Jan', rides: 500, earnings: 1000, rating: 50.5, fuelEfficiency: 15 },
+    { month: 'Feb', rides: 35, earnings: 400, rating: 90.7, fuelEfficiency: 800 },
+    { month: 'Mar', rides: 700, earnings: 600, rating: 600.8, fuelEfficiency: 13 },
+    { month: 'Apr', rides: 45, earnings: 550, rating: 100.6, fuelEfficiency: 12 },
+    { month: 'May', rides: 60, earnings: 700, rating: 10.9, fuelEfficiency: 14 }
   ];
 
 
@@ -91,7 +91,7 @@ useEffect(()=>{
               
         </div>
         
-        <div className="flex bg-white flex-col h-8 items-center justify-center   ">
+        <div className="flex bg-gradient-to-br from-gray-200 to-slate-200 flex-col h-8  items-center justify-center   ">
          
           
        
@@ -99,19 +99,22 @@ useEffect(()=>{
          </div>
 
         {/* Toggle Button in the Middle */}
-        <div className="flex justify-center items-center mb-6">
+        
+
+
+<ul className="space-y-4 flex-grow bg-gradient-to-br from-green-600 to-slate-500">
+<div className="flex   flex-col h-8  items-center justify-center   ">
+         
           
-        </div>
-
-
-<ul className="space-y-4 flex-grow">
-
+       
+          
+         </div>
 
      
           <li>
           <Link to={'/dashboard'} >
              <button
-                className="flex items-center p-2 w-full text-left bg-green-800 "
+                className="flex items-center p-2 w-full text-left bg-green-800 rounded-lg"
                >
                 <FaTachometerAlt className="mr-3 text-2xl" />
                  {isOpen && <span className="origin-left hover:text-white duration-200">Dashboard</span>}
@@ -124,7 +127,7 @@ useEffect(()=>{
           <li> 
           <Link to={'/driver/ridehistory'} >
              <button
-                 className="flex items-center p-2 w-full text-left hover:bg-green-800 "
+                 className="flex items-center p-2 w-full text-left hover:bg-green-800 rounded-lg"
              >
                  <FaHistory className="mr-3 text-2xl" />
                  {isOpen && <span className="origin-left hover:text-white duration-200">Ride History</span>}
@@ -138,7 +141,7 @@ useEffect(()=>{
          <li>
          <Link to={'/ridepayements'} >
             <button
-                 className="flex items-center p-2 w-full text-left hover:bg-green-800 "
+                 className="flex items-center p-2 w-full text-left hover:bg-green-800 rounded-lg "
                 >
                 <FaMoneyCheckAlt className="mr-3 text-2xl" />
                 {isOpen && <span className="origin-left hover:text-white duration-200">Ride Payement</span>}
@@ -152,7 +155,7 @@ useEffect(()=>{
           <li>
           <Link>
             <button
-                className="flex items-center p-2 w-full text-left hover:bg-green-800 "
+                className="flex items-center p-2 w-full text-left hover:bg-green-800 rounded-lg"
             >
                  <FaCog className="mr-3 text-2xl" />
                 {isOpen && <span className="origin-left hover:text-white duration-200">Settings</span>}
@@ -163,7 +166,7 @@ useEffect(()=>{
 
 
     </ul>
-    <div className="flex bg-white flex-col h-14 items-center justify-center   ">
+    <div className="flex bg-gradient-to-br from-gray-200 to-slate-200 flex-col h-14 items-center justify-center   ">
          
           
          <h1 className="font-playball  ">
@@ -174,7 +177,7 @@ useEffect(()=>{
  </div>
 
       
-      <div className="flex-grow">
+      <div className="flex-grow  bg-gradient-to-br from-gray-200 to-slate-200 ">
             <div className="w-full h-16 navbar-color flex items-center relative">
     
                
@@ -193,11 +196,13 @@ useEffect(()=>{
             <div className='mr-4 mt-2 ' >
             <FaInfoCircle className='md:text-2xl text-2xl  text-white ' />
             </div>
+            <Link to={'/driver/profile'} >
             <div className=' md:mr-10 mr-4 ' >
             <FaUser  className='md:text-3xl text-3xl  text-white ' />
             </div>
+            </Link>
             </div>
-            <div className="  w-full flex justify-center  items-center md:mt-14 mt-8 ">
+            <div className="  w-full flex justify-center items-center md:mt-14 mt-8 ">
            
   <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-10  justify-center items-center w-full px-3 md:ml-20 ">
     {/* Total Payment Box */}
@@ -239,13 +244,13 @@ useEffect(()=>{
 </div>
 <div  className=' w-full mt-5 mb-5 px-6' >
 <div className="w-full md:h-96 h-96 p-2 bg-gradient-to-br from-green-600 to-gray-700 rounded-3xl shadow-2xl">
-      <h2 className="text-2xl font-bold mb-6 text-green-300 tracking-wider">Driver Performance</h2>
+      <h2 className="text-2xl font-bold mb-10 ml-6 text-white tracking-wider">Driver Performance</h2>
       <ResponsiveContainer width="100%" height="80%">
         <LineChart data={data}>
           <defs>
-            <linearGradient id="greenGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#34D399" stopOpacity={0.9} />
-              <stop offset="95%" stopColor="#34D399" stopOpacity={0.1} />
+            <linearGradient id="blueGradient " x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#60A5FA" stopOpacity={0.9} />
+              <stop offset="95%" stopColor="#60A5FA" stopOpacity={0.1} />
             </linearGradient>
             <linearGradient id="blueGradient" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor="#60A5FA" stopOpacity={0.9} />
@@ -268,7 +273,7 @@ useEffect(()=>{
             }}
           />
           <Legend iconType="circle" wrapperStyle={{ color: '#34D399' }} />
-          <Line type="monotone" dataKey="rides" stroke="url(#greenGradient)" strokeWidth={4} dot={{ r: 5 }} activeDot={{ r: 8 }} />
+          <Line type="monotone" dataKey="rides" stroke="url(#blueGradient)" strokeWidth={4} dot={{ r: 5 }} activeDot={{ r: 8 }} />
           <Line type="monotone" dataKey="earnings" stroke="url(#blueGradient)" strokeWidth={4} dot={{ r: 5 }} activeDot={{ r: 8 }} />
           <Line type="monotone" dataKey="rating" stroke="url(#orangeGradient)" strokeWidth={4} dot={{ r: 5 }} activeDot={{ r: 8 }} />
           <Line type="monotone" dataKey="fuelEfficiency" stroke="#F43F5E" strokeWidth={4} dot={{ r: 5 }} activeDot={{ r: 8 }} />

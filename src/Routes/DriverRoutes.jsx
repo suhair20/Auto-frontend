@@ -7,6 +7,7 @@ import Verification from "../Components/Driver/Verification";
 import Dashboard from "../Components/Driver/Dashboard";
 import RideHistory from "../Components/Driver/RideHistory";
 import RidePayements from "../Components/Driver/RidePayements";
+import Profile from "../Components/Driver/Profile";
 
 
 const DriverRoutes=(
@@ -18,6 +19,7 @@ const DriverRoutes=(
     <Route  path="/dashboard" element={< Dashboard/>} />
     <Route  path="/driver/ridehistory" element={<RideHistory />} />
     <Route  path="/ridepayements" element={<RidePayements />} />
+    <Route  path="/driver/profile"  element={<Profile/>} />
     </>
 )
 

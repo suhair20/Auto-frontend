@@ -43,7 +43,7 @@ function Header() {
 
   return (
     <header className="sticky top-0 z-0  md:rounded">
-    <div className=" navbar-color h-14 flex justify-between sm:justify-end items-center sm:px-4 md:px-4 md:rounded">
+    <div className=" navbar-color bg-gradient-to-tr from-green-600 to-gray-800 h-14 flex justify-between sm:justify-end items-center sm:px-4 md:px-4 md:rounded">
       <div className="   font-playball sm:absolute left-0 right-0 sm:mx-auto w-1/4">
         Auto
       </div>
@@ -61,9 +61,9 @@ function Header() {
       ):(
         <div className="flex items-center p-2 cursor-pointer">
         
-          <Button onClick={OpenLogin} className="bg-transparent border-0">Login</Button>
+          <Button onClick={OpenLogin} className="bg-transparent border-0 animate-bounce ">Login</Button>
         
-          <Button  onClick={OpenSignup} className="rounded-full px-3 py-1 text-black bg-white border-0 mr-4 sm:mr-8">
+          <Button  onClick={OpenSignup} className="rounded-full px-3 py-1 text-black bg-white border-0 mr-4 sm:mr-8  ">
             Signup
           </Button>
         
@@ -95,7 +95,7 @@ function Header() {
           <>
           <li>
           <Link to={'/'} >
-          <a href="#" className=" font-semibold    ">
+          <a href="#" className=" font-semibold     ">
             Home
           </a>
           </Link>
