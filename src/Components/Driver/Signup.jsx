@@ -105,7 +105,7 @@ function Signup() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               name='email'
-              className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
+              className='mt-1 block w-full px-3 py-2 border-1 border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
               placeholder='Your email address'
             />
           </div>
@@ -119,7 +119,7 @@ function Signup() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               name='password'
-              className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
+              className='mt-1 block w-full px-3 py-2 border-1 border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
               placeholder='Your password'
             />
           </div>
@@ -133,13 +133,13 @@ function Signup() {
               value={ConfirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               name='confirm-password'
-              className='mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
+              className='mt-1 block w-full px-3 py-2 border-1 border-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
               placeholder='Confirm your password'
             />
           </div>
           <button
             type='submit'
-            className='w-full navbar-color text-white py-2 px-4 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
+            className='w-full navbar-color bg-gradient-to-tr from-green-600 to-gray-800 text-white py-3 px-4  uppercase  rounded-md transition-all duration-300 hover:bg-green-900 hover:from-transparent hover:to-transparent'
           >
             Sign Up
           </button>

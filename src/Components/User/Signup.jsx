@@ -155,8 +155,8 @@ const Signup = ({isOpen,onRequestClose})=>{
       className="fixed inset-0 flex items-center justify-center p-4"
       overlayClassName="fixed inset-0 bg-black z-50 bg-opacity-50"
     >
-      <div className="bg-white rounded shadow-md max-w-md w-[400px]">
-      <div className="  text-2xl font-bold cursor-pointer" onClick={onRequestClose}>
+      <div className="bg-white p-2 rounded shadow-md max-w-md w-[400px]">
+      <div className="  text-2xl  font-bold cursor-pointer" onClick={onRequestClose}>
        <IoClose />
         </div>
         <h1 className="bg-clip-text text-transparent font-serif  top-4 bg-gradient-to-tr from-green-600 to-gray-900  text-center uppercase text-3xl py-4 ">Signup</h1>
@@ -169,7 +169,7 @@ const Signup = ({isOpen,onRequestClose})=>{
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="p-2 border w-full border-gray-700 rounded "
+            className="p-2  w-full border-1 border-gray-500 rounded "
             placeholder="Enter your email "
           />
         </div>
@@ -181,7 +181,7 @@ const Signup = ({isOpen,onRequestClose})=>{
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="p-2 border w-full border-gray-700 rounded "
+            className="p-2  w-full border-1 border-gray-500 rounded "
             placeholder="Enter your email "
           />
         </div>
@@ -193,7 +193,7 @@ const Signup = ({isOpen,onRequestClose})=>{
             type="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="p-2 border w-full border-gray-700 rounded "
+            className="p-2  w-full border-1 border-gray-500 rounded "
             placeholder="Enter your email "
           />
         </div>
@@ -205,7 +205,7 @@ const Signup = ({isOpen,onRequestClose})=>{
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="p-2 w-full border border-gray-500   rounded   "
+            className="p-2 w-full  border-1 border-gray-500  rounded   "
             placeholder="Enter Password"
           />
         </div>
