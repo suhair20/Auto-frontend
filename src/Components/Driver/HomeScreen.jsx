@@ -26,15 +26,15 @@ useEffect(()=>{
    
    
 
-    <div className='bg-center bg-cover h-[80vh] position-relative footer-color items-center min-w-10 relative' style={{ backgroundImage: 'url(./banner2.jpg)  ' }}>
-      <div className="bg-black absolute inset-0 md:opacity-90 opacity-80 z-0"></div>
+    <div className='bg-center bg-cover h-[80vh] position-relative footer-color items-center min-w-10 relative' style={{ backgroundImage: 'url(./th(5).jpeg)  ' }}>
+      <div className="  bg-black absolute inset-0 md:opacity-90 opacity-80 z-0"></div>
 
       <div className='justify-center animate-slide-down fixed-top items-center lg:ml-16 md:py-6 md:w-11/12 ml-15 sm:w-11/12'  >
           <Header  />
           </div>
       <div className='flex flex-col h-full justify-center items-center relative'>
         
-      <h1 className="bg-clip-text bg-gradient-to-tl text-4xl text-transparent animate-slide-down font-passion from-green-600 md:text-6xl pt-14 to-gray-800">
+      <h1 className="bg-clip-text bg-gradient-to-tl text-4xl text-transparent animate-slide-down font-passion from-green-600 md:text-7xl pt-14 to-gray-800">
   Drive at your pace
 </h1>
 
@@ -67,21 +67,21 @@ useEffect(()=>{
       <div className="flex flex-col justify-center gap-5 items-center md:flex-row md:items-start md:ml-20 md:px-8">
   
   {/* Box 1 */}
-  <div className="flex flex-col h-40 justify-center rounded text-center w-full items-center md:items-start md:text-left md:w-1/3 p">
+  <div className="flex flex-col h-50 justify-center rounded text-center w-full items-center md:items-start md:text-left md:w-1/3 p">
     <FaTaxi className="text-3xl text-white mb-3 md:mr-auto" /> 
     <p className="text-2xl text-white">Set your own hours</p>
     <p className="text-white">You decide when and how often you drive</p>
   </div>
 
   {/* Box 2 */}
-  <div className="flex flex-col h-40 justify-center rounded text-center w-full items-center md:items-start md:text-left md:w-1/3 p">
+  <div className="flex flex-col h-50 justify-center rounded text-center w-full items-center md:items-start md:text-left md:w-1/3 p">
     <FaMoneyBillWave className="text-3xl text-white mb-3 md:mr-auto" />
     <p className="text-2xl text-white">Get paid fast</p>
     <p className="text-white">Weekly payments in your bank account.</p>
   </div>
 
   {/* Box 3 */}
-  <div className="flex flex-col h-40 justify-center rounded text-center w-full items-center md:items-start md:text-left md:w-1/3 p">
+  <div className="flex flex-col h-50 justify-center rounded text-center w-full items-center md:items-start md:text-left md:w-1/3 p">
     <FaUserTie className="text-3xl text-white mb-3 md:mr-auto" />
     <p className="text-2xl text-white">Get support at every turn</p>
     <p className="text-white">If there’s anything that you need, you can reach us anytime.</p>
@@ -95,31 +95,31 @@ useEffect(()=>{
        </div>
 
        <div className='md:px-16 mt-12' >
-            <p className='p-3 text-4xl text-white font-bold' >Here's what you need to sign up</p>
+            <p className='p-3 mb-8 text-4xl text-white font-bold' >Here's what you need to sign up</p>
         </div>
         <div  className='flex flex-col gap-5 md:flex-row md:ml-28 md:px-8' >
         <div className="flex flex-col h-40 justify-center rounded text-center w-full items-center md:items-start md:text-left md:w-1/3 p">
          < FaStar className='text-3xl text-white mb-3' />
          <p className='text-2xl text-white' >Requirements</p>
-         <p className='text-gray-300 md:ml-8' >  • Be at least 18 years old</p>
-         <p className='text-gray-300 md:ml-8' > • Clear a background screening</p>
+         <p className='text-gray-300 md:ml-6' >  • Be at least 18 years old</p>
+         <p className='text-gray-300 md:ml-6' > • Clear a background screening</p>
          </div>
          
 
          <div className="flex flex-col justify-center rounded text-center w-full h items-center md:items-start md:text-left md:w-1/3 p">
          <FaFileAlt className='text-3xl text-white mb-3' />
          <p className='text-2xl text-white' >Documents</p>
-         <p className='text-gray-300 md:ml-6' > • Valid driver's license (private or commercial), if you plan to drive</p>
+         <p className='text-gray-300 md:ml-6' > • Valid driver's license (private or commercial)</p>
          <p className='text-gray-300 md:ml-6' > • Proof of residency in your city, state or province</p>
-         <p className='text-gray-300 md:ml-6' > • Auto documents such as commercial insurance, vehicle registration certificate, permit</p>
+         <p className='text-gray-300 md:mr-5' > • Auto documents such as commercial insurance, vehicle registration certificate, permit</p>
          </div>
 
 
          <div className="flex flex-col h-40 rounded text-center w-full hjustify-center items-center md:items-start md:text-left md:w-1/3 p">
          <FaUserPlus className='text-3xl text-white mb-3' />
          <p className='text-2xl text-white' >Signup process</p>
-         <p className='text-gray-300 md:ml-8' > • Submit documents and photo </p>
-         <p className='text-gray-300 md:ml-8' > • Provide information for a background check </p>
+         <p className='text-gray-300 md:ml-6' > • Submit documents and photo </p>
+         <p className='text-gray-300 md:ml-6' > • Provide information for a background check </p>
          </div>
 
       </div>

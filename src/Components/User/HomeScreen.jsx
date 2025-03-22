@@ -319,9 +319,9 @@ const handleStart=(e)=>{
          
           <div className='flex flex-col h-[700px] justify-center items-center relative' >
          
-          <div className='text-center py-2 relative'>
-  <h1 className='bg-transparent text-3xl font-passion lg:text-6xl md:text-5xl sm:text-2xl uppercase'>trust us to</h1>
-  <h1 className='bg-clip-text bg-gradient-to-tl text-3xl text-transparent font-passion from-green-600 lg:text-6xl md:text-5xl sm:text-2xl to-black uppercase'>Take you there</h1>
+          <div className='text-center py-2 relative'> 
+  <h1 className='bg-transparent text-4xl font-passion lg:text-6xl md:text-5xl sm:text-2xl uppercase '>trust us to</h1>
+  <h1 className='  bg-clip-text bg-gradient-to-br  text-5xl font-passion from-green-600 to-gray-800 lg:text-6xl md:text-6xl sm:text-2xl  text-transparent uppercase'>Take you there</h1>
 </div>
 
             <div className=  " relative  flex-col items-center w-[300px] justify-between ">
@@ -424,7 +424,7 @@ const handleStart=(e)=>{
          <img src="/taxii.png" alt="Image" className="h-[60vh] mx-auto" />
          <div className='flex flex-col items-center md:w-2/3' >
          <p className='text-5xl text-center text-white font-passion' >On Time, Every Time</p>
-         <p className='text-center text-white w-2/3' >We use cutting-edge technology to get you where you need to be—right on schedule.</p>
+         <p className='text-center text-white w-2/3' >We use cutting-edge technology to get you where you need to be—right on schedule</p>
          </div>
          </div>
 
