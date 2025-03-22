@@ -26,7 +26,7 @@ useEffect(()=>{
    
    
 
-    <div className='bg-center bg-cover h-[80vh] position-relative footer-color items-center min-w-10 relative' style={{ backgroundImage: 'url(./th(5).jpeg)  ' }}>
+    <div className='bg-center bg-cover h-[80vh] position-relative footer-color items-center min-w-10 relative' style={{ backgroundImage: 'url(./banner2.jpg)  ' }}>
       <div className="  bg-black absolute inset-0 md:opacity-90 opacity-80 z-0"></div>
 
       <div className='justify-center animate-slide-down fixed-top items-center lg:ml-16 md:py-6 md:w-11/12 ml-15 sm:w-11/12'  >
@@ -34,11 +34,11 @@ useEffect(()=>{
           </div>
       <div className='flex flex-col h-full justify-center items-center relative'>
         
-      <h1 className="bg-clip-text bg-gradient-to-tl text-4xl text-transparent animate-slide-down font-passion from-green-600 md:text-7xl pt-14 to-gray-800">
+      <h1 className="bg-clip-text bg-gradient-to-tl text-4xl text-transparent animate-slide-down font-serif from-green-600 md:text-6xl pt-14 to-gray-800">
   Drive at your pace
 </h1>
 
-        <h1 className='text-4xl text-center animate-slide-up font-passion md:text-6xl mr-4 relative'>
+        <h1 className='text-4xl text-center animate-slide-up font-serif md:text-6xl mr-4 relative'>
     earn at your place
   </h1>
  
@@ -94,10 +94,10 @@ useEffect(()=>{
 
        </div>
 
-       <div className='md:px-16 mt-12' >
+       <div className='md:px-16 mt-12 mb-8 ' >
             <p className='p-3 mb-8 text-4xl text-white font-bold' >Here's what you need to sign up</p>
         </div>
-        <div  className='flex flex-col gap-5 md:flex-row md:ml-28 md:px-8' >
+        <div  className='flex flex-col gap-5 md:flex-row mb-8 md:ml-28 md:px-8' >
         <div className="flex flex-col h-40 justify-center rounded text-center w-full items-center md:items-start md:text-left md:w-1/3 p">
          < FaStar className='text-3xl text-white mb-3' />
          <p className='text-2xl text-white' >Requirements</p>

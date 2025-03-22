@@ -60,11 +60,11 @@ const Login =({isOpen,onRequestClose})=>{
       overlayClassName="fixed inset-0 bg-black z-50 bg-opacity-50"
     >
     
-      <div className='bg-white navbar-color p-6 rounded shadow-md md:w-[350px]  w-[350px] '>
+      <div className='bg-white  p-6 rounded shadow-md md:w-[350px]  w-[350px] '>
       <div className="    text-2xl font-bold cursor-pointer" onClick={onRequestClose}>
       <IoClose />
         </div>
-        <p className=' font-robot-bold top-4  text-center uppercase text-2xl  '>Login</p>
+        <p className=' bg-clip-text text-transparent font-serif  top-4 bg-gradient-to-tr from-green-600 to-gray-900 text-center uppercase text-3xl  '>Login</p>
         <div className=' flex flex-col items-center mt-8' >
         <form onSubmit={handleSubmit} className="flex flex-col gap-2 w-full">
         <div className="flex gap-2 w-full">
@@ -98,7 +98,7 @@ const Login =({isOpen,onRequestClose})=>{
           )}
           <button
             type="submit"
-            className="w-full p-3 uppercase navbar-color text-white  rounded flex items-center justify-center "
+            className="w-full p-3 uppercase bg-gradient-to-br from-green-600 to-gray-900 text-white  rounded flex items-center justify-center "
             disabled={loginLoading}
           >
             {loginLoading?(

@@ -320,8 +320,8 @@ const handleStart=(e)=>{
           <div className='flex flex-col h-[700px] justify-center items-center relative' >
          
           <div className='text-center py-2 relative'> 
-  <h1 className='bg-transparent text-4xl font-passion lg:text-6xl md:text-5xl sm:text-2xl uppercase '>trust us to</h1>
-  <h1 className='  bg-clip-text bg-gradient-to-br  text-5xl font-passion from-green-600 to-gray-800 lg:text-6xl md:text-6xl sm:text-2xl  text-transparent uppercase'>Take you there</h1>
+  <h1 className='bg-transparent text-4xl font-serif lg:text-6xl md:text-5xl sm:text-2xl uppercase '>trust us to</h1>
+  <h1 className='  bg-clip-text bg-gradient-to-br  text-5xl font-serif from-green-600 to-gray-800 lg:text-6xl md:text-6xl sm:text-2xl  text-transparent uppercase'>Take you there</h1>
 </div>
 
             <div className=  " relative  flex-col items-center w-[300px] justify-between ">

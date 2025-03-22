@@ -155,46 +155,61 @@ const Signup = ({isOpen,onRequestClose})=>{
       className="fixed inset-0 flex items-center justify-center p-4"
       overlayClassName="fixed inset-0 bg-black z-50 bg-opacity-50"
     >
-      <div className="bg-white navbar-color p-6 rounded shadow-md max-w-md w-[400px]">
+      <div className="bg-white rounded shadow-md max-w-md w-[400px]">
       <div className="  text-2xl font-bold cursor-pointer" onClick={onRequestClose}>
        <IoClose />
         </div>
-        <h1 className="font-robot-bold  text-center  uppercase text-2xl py-4 mb-4">create an account</h1>
-        <form onSubmit={submitHandler} className="flex flex-col gap-4 items-center w-full">
-        
-          <div className="flex gap-2 w-full">
-            
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="p-2 border-1  w-full border-gray-500 rounded"
-              placeholder="Enter your name"
-            />
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="p-2 border-1 w-full border-gray-500 rounded"
-              placeholder="Enter your email"
-            />
-          </div>
-          <div className="flex gap-2 w-full">
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="p-2 border-1 w-full border-gray-500 rounded"
-              placeholder="Enter password"
-            />
-            <input
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="p-2 border-1  w-full border-gray-500 rounded"
-              placeholder="Confirm password"
-            />
-          </div>
+        <h1 className="bg-clip-text text-transparent font-serif  top-4 bg-gradient-to-tr from-green-600 to-gray-900  text-center uppercase text-3xl py-4 ">Signup</h1>
+        <div className=' flex flex-col items-center ' ></div>
+        <form onSubmit={submitHandler} className="flex flex-col p-4  gap-2  w-full">
+        <div className=' flex flex-row    gap-2 w-full ' >
+        <div  className='flex-col w-1/2 ' >
+        <label className='  text-xs font-robot-bold  uppercase  '>Name</label>
+        <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="p-2 border w-full border-gray-700 rounded "
+            placeholder="Enter your email "
+          />
+        </div>
+           
+          
+        <div  className='flex-col  w-1/2 ' >
+        <label className='  text-xs  font-robot-bold  uppercase'>email</label>
+        <input
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="p-2 border w-full border-gray-700 rounded "
+            placeholder="Enter your email "
+          />
+        </div>
+        </div>
+        <div className=' flex flex-row gap-2 w-full ' >
+        <div  className='flex-col w-1/2  ' >
+        <label className='  text-xs  font-robot-bold  uppercase '>Password</label>
+        <input
+            type="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="p-2 border w-full border-gray-700 rounded "
+            placeholder="Enter your email "
+          />
+        </div>
+           
+          
+          <div  className='flex-col  w-1/2 ' >
+        <label className='  text-xs font-robot-bold    uppercase '>Confirm password</label>
+        <input
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className="p-2 w-full border border-gray-500   rounded   "
+            placeholder="Enter Password"
+          />
+        </div>
+        </div>
           {error && (
             <div className="text-red-500 text-xs mt-2">
               {error}
@@ -202,7 +217,7 @@ const Signup = ({isOpen,onRequestClose})=>{
           )}
         <button
         type="submit"
-  className="w-full navbar-color uppercase text-white rounded p-3 flex items-center justify-center"
+  className="w-full bg-gradient-to-br from-green-600 to-gray-800 uppercase text-white rounded p-3 flex items-center justify-center"
   disabled={isSignupLoading} // Disable the button while loading
 >
   {isSignupLoading ? (
@@ -220,7 +235,7 @@ const Signup = ({isOpen,onRequestClose})=>{
           <hr className="flex-grow border-gray-300" />
         </div>
         <button
-          className="w-full text-black rounded py-2 flex items-center justify-center"
+          className="w-full text-black rounded mb-8 flex items-center justify-center"
         >
           <img src="https://img.icons8.com/color/48/000000/google-logo.png"
             alt="Google icon" className="w-5 h-5 mr-2" />
