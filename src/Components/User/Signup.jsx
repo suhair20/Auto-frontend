@@ -169,8 +169,8 @@ const Signup = ({isOpen,onRequestClose})=>{
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="p-2  w-full border-1 border-gray-500 rounded "
-            placeholder="Enter your email "
+            className="p-2 w-full  border-1 border-gray-500 rounded text-black font-robot placeholder-gray-400 "
+            placeholder="Enter your name "
           />
         </div>
            
@@ -178,10 +178,10 @@ const Signup = ({isOpen,onRequestClose})=>{
         <div  className='flex-col  w-1/2 ' >
         <label className='  text-xs  font-robot-bold  uppercase'>email</label>
         <input
-            type="text"
+            type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="p-2  w-full border-1 border-gray-500 rounded "
+            className="p-2  w-full  border-1 border-gray-500 text-black font-robot rounded "
             placeholder="Enter your email "
           />
         </div>
@@ -193,8 +193,8 @@ const Signup = ({isOpen,onRequestClose})=>{
             type="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="p-2  w-full border-1 border-gray-500 rounded "
-            placeholder="Enter your email "
+            className="p-2  w-full border-1 border-gray-500 text-black font-robot rounded "
+            placeholder="Password "
           />
         </div>
            
@@ -205,8 +205,8 @@ const Signup = ({isOpen,onRequestClose})=>{
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="p-2 w-full  border-1 border-gray-500  rounded   "
-            placeholder="Enter Password"
+            className="p-2 w-full border-1 border-gray-500 text-black font-robot  rounded   "
+            placeholder="Confirm password"
           />
         </div>
         </div>

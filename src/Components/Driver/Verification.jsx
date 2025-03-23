@@ -86,9 +86,9 @@ const handelSubmit=async(e)=>{
     
    
     <>
-    <div className='absolute  inset-0 bold-navbar opacity-40 z-0' ></div>
-      <div className='h-screen flex flex-col items-center relative z-10  px-4' >
-      <div className='text-center mt-20'>
+    <div className='absolute h-full min-h-screen  inset-0 bold-navbar opacity-40 z-0' ></div>
+      <div className=' h-full flex flex-col items-center relative z-10  px-4' >
+      <div className='text-center  flex flex-col items-center justify-center md:mt-20 md:h-40 h-40'>
         <h1 className='font-robot-bold text-5xl text-black '>Welcome</h1>
         <div className='mt-2 flex items-center justify-center text-black'>
           <p>Here is what you need to do to set up your account</p>
@@ -96,10 +96,10 @@ const handelSubmit=async(e)=>{
         </div>
       </div>
      
-      
-  <div className='flex flex-col lg:flex-row w-full max-w-4xl mt-10'>
-    <form onSubmit={handelSubmit} className='grid grid-cols-1 lg:grid-cols-3 gap-4 w-full'>
-      {/* First Column */}
+      <form onSubmit={handelSubmit} className=''>
+  <div className='flex flex-col gap-5 md:mt-24 lg:flex-row w-full  mt-10'>
+    
+      <div className='grid grid-cols-2 lg:grid-cols-2 gap-4 w-full' >
       <div className='space-y-4'>
         <div>
           <label htmlFor='name' className='block text-sm font-medium text-black'>
@@ -189,11 +189,14 @@ const handelSubmit=async(e)=>{
           />
         </div>
       </div>
+      </div>
 
-      {/* Third Column */}
-      <div className='space-y-4'>
+
+      <div>
+
+      <div className=''>
       {/* Profile Image Upload */}
-      <div className='flex flex-row gap-4 items-center'>
+      <div className='flex md:flex-row  gap-4 items-center'>
         <div>
         <label htmlFor='profile-image' className='block text-sm font-medium text-black'>
           Profile Image
@@ -212,7 +215,7 @@ const handelSubmit=async(e)=>{
           <img
             src={profileImage}
             alt='Profile Thumbnail'
-            className='mt-2 cursor-pointer w-20 h-20 object-cover border border-gray-300 rounded-md'
+            className=' cursor-pointer w-20 h-20 object-cover border border-gray-300 rounded-md'
             onClick={() => openModal(profileImage)}
           />
         )}
@@ -238,7 +241,7 @@ const handelSubmit=async(e)=>{
           <img
             src={licenseImage}
             alt='License Thumbnail'
-            className='mt-2 cursor-pointer w-20 h-20 object-cover border border-gray-300 rounded-md'
+            className=' cursor-pointer w-20 h-20 mt-2 object-cover border border-gray-300 rounded-md'
             onClick={() => openModal(licenseImage)}
           />
         )}
@@ -265,13 +268,21 @@ const handelSubmit=async(e)=>{
     <div className=" flex items-center justify-center ">
     <button
           type='submit'
-          className='w-full bold-navbar mt-8  text-white py-2 px-4 rounded-md  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:bold-navbar'
+          className='w-full bold-navbar mt-3  text-white py-2 px-4 rounded-md  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:bold-navbar'
         >
           Create Acount
         </button>
         </div>
-    </form>
+
+
+
+      </div>
+      
+    
+    {/* Third Column */}
+    
   </div>
+  </form>
     
 
       </div>

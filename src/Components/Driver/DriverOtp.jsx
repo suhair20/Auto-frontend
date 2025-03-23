@@ -47,18 +47,18 @@ const DriverOtp = ({ isOpen, onRequestClose, onSubmit, onResendOtp,error }) => {
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       contentLabel="OTP Modal"
-      className="fixed inset-0 flex items-center justify-center p-4"
+      className="fixed inset-0 flex items-center justify-center "
       overlayClassName="fixed inset-0 bg-black bg-opacity-50"
     >
-      <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
-        <h2 className="text-xl font-bold mb-4 text-center">Enter OTP</h2>
+      <div className="bg-white p-4 rounded-lg shadow-lg max-w-sm w-full">
+      <h1 className="text-3xl font-serif  bg-clip-text bg-gradient-to-br from-green-900 to-gray-800 text-transparent mb-4 text-center">  OTP</h1>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input
             type="text"
             value={otp}
             onChange={(e) => setOtp(e.target.value)}
             placeholder="Enter OTP"
-            className="p-3 border border-gray-300 rounded-md w-full"
+             className="p-2 border-1 border-gray-600 font-bold rounded-md w-full"
           />
             {error && (
             <div className="text-red-500 mt-2 text-center">
@@ -67,7 +67,7 @@ const DriverOtp = ({ isOpen, onRequestClose, onSubmit, onResendOtp,error }) => {
           )}
           <button
             type="submit"
-            className="bg-teal-600 text-white py-2 rounded-md hover:bg-teal-700"
+           className="  text-white py-3  bg-gradient-to-tr from-green-900 to-gray-800 rounded-md  "
           >
             Verify OTP
           </button>
