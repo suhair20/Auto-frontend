@@ -16,7 +16,35 @@ const Login=({isOpen,onRequestClose})=>{
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
 
-
+  const validateForm = ( email, password) => {
+   
+  
+    if (!email) {
+      setError('Email is required');
+      return false;
+    }
+  
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Email format regex
+    if (!emailRegex.test(email)) {
+      setError('Invalid email format');
+      return false;
+    }
+  
+    if (!password) {
+      setError('Password is required');
+      return false;
+    }
+  
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters long');
+      return false;
+    }
+  
+    
+  
+    setError(''); // Clear previous errors if all validations pass
+    return true;
+  };
 
 
   const [login, { isLoading: loginLoading }] = useDriverLoginMutation()
@@ -29,12 +57,16 @@ const Login=({isOpen,onRequestClose})=>{
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
+
+      const isvalid= validateForm(email,password)
+      if(isvalid){
       const res = await login({ email, password }).unwrap()
       console.log(res.Token);
       if(res.success){
         dispatch(setdriverAuthenticated(res.driver)); 
      
       navigate('/dashboard')
+      }
       }
     } catch (error) {
       console.log(error?.data?.message);
@@ -91,7 +123,7 @@ const Login=({isOpen,onRequestClose})=>{
          
         
           {error && (
-            <div className="text-red-500  mt-6">
+            <div className="text-red-500 text-xs text-center  ">
               {error}
             </div>
           )}

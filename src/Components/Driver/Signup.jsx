@@ -14,6 +14,39 @@ function Signup() {
 
   const navigate = useNavigate()
 
+  const validateForm = ( email, password, confirmPassword) => {
+   
+  
+    if (!email) {
+      setError('Email is required');
+      return false;
+    }
+  
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Email format regex
+    if (!emailRegex.test(email)) {
+      setError('Invalid email format');
+      return false;
+    }
+  
+    if (!password) {
+      setError('Password is required');
+      return false;
+    }
+  
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters long');
+      return false;
+    }
+  
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return false;
+    }
+  
+    setError(''); // Clear previous errors if all validations pass
+    return true;
+  };
+
   const[Signup,{isLoading:isSignupLoading}]=useSignupMutation()
   const[OTP,{isLoading:isOtpLoading}]=useOtpMutation()
   const [resendOtp,{isLoading:isResendLoading}]=useResendotpMutation()
@@ -21,16 +54,25 @@ function Signup() {
 
   const submithandler=async(e)=>{
   e.preventDefault()
-  if (password !== ConfirmPassword) {
-    setError('Passwords do not match')
-    return
-  }
+ 
   try {
+
+    const isvalid= validateForm(email,password,ConfirmPassword)
+
+    if(isvalid){
   const res=await Signup({email,password}).unwrap()
   console.log(res);
   setOtpModalOpen(true)
+    }
   } catch (error) {
-    console.log(error);
+    console.error('Error during signup:', error); 
+    if (error?.data && error?.data?.message) {
+      setError(error.data.message);
+    } else {
+      console.log(error);
+      
+      setError('An unexpected error occurred'); 
+    }
   }
   }
 
@@ -137,6 +179,11 @@ function Signup() {
               placeholder='Confirm your password'
             />
           </div>
+          {error && (
+            <div className="text-red-500 text-xs text-center  ">
+              {error}
+            </div>
+          )}
           <button
             type='submit'
             className='w-full navbar-color bg-gradient-to-tr from-green-600 to-gray-800 text-white py-3 px-4  uppercase  rounded-md transition-all duration-300 hover:bg-green-900 hover:from-transparent hover:to-transparent'

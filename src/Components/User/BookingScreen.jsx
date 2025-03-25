@@ -134,8 +134,8 @@ function BookingScreen() {
     };
   
     return( 
-      
-      <div className=' naavabr h-screen  '   >
+      <>
+      <div className=' bg-gradient-to-br from-green-600 to-gray-800 text-white py-3 px-4       '   >
         
       <div className=" items-center justify-center">
       <div className='   sm:ml-7 sm:w-11/12 md:px-4 z-10 lg:ml-16   md:w-11/12 md:py-6 items-center justify-center animate-slide-down  '  >
@@ -157,9 +157,9 @@ function BookingScreen() {
     />
   </div>
 </div>
-        <div className="flex py-3  flex-col   naavabr "  >
-         <div  className=' py-2  naavabr ' >
-          <h1  className='text-white md:text-4xl text-3xl text-center font-passion ' >Meet your Drivers </h1>
+        <div className="flex py-3  flex-col    "  >
+         <div  className=' py-2   ' >
+          <h1  className='text-white md:text-4xl text-3xl text-center font-serif ' >Meet your Drivers </h1>
           </div>
           <div className=" naavfabr items-center justify-center rounded shadow-md p-3 w-5/6 md:w-2/4 lg:w-4/4 mx-auto ">
       
@@ -241,9 +241,10 @@ function BookingScreen() {
   </div>
  
       </div>
-      <Footer className='mt-3' />
+  
     </div>
-
+    <Footer className='mt-3' />
+    </>
 
 
 

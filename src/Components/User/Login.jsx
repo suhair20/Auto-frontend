@@ -20,6 +20,36 @@ const Login =({isOpen,onRequestClose})=>{
   const [error, setError] = useState('')
    const [SignupOpen,setSignupOpen]=useState(false)
 
+   const validateForm = ( email, password) => {
+   
+  
+    if (!email) {
+      setError('Email is required');
+      return false;
+    }
+  
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Email format regex
+    if (!emailRegex.test(email)) {
+      setError('Invalid email format');
+      return false;
+    }
+  
+    if (!password) {
+      setError('Password is required');
+      return false;
+    }
+  
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters long');
+      return false;
+    }
+  
+    
+  
+    setError(''); // Clear previous errors if all validations pass
+    return true;
+  };
+
 
 
   const [login, { isLoading: loginLoading }] = useLoginMutation()
@@ -33,6 +63,8 @@ const Login =({isOpen,onRequestClose})=>{
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
+      const isvalid=validateForm(email,password)
+      if(isvalid){
       const res = await login({ email, password }).unwrap()
       console.log(res.user);
       if(res.success){
@@ -41,6 +73,7 @@ const Login =({isOpen,onRequestClose})=>{
       navigate('/')
      
       }
+    }
     } catch (error) {
       console.log(error?.data?.message);
       if (error?.data && error?.data?.message) {

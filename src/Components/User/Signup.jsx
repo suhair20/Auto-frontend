@@ -91,7 +91,7 @@ const Signup = ({isOpen,onRequestClose})=>{
       if(isvalid){
       const response = await signup({ name, email, password }).unwrap();
       
-      console.log('Response from signup:', response); // Log the entire response
+      e
       
       if (response && response.success) {
         onRequestClose();
