@@ -85,45 +85,47 @@ function Header() {
   className={`flex flex-col md:flex-row items-center      gap-[7vw] 
     ${isBookingPage ? "flex" : isMenuOpen ? "flex" : "hidden"} md:flex`}
 >
-        {location.pathname==='/booking'?(
+        {location.pathname==='/'?(
+           <>
+           <li>
+           <Link to={'/'} >
+           <a href="#" className=" font-semibold     ">
+             Home
+           </a>
+           </Link>
+         </li>
+         <li>
+           <Link to={'/driver'} >
+           <a  className=" font-semibold  ">
+             Driver
+           </a>
+           </Link>
+         </li>
+         <li>
+         <Link to={'/'} >
+           <a  className=" font-semibold   ">
+           
+             Ride
+           </a>
+           </Link>
+         </li>
+         <li>
+         <Link to={'/'} >
+           <a  className=" font-semibold   ">
+   
+             About
+           </a>
+           </Link>
+         </li>
+         </>
+          
+        ):(
           <li className="     md:px-52" >
          <a href="#" className="relative font-passion after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-full  after:rounded after:h-[3px] after:bg-lime-900 after:animate-[underline_1.5s_infinite]">
   Ride
 </a>
         </li>
-        ):(
-          <>
-          <li>
-          <Link to={'/'} >
-          <a href="#" className=" font-semibold     ">
-            Home
-          </a>
-          </Link>
-        </li>
-        <li>
-          <Link to={'/driver'} >
-          <a  className=" font-semibold  ">
-            Driver
-          </a>
-          </Link>
-        </li>
-        <li>
-        <Link to={'/'} >
-          <a  className=" font-semibold   ">
-          
-            Ride
-          </a>
-          </Link>
-        </li>
-        <li>
-        <Link to={'/'} >
-          <a  className=" font-semibold   ">
-  
-            About
-          </a>
-          </Link>
-        </li>
-        </>
+         
         )}
         
       </ul>

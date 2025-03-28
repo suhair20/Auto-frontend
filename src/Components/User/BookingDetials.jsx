@@ -1,11 +1,13 @@
 
-
+import { useState } from "react";
 import React from 'react'
 import Header from './Header'
-import { useParams } from 'react-router-dom';
+import { useParams,useNavigate } from 'react-router-dom';
 import { Star } from 'lucide-react';
 import banner from '../../assets/public/images/banner.png';
 import banner2 from '../../assets/public/images/banner2.jpg';
+import Footer from './Footer';
+import RideRequestModal from './RideRequestamaodal';
 
 function BookingDetials({ ratings =  {
   1: 3,  
@@ -16,18 +18,39 @@ function BookingDetials({ ratings =  {
 }}) {
   const totalRatings = Object.values(ratings).reduce((sum, count) => sum + count, 0);
      const {driverId}=useParams()
+
+     const [modalOpen, setModalOpen] = useState(false);
+     const navigate = useNavigate() 
+     
+     
+     const handleRequestRide = () => {
+       setModalOpen(true);
+     };
+
+
+     const handledriverClose=()=>{
+      setModalOpen(false)
+       }
+   
+     const handleDriverAccepted = () => {
+       setModalOpen(false);
+       
+       console.log("Driver accepted! Redirecting to payment...");
+     };
+
+
   return (
-    <div className=' bg-gradient-to-t from-green-600 to-gray-950   ' >
+    <div className=' bg-gradient-to-l from-green-600 to-gray-950   ' >
       <div className='   sm:ml-7 sm:w-11/12 md:px-4 z-10 lg:ml-16   md:w-11/12 md:py-6 items-center justify-center animate-slide-down  '  >
               <Header  />
      </div  >
 
 
-    <div className=' md:px-32  pt-24 py-5 ' >
-        <div className='  text-white   min-h-screen md:h-[900px] rounded' >
+    <div className=' md:px-24  pt-7 md:pt-20 ' >
+        <div className='  text-white   min-h-screen  rounded' >
             {/* <h1>drivername:{driverId}</h1> */}
-            <div className='main flex ' >
-                <div className=' bg-gradient-to-tr from-green-800 to-gray-800  rounded  w-1/2 md:flex ' >
+            <div className='main md:gap-10 md:flex ' >
+                <div className=' bg-gradient-to-tr from-green-800 to-gray-800   rounded md:w-1/2 md:flex ' >
                     <div className='text-black md:flex-row  w-full' > 
                         <div className=' w-full px-4 flex items-center justify-center ' >
                           <img src={banner2}  alt='Profile'  className='h-32 mt-2 md:h-52 w-32 md:w-52 rounded-full border border-black'    />
@@ -105,20 +128,20 @@ function BookingDetials({ ratings =  {
 
 
                 </div>
-                <div  className=' flex flex-col items-center w-1/2 justify-center ' >
+                <div  className=' flex flex-col items-center md:w-1/2 justify-center ' >
 
 
                 <div className=' text-black flex flex-col mt-4 items-center justify-center  px-4 w-full '>
                     <h1 className=' text-white text-3xl font-serif ' >Reviews</h1>
-                    <div className="flex-col    w-[400px] items-center justify-center space-y-2 mb-4">
+                    <div className="flex-col    w-[300px]  md:w-[400px] items-center justify-center space-y-2 mb-4">
                     <div className=' rounded flex border-1 p-2 border-gray-300 h-15 ' >
                       <div className='h-10 rounded-full bg-white w-10' >
                       <img src="./banner.png " alt=""  className='' />
                       </div>
                       <div>
                         <div className='px-2' >
-                      <h1 className='text-gray-300 text-2xl ' >zuabir</h1>
-                       <p className='text-white'>its a nice driving</p>
+                      <h1 className='text-gray-300 md:text-2xl ' >zuabir</h1>
+                       <p className='text-white text-xs '>its a nice driving</p>
                        </div>
                        </div>
                     </div>
@@ -129,8 +152,8 @@ function BookingDetials({ ratings =  {
                       </div>
                       <div>
                         <div className='px-2' >
-                      <h1 className='text-gray-300 text-2xl ' >zuabir</h1>
-                       <p className='text-white'>its a nice driving</p>
+                        <h1 className='text-gray-300 md:text-2xl ' >zuabir</h1>
+                        <p className='text-white text-xs '>its a nice driving</p>
                        </div>
                        </div>
                     </div>
@@ -178,17 +201,25 @@ function BookingDetials({ ratings =  {
                     </div>
                     </div>
                     <div  className='w-full h-1/3  flex items-center justify-center ' >
-                     <button   className=' text-white bg-gradient-to-t bg-green-600 to-gray-900  border border-white rounded  w-72 md:w-80 p-2 '  >
+                     <button   className=' text-white bg-gradient-to-t bg-green-600 to-gray-900  border border-white rounded  w-72 md:w-80 p-2  ' onClick={handleRequestRide} >
                        Request Now
+                       
                      </button>
+                     <RideRequestModal
+        isOpen={modalOpen}
+        onClose={handledriverClose}
+        onDriverAccepted={handleDriverAccepted}
+      />
                     </div>
                   </div>
                 </div>
                 </div>
             </div>
+          
         </div>
+       
     </div>
-
+    
 
     </div>
   )

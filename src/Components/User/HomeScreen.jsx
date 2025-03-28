@@ -308,7 +308,7 @@ const handleStart=(e)=>{
     <>
       
 <div 
-  className='justify-center position-relative footer-color items-center relative' 
+  className='justify-center position-relative  footer-color items-center relative' 
    style={{ backgroundImage: 'url("./autobanner.png")', backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
     <div className="bg-black absolute inset-0 md:opacity-95 opacity-80 z-0"></div>

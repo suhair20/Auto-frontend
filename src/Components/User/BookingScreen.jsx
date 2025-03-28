@@ -135,7 +135,7 @@ function BookingScreen() {
   
     return( 
       <>
-      <div className=' bg-gradient-to-br from-green-600 to-gray-800 text-white py-3 px-4       '   >
+      <div className=' bg-gradient-to-br from-green-600 to-gray-800 text-white        '   >
         
       <div className=" items-center justify-center">
       <div className='   sm:ml-7 sm:w-11/12 md:px-4 z-10 lg:ml-16   md:w-11/12 md:py-6 items-center justify-center animate-slide-down  '  >
