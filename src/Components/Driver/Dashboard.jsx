@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import mapboxgl from 'mapbox-gl';
 import { FaBars, FaTachometerAlt, FaUsers, FaCar, FaCog } from 'react-icons/fa'; // Example icons
   import Footer from './Footer'
 import { Link } from 'react-router-dom';
@@ -20,7 +21,7 @@ import io from 'socket.io-client'
 import { useEffect } from 'react';
   const socket= io('http://localhost:5000')
 
-
+  mapboxgl.accessToken = 'pk.eyJ1IjoibW9pZGhlZW5zdWhhaXIiLCJhIjoiY2x6YjF1cWNyMGJlMjJyb29hZ240Zmk4ayJ9.58Mg37vr5SeKrBWZtAQ2xQ'
   const data = [
     { month: 'Jan', rides: 500, earnings: 1000, rating: 50.5, fuelEfficiency: 15 },
     { month: 'Feb', rides: 35, earnings: 400, rating: 90.7, fuelEfficiency: 800 },
@@ -32,11 +33,33 @@ import { useEffect } from 'react';
 
 function Dashboard() {
   const [isActive,setIsActive]=useState(false)    
-  const [isOpen, setIsOpen] = useState(true); // State to toggle sidebar
+  const [isOpen, setIsOpen] = useState(true); 
+  const [location,setlocation]=useState(true)
+  
+  // State to toggle sidebar
   
 useEffect(()=>{
   let locationInterval;
   console.log("heloo");
+
+  navigator.geolocation.getCurrentPosition((position) => {
+    const { latitude, longitude } = position.coords;
+
+    fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${mapboxgl.accessToken}`)
+      .then(response => response.json())
+      .then(data => {
+          console.log("Correct Location:", data.features[0]?.place_name);
+          setlocation(data.features[0]?.place_name)
+      })
+      .catch(error => console.error("Error:", error));
+}, 
+(error) => console.error("Geolocation Error:", error), 
+{ enableHighAccuracy: true, timeout: 10000, maximumAge: 0 });
+
+
+
+
+
   
   if(isActive){
     console.log('act');
@@ -211,7 +234,7 @@ useEffect(()=>{
       <div className="text-center text-white md:text-xl text-sm font-bold">Total Earnings</div>
       <div className="text-center text-white md:text-xl text-sm ">$500</div> {/* Replace with dynamic data */}
     </div>
-
+<h1 className='' >{location}</h1>
     {/* Total Rides Box */}
     <div className="flex flex-col justify-center  items-center bg-green-600 w-full sm:w-52  md:h-36 h-24 rounded shadow-lg">
     <FaTaxi className='  text-3xl text-blue-500  ' />
