@@ -21,7 +21,7 @@ function Header() {
   return (
     
     <header className="rounded sticky top-0 z-0">
-    <div className="flex navbar-color bg-gradient-to-br h-14 justify-between rounded from-green-600 items-center sm:justify-end to-gray-800">
+    <div className="flex navbar-color bg-gradient-to-br h-12 justify-between rounded from-green-600 items-center sm:justify-end to-gray-800">
 
       <div className="w-1/4 font-playball left-0 right-0 sm:absolute sm:mx-auto">
         Auto
@@ -52,21 +52,21 @@ function Header() {
       >
        <li>
                  <Link to={'/'} >
-                 <a href="#" className="font-semibold">
+                 <a href="#" className="font-semibold text-sm ">
                    Home
                  </a>
                  </Link>
                </li>
                <li>
                  <Link to={'/driver'} >
-                 <a  className="font-semibold">
+                 <a  className="font-semibold text-sm ">
                    Driver
                  </a>
                  </Link>
                </li>
                <li>
                <Link to={'/'} >
-                 <a  className="font-semibold">
+                 <a  className="font-semibold text-sm ">
                  
                    Ride
                  </a>
@@ -74,7 +74,7 @@ function Header() {
                </li>
                <li>
                <Link to={'/'} >
-                 <a  className="font-semibold">
+                 <a  className="font-semibold text-sm ">
          
                    About
                  </a>

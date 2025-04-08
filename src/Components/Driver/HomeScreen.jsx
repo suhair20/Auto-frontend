@@ -34,11 +34,11 @@ useEffect(()=>{
           </div>
       <div className='flex flex-col h-full justify-center items-center relative'>
         
-      <h1 className="bg-clip-text bg-gradient-to-tl text-4xl text-transparent animate-slide-down font-serif from-green-600 md:text-6xl pt-14 to-gray-800">
+      <h1 className="bg-clip-text bg-gradient-to-tl text-4xl text-transparent animate-slide-down font-serif from-green-600 md:text-5xl pt-14 to-gray-800">
   Drive at your pace
 </h1>
 
-        <h1 className='text-4xl text-center animate-slide-up font-serif md:text-6xl mr-4 relative'>
+        <h1 className='text-4xl text-center animate-slide-up font-serif md:text-5xl mr-4 relative'>
     earn at your place
   </h1>
  

@@ -155,11 +155,11 @@ const Signup = ({isOpen,onRequestClose})=>{
       className="fixed inset-0 flex items-center justify-center p-4"
       overlayClassName="fixed inset-0 bg-black z-50 bg-opacity-50"
     >
-      <div className="bg-white p-2 rounded shadow-md max-w-md w-[400px]">
+      <div className="bg-white p-2 rounded shadow-md max-w-md w-[380px]">
       <div className="  text-2xl  font-bold cursor-pointer" onClick={onRequestClose}>
        <IoClose />
         </div>
-        <h1 className="bg-clip-text text-transparent font-serif  top-4 bg-gradient-to-tr from-green-600 to-gray-900  text-center uppercase text-3xl py-4 ">Signup</h1>
+        <h1 className="bg-clip-text text-transparent font-serif  top-4 bg-gradient-to-tr from-green-600 to-gray-900 p-1 text-center uppercase text-3xl  ">Signup</h1>
         <div className=' flex flex-col items-center ' ></div>
         <form onSubmit={submitHandler} className="flex flex-col p-4  gap-2  w-full">
         <div className=' flex flex-row    gap-2 w-full ' >

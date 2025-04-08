@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import mapboxgl from 'mapbox-gl';
 import { FaBars, FaTachometerAlt, FaUsers, FaCar, FaCog } from 'react-icons/fa'; // Example icons
   import Footer from './Footer'
@@ -36,31 +37,13 @@ function Dashboard() {
   const [isOpen, setIsOpen] = useState(true); 
   const [location,setlocation]=useState(true)
   
-  // State to toggle sidebar
+ const user = useSelector((state)=>state.driverAuth.user)
+
   
 useEffect(()=>{
   let locationInterval;
   console.log("heloo");
 
-  navigator.geolocation.getCurrentPosition((position) => {
-    const { latitude, longitude } = position.coords;
-
-    fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${mapboxgl.accessToken}`)
-      .then(response => response.json())
-      .then(data => {
-          console.log("Correct Location:", data.features[0]?.place_name);
-          setlocation(data.features[0]?.place_name)
-      })
-      .catch(error => console.error("Error:", error));
-}, 
-(error) => console.error("Geolocation Error:", error), 
-{ enableHighAccuracy: true, timeout: 10000, maximumAge: 0 });
-
-
-
-
-
-  
   if(isActive){
     console.log('act');
     
@@ -75,15 +58,16 @@ useEffect(()=>{
           
           const {latitude ,longitude}=position.coords;
           
-         
+         const driverId=user?._id
+          console.log(driverId,"holl");
           
-          socket.emit('driverLocation',{latitude,longitude, driverId:'driver123'})
+          socket.emit('driverLocation',{latitude,longitude, driverId})
         })
       }
     },5000)
   }else{
     clearInterval(locationInterval);
-    socket.emit('driverInactive',{driverId:'driver123'})
+    socket.emit('driverInactive',{driverId:"jhh"})
   }
   return ()=>clearInterval(locationInterval)
 

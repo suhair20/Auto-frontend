@@ -312,16 +312,16 @@ const handleStart=(e)=>{
    style={{ backgroundImage: 'url("./autobanner.png")', backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
     <div className="bg-black absolute inset-0 md:opacity-95 opacity-80 z-0"></div>
-    <div className='justify-center animate-slide-down fixed-top items-center lg:ml-16 md:px-4 md:py-6 md:w-11/12 sm:ml-7 sm:w-11/12 z-10'  >
+    <div className='justify-center animate-slide-down fixed-top items-center lg:ml-16  md:py-6 md:w-11/12 sm:ml-7 sm:w-11/12 z-10'  >
               <Header  />
      </div>
 <div  className=' '>
          
-          <div className='flex flex-col h-[700px] justify-center items-center relative' >
+          <div className='flex flex-col h-[600px] justify-center items-center relative' >
          
           <div className='text-center py-2 relative'> 
-  <h1 className='bg-transparent text-3xl font-serif lg:text-6xl md:text-5xl sm:text-2xl uppercase '>trust us to</h1>
-  <h1 className='  bg-clip-text bg-gradient-to-br  text-4xl font-serif from-green-600 to-gray-800 lg:text-6xl md:text-6xl sm:text-2xl  text-transparent uppercase'>Take you there</h1>
+  <h1 className='bg-transparent text-3xl font-serif lg:text-5xl md:text-4xl sm:text-2xl uppercase '>trust us to</h1>
+  <h1 className='  bg-clip-text bg-gradient-to-br  text-4xl font-serif from-green-600 to-gray-800 lg:text-5xl md:text-5xl sm:text-2xl  text-transparent uppercase'>Take you there</h1>
 </div>
 
             <div className=  " relative  flex-col items-center w-[300px] justify-between ">
