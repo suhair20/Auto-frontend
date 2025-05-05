@@ -63,7 +63,9 @@ const Login=({isOpen,onRequestClose})=>{
       const res = await login({ email, password }).unwrap()
       console.log(res.Token);
       if(res.success){
-        dispatch(setdriverAuthenticated(res.driver)); 
+        console.log('hiii',res.User);
+        
+        dispatch(setdriverAuthenticated(res.User)); 
      
       navigate('/dashboard')
       }

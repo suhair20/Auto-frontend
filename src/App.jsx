@@ -54,29 +54,32 @@ const App = () => {
   const { data: userData, isLoading: userLoading } = useUsercheckAuthQuery();
   const { data: driverData, isLoading: driverLoading } = useDrivercheckAuthQuery();
    const navigate=useNavigate()
-  console.log("driiii",userData);
-  console.log(driverData);
+
   
   
   useEffect(() => {
 
     if (userLoading || driverLoading) {
-      // Don't run if still loading
+     
       return;
     }
     if (userData?.success) {
+      console.log("success");
+      
       console.log("User Authenticated:", userData);
       dispatch(setauthenticated(userData.user)); // ✅ Store user data
     } else if (driverData?.success) {
       console.log("Driver Authenticated:", driverData);
       dispatch(setdriverAuthenticated(driverData.driver)); // ✅ Store driver data
     } else {
+      console.log("naviii");
+      
       navigate('/'); // Redirect to home if neither is authenticated
     }
    
    
     
-  }, [userData,driverData,userLoading ,driverLoading, dispatch,navigate]); // ✅ 
+  }, [userData,driverData,userLoading ,driverLoading, dispatch,navigate]); 
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 2000);

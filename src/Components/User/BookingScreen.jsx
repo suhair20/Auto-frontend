@@ -1,6 +1,7 @@
 import React, { useState,useEffect,useRef } from 'react'
 import { Link,useLocation } from "react-router-dom";
 import axios from 'axios';
+import socket from '../../services/socketio';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
@@ -20,119 +21,191 @@ function BookingScreen() {
     const userMarker = useRef(null);
     const locationstate=useLocation()
     const {query}=locationstate.state||{};
-    
+    const [activeDrivers, setActiveDrivers] = useState({});
     const [location, setLocation] = useState(null);
     const [destinationLocation, setDestinationLocation] = useState(null);
-  
-    useEffect(() => {
-      if (map.current) {
-        map.current.remove();
-      }
-      map.current = new mapboxgl.Map({
-        container: mapContainerRef.current,
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: [75.0017, 12.4996], // Default center
-        zoom: 5,
-      });
-  
-      map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
-  
-      // Convert user-entered location to coordinates
-      if (query) {
-        fetch(
-          `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?access_token=${mapboxgl.accessToken}`
-        )
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.features.length > 0) {
-              const [lng, lat] = data.features[0].center;
-  
-              // Move the map to the searched location
-              map.current.flyTo({ center: [lng, lat], zoom: 14 });
-  
-              // Add user-entered location marker
-              userMarker.current = new mapboxgl.Marker({ color: 'red' })
-                .setLngLat([lng, lat])
-                .setPopup(new mapboxgl.Popup().setText(query))
-                .addTo(map.current);
-  
-              // Add dummy auto-rickshaw markers nearby
-              addDummyAutos(map.current, lng, lat);
-            }
-          })
-          .catch((err) => console.error('Error fetching location:', err));
-      }
-    }, [query]);
-  
-    const accessToken = mapboxgl.accessToken; // Replace with your Mapbox token
 
-    // Function to add dummy autos and fetch route from user location
-    const addDummyAutos = (mapInstance, userLng, userLat) => {
-      const dummyDrivers = [
-        { lng: userLng + 0.01, lat: userLat + 0.01 },
-        { lng: userLng - 0.01, lat: userLat - 0.01 },
-        { lng: userLng + 0.008, lat: userLat - 0.004 },
-        { lng: userLng + 0.008, lat: userLat - 0.009 },
-        { lng: userLng + 0.008, lat: userLat - 0.005 },
-      ];
+
+
+
+const driverMarkers = {}; 
+const driverRoutes = {};
+
+const storedRideDetails = localStorage.getItem('rideDetails');
+if (storedRideDetails) {
+  const rideDetails = JSON.parse(storedRideDetails);
+  console.log('Ride Details:', rideDetails);
+} else {
+  console.log('No ride details found in localStorage.');
+}
+
+// 2. Function to add a driver marker
+const addDriverMarker = (driverId, lng, lat) => {
+  const marker = new mapboxgl.Marker({ element: createAutoIcon() }) // using auto icon
+    .setLngLat([lng, lat])
+    .setPopup(new mapboxgl.Popup().setText("Auto Rickshaw"))
+    .addTo(map.current);
+
+  driverMarkers[driverId] = marker; // Save marker
+};
+
+// 3. Function to remove driver marker
+const removeDriverMarker = (driverId) => {
+  if (driverMarkers[driverId]) {
+    driverMarkers[driverId].remove(); // Remove from map
+    delete driverMarkers[driverId];    // Delete from memory
+  }
+
+  const layerId=driverRoutes[driverId]
+  if(layerId &&map.current.getLayer(layerId)){
+    map.current.removeLayer(layerId) 
+  }
+  if(layerId&&map.current.getSource(layerId)){
+    map.current.removeSource(layerId)
+  }
+  delete driverRoutes[driverId]
+
+};
+
+const updateDriverMarkers = (activeDrivers) => {
+  Object.entries(activeDrivers).forEach(([driverId, driver]) => {
+    if (driverId !== 'undefined' && !driverMarkers[driverId]) {
+      addDriverMarker(driverId, driver.lng, driver.lat);
+
+      // Now draw route from user to this driver
+      if (userMarker.current) {
+        const [userLng, userLat] = userMarker.current.getLngLat().toArray();
+        fetchRoute(map.current, userLng, userLat, driver.lng, driver.lat, driverId);
+      }
+    }
+  });
+
+  Object.keys(driverMarkers).forEach((driverId) => {
+    console.log("koi");
+    console.log("driverId",driverId);
+    console.log("active",activeDrivers);
     
-      dummyDrivers.forEach(({ lng, lat }, index) => {
-        // Add auto-rickshaw marker
-        new mapboxgl.Marker({ element: createAutoIcon() })
-          .setLngLat([lng, lat])
-          .setPopup(new mapboxgl.Popup().setText("Auto Rickshaw"))
-          .addTo(mapInstance);
     
-        // Fetch the route from the user to the auto
-        fetchRoute(mapInstance, userLng, userLat, lng, lat, index);
-      });
-    };
+    if (!(driverId in activeDrivers)) {
+      console.log("hh");
+      
+      removeDriverMarker(driverId);
+    }
+  });
+};
+
+
+// 5. When user searches, load map and add dummy autos
+useEffect(() => {
+  if (map.current) {
+    map.current.remove();
+  }
+  map.current = new mapboxgl.Map({
+    container: mapContainerRef.current,
+    style: 'mapbox://styles/mapbox/streets-v11',
+    center: [75.0017, 12.4996],
+    zoom: 5,
+  });
+
+  map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
+
+  if (query) {
+    console.log(query);
     
-    // Function to fetch the route using Mapbox Directions API
-    const fetchRoute = (mapInstance, startLng, startLat, endLng, endLat, index) => {
-      const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${startLng},${startLat};${endLng},${endLat}?geometries=geojson&access_token=${accessToken}`;
-    
-      fetch(url)
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.routes.length > 0) {
-            const routeData = {
-              type: "Feature",
-              geometry: data.routes[0].geometry, // Get road-following path
-            };
-    
-            // Add the route as a layer
-            mapInstance.addLayer({
-              id: `route-${index}`, // Unique ID for each route
-              type: "line",
-              source: {
-                type: "geojson",
-                data: routeData,
-              },
-              layout: {
-                "line-join": "round",
-                "line-cap": "round",
-              },
-              paint: {
-                "line-color": "green", // Red color for the route
-                "line-width": 3, // Make it visible
-                "line-opacity": 0.9, // Slight transparency
-              },
-            });
-          }
-        })
-        .catch((err) => console.error("Error fetching route:", err));
-    };
-  
-    // Function to create an auto-rickshaw icon
-    const createAutoIcon = () => {
-      const auto = document.createElement('img');
-      auto.src = './banner.png'; // Replace with an actual auto icon
-      auto.style.width = '20px';
-      auto.style.height = '20px';
-      return auto;
-    };
-  
+    fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?access_token=${mapboxgl.accessToken}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.features.length > 0) {
+          const [lng, lat] = data.features[0].center;
+
+          map.current.flyTo({ center: [lng, lat], zoom: 14 });
+
+          userMarker.current = new mapboxgl.Marker({ color: 'red' })
+            .setLngLat([lng, lat])
+            .setPopup(new mapboxgl.Popup().setText(query))
+            .addTo(map.current);
+
+            updateDriverMarkers(activeDrivers);
+        }
+      })
+      .catch((err) => console.error('Error fetching location:', err));
+  }
+}, [query]);
+
+// 6. Listen to socket driver updates
+useEffect(() => {
+  socket.on('updateDrivers', (activeDrivers) => {
+
+    console.log("active drivers ", activeDrivers);
+ 
+    if (map.current) {
+      setActiveDrivers(activeDrivers)
+      updateDriverMarkers(activeDrivers);
+    }
+  });
+
+  return () => {
+    socket.off('updateDrivers'); // 👈 Correct way to remove listener, not disconnect whole socket
+  };
+}, []);
+
+// 7. Create auto rickshaw marker icon
+const createAutoIcon = () => {
+  const auto = document.createElement('img');
+  auto.src = './banner.png'; // Make sure correct path (check public folder)
+  auto.style.width = '20px';
+  auto.style.height = '20px';
+  return auto;
+};
+
+// 8. Function to fetch route if needed
+const fetchRoute = (mapInstance, startLng, startLat, endLng, endLat, driverId) => {
+  const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${startLng},${startLat};${endLng},${endLat}?geometries=geojson&access_token=${mapboxgl.accessToken}`;
+
+  fetch(url)
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.routes.length > 0) {
+        const routeData = {
+          type: "Feature",
+          geometry: data.routes[0].geometry,
+        };
+
+        const layerId = `route-${driverId}`;
+
+        if (mapInstance.getLayer(layerId)) {
+          mapInstance.removeLayer(layerId);
+        }
+        if (mapInstance.getSource(layerId)) {
+          mapInstance.removeSource(layerId);
+        }
+
+        mapInstance.addSource(layerId, {
+          type: "geojson",
+          data: routeData,
+        });
+
+        mapInstance.addLayer({
+          id: layerId,
+          type: "line",
+          source: layerId,
+          layout: {
+            "line-join": "round",
+            "line-cap": "round",
+          },
+          paint: {
+            "line-color": "green",
+            "line-width": 3,
+            "line-opacity": 0.9,
+          },
+        });
+
+        driverRoutes[driverId] = layerId;
+      }
+    })
+    .catch((err) => console.error("Error fetching route:", err));
+};
+
     return( 
       <>
       <div className=' bg-gradient-to-br from-green-600 to-gray-800 text-white        '   >
@@ -173,9 +246,9 @@ function BookingScreen() {
       >
         {/* Duplicate the list to create a seamless loop */}
         <ul className="text-white flex space-x-4">
-          {['Ashwin', 'Askar', 'Manoj', 'Rheem', 'Achu'].map((name, index) => (
+          {Object.entries(activeDrivers).map(([driverId,driver], index) => (
             
-<Link to={`/booking/detials/${name}`} key={`duplicate-${index}`}>
+           <Link to={`/booking/detials/${driverId}`} key={`duplicate-${index}`}>
 
             <li
               key={index}
@@ -188,9 +261,9 @@ function BookingScreen() {
               }
             >
               <div className="bg-gray-800 rounded-full h-16 w-16 flex items-center justify-center">
-                <span className="text-white font-bold text-xl">{name.charAt(0)}</span>
+                <span className="text-white font-bold text-xl">{driver.drivername.charAt(0)}</span>
               </div>
-              <h1 className="text-lg font-semibold">{name}</h1>
+              <h1 className="text-lg font-semibold">{driver.drivername}</h1>
               <h1 className="text-sm font-medium text-gray-600 whitespace-nowrap">{`${index * 200 + 100} meters`}</h1>
               <button className="navbar-color text-white text-xs sm:text-sm px-2 md:px-3 py-1 rounded hover:bg-green-950 whitespace-nowrap">
                 Book now
@@ -205,7 +278,7 @@ function BookingScreen() {
     {/* Duplicate for seamless rotation */}
     <ul className="text-white flex space-x-4">
       {['Ashwin', 'Askar', 'Manoj', 'Rheem', 'Achu'].map((name, index) => (
-         <Link to={`/booking/detials${name.toLowerCase()}`} key={`duplicate-${index}`}>
+         <Link to={`/booking/detials/${name}`} key={`duplicate-${index}`}>
 
         <li
           key={`duplicate-${index}`}

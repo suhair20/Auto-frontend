@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'; // ✅ Import Redux Provider
 import { RouterProvider } from 'react-router-dom';
 import store from './slices/Store'; // ✅ Import Redux store
 import router from './Routes/Routes';
+
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(

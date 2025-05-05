@@ -55,6 +55,20 @@ export const userSlice=createApi({
         url:'/user/logout',
         method:'POST'
       })
+     }),
+     CreateOrder:builder.mutation({
+      query:(orderdata)=>({
+        url:'/user/createOrder',
+        method:'POST',
+        body:orderdata
+      })
+     }),
+     verifypayment:builder.mutation({
+      query:(data)=>({
+        url:'/user/verifypayment',
+        method:'POST',
+        body:data
+      })
      })
    }),
   
@@ -62,5 +76,5 @@ export const userSlice=createApi({
    
 })
 
-export const {useSignupMutation,useOtpMutation,useResendotpMutation,useLoginMutation,useUsercheckAuthQuery,useUserLogotMutation}=userSlice
+export const {useSignupMutation,useOtpMutation,useResendotpMutation,useLoginMutation,useUsercheckAuthQuery,useUserLogotMutation,useCreateOrderMutation}=userSlice
 

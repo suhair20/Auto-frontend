@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect,useRef} from 'react';
 import { useSelector } from 'react-redux';
+
 import mapboxgl from 'mapbox-gl';
-import { FaBars, FaTachometerAlt, FaUsers, FaCar, FaCog } from 'react-icons/fa'; // Example icons
+import { FaBars, FaTachometerAlt,  FaCog } from 'react-icons/fa'; // Example icons
   import Footer from './Footer'
 import { Link } from 'react-router-dom';
 import { FaHistory } from 'react-icons/fa';
 import { FaMoneyCheckAlt } from 'react-icons/fa';
 import { FaUser,FaInfoCircle } from 'react-icons/fa';
 import { FaMoneyBillWave, FaUserTie, FaTaxi,FaChartLine } from 'react-icons/fa';
+import RideRequestModal from './RideRequest';
 import {
   LineChart,
   Line,
@@ -19,7 +21,7 @@ import {
   ResponsiveContainer
 } from 'recharts';
 import io from 'socket.io-client'
-import { useEffect } from 'react';
+
   const socket= io('http://localhost:5000')
 
   mapboxgl.accessToken = 'pk.eyJ1IjoibW9pZGhlZW5zdWhhaXIiLCJhIjoiY2x6YjF1cWNyMGJlMjJyb29hZ240Zmk4ayJ9.58Mg37vr5SeKrBWZtAQ2xQ'
@@ -36,42 +38,94 @@ function Dashboard() {
   const [isActive,setIsActive]=useState(false)    
   const [isOpen, setIsOpen] = useState(true); 
   const [location,setlocation]=useState(true)
-  
+  const [modalOpen,setModalOpen]=useState(false)
+  const [rideDetails,setRideDetails]=useState('')
+  const [driverId,setdriverid]=useState('')
  const user = useSelector((state)=>state.driverAuth.user)
 
-  
-useEffect(()=>{
-  let locationInterval;
-  console.log("heloo");
+ socket.on('rideRequest', (rideDetails,driverId) => {
+  // Handle the incoming ride request
+  console.log('Received ride request:', rideDetails,driverId);
+  if(rideDetails&&driverId){
+    setdriverid(driverId)
+    setRideDetails(rideDetails)
+    setModalOpen(true)
 
-  if(isActive){
-    console.log('act');
-    
-    locationInterval=setInterval(()=>{
-      console.log("2");
-      
-      if(navigator.geolocation){
-        console.log("not");
-        
-        navigator.geolocation.getCurrentPosition((position)=>{
-          console.log(position);
-          
-          const {latitude ,longitude}=position.coords;
-          
-         const driverId=user?._id
-          console.log(driverId,"holl");
-          
-          socket.emit('driverLocation',{latitude,longitude, driverId})
-        })
-      }
-    },5000)
-  }else{
-    clearInterval(locationInterval);
-    socket.emit('driverInactive',{driverId:"jhh"})
   }
-  return ()=>clearInterval(locationInterval)
+  
+});
 
-},[isActive]);
+const handledriverClose=()=>{
+  setModalOpen(false)
+  socket.emit('driverRespons',{
+    driverId:driverId,
+    rideId: rideDetails.rideId,
+    status:'rejected '
+  })
+   }
+
+ const handleDriverAccepted = () => {
+   setModalOpen(false);
+    socket.emit('driverRespons',{
+      driverId:driverId,
+      rideId:rideDetails.rideId,
+      status:'Accepted'
+    })
+   console.log("Driver accepted! Redirecting to payment...");
+ };
+  
+ 
+
+ 
+   const locationIntervalRef = useRef(null);
+ 
+   useEffect(() => {
+   
+ 
+     if (isActive) {
+      
+ 
+       locationIntervalRef.current = setInterval(() => {
+        
+ 
+         if (navigator.geolocation) {
+           navigator.geolocation.getCurrentPosition((position) => {
+             const { latitude, longitude } = position.coords;
+             const driverId = user?._id;
+             const drivername=user?.name
+ 
+             if (driverId) {
+              
+               socket.emit('driverLocation', { latitude, longitude, driverId ,drivername});
+             }
+           });
+         }
+       }, 5000);
+     } else {
+       const driver = user?._id;
+      
+       // Clear interval immediately
+       if (locationIntervalRef.current) {
+         clearInterval(locationIntervalRef.current);
+         locationIntervalRef.current = null;
+       }
+ 
+       if (driver) {
+         socket.emit('driverInactive', {driverId:driver});
+       }
+     }
+ 
+     // Cleanup on unmount or change
+     return () => {
+       if (locationIntervalRef.current) {
+         clearInterval(locationIntervalRef.current);
+         locationIntervalRef.current = null;
+       }
+     };
+   }, [isActive, user, socket]);
+ 
+  
+ 
 
 
   const toggleSidebar = () => {
@@ -291,7 +345,12 @@ useEffect(()=>{
 
      </div>  
          
-
+     <RideRequestModal
+        isOpen={modalOpen}
+        onReject={handledriverClose}
+        onAccept={handleDriverAccepted}
+        rideDetails={rideDetails}
+      />
 
     
 

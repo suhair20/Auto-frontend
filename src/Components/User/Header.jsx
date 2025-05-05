@@ -120,8 +120,8 @@ function Header() {
          </>
           
         ):(
-          <li className="     md:px-52" >
-         <a href="#" className="relative font-passion after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-full  after:rounded after:h-[3px] after:bg-lime-900 after:animate-[underline_1.5s_infinite]">
+          <li className=" text-sm    md:px-52" >
+         <a href="#"  className="relative font-passion after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-full  after:rounded after:h-[2px] after:bg-lime-900 after:animate-[underline_1.5s_infinite]">
   Ride
 </a>
         </li>

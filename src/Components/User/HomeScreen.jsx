@@ -16,6 +16,7 @@ import  Login from './Login';
 
 
 
+
 import {Modal } from "react-bootstrap"
 import { accessToken } from 'mapbox-gl';
 import { Link } from 'react-router-dom';
@@ -31,14 +32,20 @@ function HomeScreen() {
 
   const Navigate =useNavigate()
   const [query, setQuery] = useState('');
+
   const [DestinationQuery,setDestinationQuery]=useState('')
   const [suggestions,setSuggestions]=useState()
+
   const [loginOpen,setLoginOpen]=useState(false)
+
   const [DestinationSuggestion,setDestinationSuggestion]=useState()
+
   const [showSuggestion, setShowSuggestion] = useState(false);
   const [showDestinationSuggestion,setshowDestinationSuggestion]=useState(false)
+
   const [showMapModal, setShowMapModal] = useState(false);
   const [location, setLocation] = useState(null);
+  
   const [Destinationlocation,setDestinationlocation]=useState(false)
   const [IsDestinationselection,setIsDestinationselection]=useState(false)
   const [ErrorMessage,setErrorMessage]=useState('')
@@ -47,6 +54,16 @@ function HomeScreen() {
   const userMarker = useRef(null);
   const selectedMarker=useRef(null)
    const {isAuthenticated}=useSelector((state)=>state.auth)
+
+
+
+
+
+   useEffect(() => {
+    localStorage.removeItem('rideDetails');
+  }, []);
+
+
 
   useEffect(() => {
     if (query.length > 2) {
@@ -154,6 +171,104 @@ function HomeScreen() {
     setDestinationQuery(suggestion); 
     setDestinationSuggestion([]);
   }
+
+  function calculateKeralaAutoFare(distanceKm, waitingMinutes = 0, isNight = false) {
+    const baseFare = 30; // ₹30 for the first 1.5 km
+    const baseDistance = 1.5; // in kilometers
+    const perKmRate = 15; // ₹15 per km beyond base distance
+    const waitingChargePer15Min = 10; // ₹10 per 15 minutes
+    const nightChargeMultiplier = 1.5; // 50% extra during night hours
+  
+    let fare = 0;
+  
+    if (distanceKm <= baseDistance) {
+      fare = baseFare;
+    } else {
+      const extraDistance = distanceKm - baseDistance;
+      fare = baseFare + (extraDistance * perKmRate);
+    }
+  
+    // Calculate waiting charges
+    const waitingCharge = Math.ceil(waitingMinutes / 15) * waitingChargePer15Min;
+    fare += waitingCharge;
+  
+    // Apply night charges if applicable
+    if (isNight) {
+      fare *= nightChargeMultiplier;
+    }
+  
+    return fare.toFixed(2); // Returns fare as a string with two decimal places
+  }
+  
+
+  async function getCoordinatesFromPlaceName(placeName) {
+    const response = await fetch(
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(placeName)}.json?access_token=${mapboxgl.accessToken}`
+    );
+    const data = await response.json();
+    if (data.features && data.features.length > 0) {
+      const [lng, lat] = data.features[0].center;
+      return [lng, lat];
+    } else {
+      throw new Error("Geocoding failed: No results found");
+    }
+  }
+  
+
+  const getRouteDetails = async (origin, destination) => {
+    try {
+      const response = await axios.get(
+        `https://api.mapbox.com/directions/v5/mapbox/driving/${origin[0]},${origin[1]};${destination[0]},${destination[1]}`,
+        {
+          params: {
+            access_token: mapboxgl.accessToken,
+            geometries: 'geojson',
+          },
+        }
+      );
+  
+      const route = response.data.routes[0];
+      const distanceInKm = route.distance / 1000; // Convert meters to kilometers
+      const durationInMinutes = route.duration / 60; // Convert seconds to minutes
+       const waitingTime=0
+       const isNightTime=false
+    console.log(`Distance: ${distanceInKm.toFixed(2)} km`);
+      console.log(`Duration: ${durationInMinutes.toFixed(2)} minutes`);
+      const totalFare = calculateKeralaAutoFare(distanceInKm, waitingTime, isNightTime);
+
+      const advancePaymentPercentage = 0.3; // Example: 30% of the total fare is the advance
+      const advancePayment = totalFare * advancePaymentPercentage;
+      const remainingFare = totalFare - advancePayment;
+
+       
+
+      const rideId = crypto.randomUUID();
+      const rideDetails = {
+        rideId,
+        origin: {
+          name: query,
+          coordinates: origin
+        },
+        destination: {
+          name: DestinationQuery,
+          coordinates: destination
+        },
+        distanceKm: distanceInKm.toFixed(2),
+       durationMinutes: durationInMinutes.toFixed(2),
+       fare: totalFare,
+       advancePayment: advancePayment.toFixed(2),
+       remainingFare: remainingFare.toFixed(2)
+      };
+      
+      localStorage.setItem('rideDetails', JSON.stringify(rideDetails));
+      
+     
+    } catch (error) {
+      console.error('Error fetching route details:', error);
+    }
+  };
+  
+  
   
 
 
@@ -165,7 +280,7 @@ function HomeScreen() {
       }
       map.current = new mapboxgl.Map({
         container: mapContainerRef.current,
-        style: 'mapbox://styles/mapbox/streets-v11',
+        style: 'mapbox://styles/mapbox/navigation-night-v1',
         center: [75.0017, 12.4996], // Default center, you can change this
         zoom: 12,
       });
@@ -281,22 +396,34 @@ const handleConfirmlocation=async()=>{
   setShowSuggestion(false)
 }
 
-const handleStart=(e)=>{
-  e.preventDefault( )
-  try {
-    if(!query&& !DestinationQuery){
-      setErrorMessage('Please select both the location and destination.');
-    }else if(!isAuthenticated){
-      setErrorMessage('')
-      setLoginOpen(true)
-    }else{
-      setErrorMessage('')
-      Navigate('/booking',{state:{query}})
-    }
-  } catch (error) {
-    console.error( error);
+const handleStart = async (e) => {
+  e.preventDefault();
+
+  if (!query || !DestinationQuery) {
+    setErrorMessage('Please select both the location and destination.');
+    return;
   }
-}
+
+  if (!isAuthenticated) {
+    setErrorMessage('');
+    setLoginOpen(true);
+    return;
+  }
+
+  setErrorMessage('');
+
+  try {
+    // Assuming you have functions to get coordinates from place names
+    const originCoords = await getCoordinatesFromPlaceName(query);
+    const destinationCoords = await getCoordinatesFromPlaceName(DestinationQuery);
+
+    await getRouteDetails(originCoords, destinationCoords);
+
+    Navigate('/booking', { state: { query } });
+  } catch (error) {
+    console.error('Error during booking initiation:', error);
+  }
+};
 
 
 

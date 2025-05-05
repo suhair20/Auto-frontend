@@ -1,7 +1,36 @@
 import React from 'react'
 import Footer from './Footer'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { useDriverlogoutMutation } from '../../slices/driverSlice'
+import { logout } from '../../slices/Auth.slice'
 
 function Profile() {
+
+
+  
+ const dispatch =useDispatch()
+ const navigate=useNavigate()
+const [driverlogout]=useDriverlogoutMutation()
+
+
+const logouthandler =async ()=>{
+
+  try {
+
+    const response=await driverlogout()
+     
+    if(response?.data?.success){
+       dispatch(logout())
+       navigate('/driver')
+    }
+    
+  } catch (error) {
+    console.log(error);
+    
+  }
+}
+
   return (
     <div  className='items-center justify-center' >
       
@@ -59,9 +88,11 @@ function Profile() {
       <div 
  
   className='border-b px-4 py-1 rounded shadow-md border  transition duration-300 ease-in-out    hover:bg-red-900  hover:text-white cursor-pointer'
-  
+  onClick={logouthandler} 
 >
+  
         <h3 className='font-semibold text-xl'>Logout</h3>
+        
         <p className='text-sm opacity-80'>Click here to log out of your account</p>
       </div>
     

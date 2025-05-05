@@ -2,14 +2,14 @@ import React from 'react'
 import Header from './Header'
 import Footer from './Footer'
 import { useDispatch } from "react-redux";
-import { useNavigate} from "react-router-dom";
+import { Navigate} from "react-router-dom";
 import { logout } from "../../slices/Auth.slice";
 import { useUserLogotMutation } from '../../slices/userSlice';
 
 function Profile() {
 
 
-  const  navigate=useNavigate()
+  const  navigate=Navigate()
   const dispatch=useDispatch()
    const [userLogout]=useUserLogotMutation()
  

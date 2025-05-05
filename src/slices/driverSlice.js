@@ -53,13 +53,20 @@ export const driverSlice=createApi({
             method:'GET'
         })
        }),
-       dlogout:builder.mutation({
+       driverlogout:builder.mutation({
         query:()=>({
             url:'/driver/logout',
             method:'POST'
         })
+       }),
+
+       driverdetials:builder.query({
+         query:(driverId)=>({
+            url:`/driver/driverdetials/${driverId}`,
+            method:'GET'
+         })
        })
     })
 })
 
-export const {useSignupMutation,useOtpMutation,useResendotpMutation,useVerificationMutation,useDriverLoginMutation,useDrivercheckAuthQuery}=driverSlice
+export const {useSignupMutation,useOtpMutation,useResendotpMutation,useVerificationMutation,useDriverLoginMutation,useDrivercheckAuthQuery,useDriverlogoutMutation,useDriverdetialsQuery}=driverSlice

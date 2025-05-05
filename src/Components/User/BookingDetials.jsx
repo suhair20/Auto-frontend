@@ -1,13 +1,18 @@
 
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import React from 'react'
 import Header from './Header'
-import { useParams,useNavigate } from 'react-router-dom';
-import { Star } from 'lucide-react';
+import { useParams,useNavigate, json } from 'react-router-dom';
+import { Currency, Star } from 'lucide-react';
 import banner from '../../assets/public/images/banner.png';
 import banner2 from '../../assets/public/images/banner2.jpg';
 import Footer from './Footer';
+import socket from '../../services/socketio';
 import RideRequestModal from './RideRequestamaodal';
+import { useDriverdetialsQuery } from "../../slices/driverSlice";
+import { useCreateOrderMutation } from "../../slices/userSlice";
+
+
 
 function BookingDetials({ ratings =  {
   1: 3,  
@@ -20,23 +25,109 @@ function BookingDetials({ ratings =  {
      const {driverId}=useParams()
 
      const [modalOpen, setModalOpen] = useState(false);
+     const [noDriver, setNoDriver] = useState(false);
      const navigate = useNavigate() 
+     const [rideDetails, setRideDetails] = useState(null);
+     const [CreateOrder] = useCreateOrderMutation();
+
+
+
+    const  verifypeymnet=()=>{
+      
+    }
+
+
+
      
-     
+  useEffect(() => {
+    const storedRideDetails = localStorage.getItem('rideDetails');
+    if (storedRideDetails) {
+      setRideDetails(JSON.parse(storedRideDetails));
+    }
+
+
+    const handleDriverResponse = (data) => {
+      if (data.status === 'Accepted') {
+        setModalOpen(false);
+        handleDriverAccepted(); // triggers payment
+      } else if (data.status === 'Rejected') {
+        setNoDriver(true);
+      }
+    };
+  
+    socket.on('driverResponded', handleDriverResponse);
+  
+    return () => socket.off('driverResponded', handleDriverResponse);
+  }, []);
+
+
+
+  
+
+
      const handleRequestRide = () => {
+      socket.emit( 'sent_ride_req', {
+       driverId:driverId,
+       rideDetails:rideDetails
+      }) 
        setModalOpen(true);
      };
 
 
-     const handledriverClose=()=>{
-      setModalOpen(false)
-       }
+    
    
-     const handleDriverAccepted = () => {
-       setModalOpen(false);
-       
-       console.log("Driver accepted! Redirecting to payment...");
+     const handleDriverAccepted =async () => {
+      
+      try {
+        const storedRideDetails = localStorage.getItem('rideDetails');
+        if (!storedRideDetails) throw new Error("No ride details found");
+    
+        const parsedDetails = JSON.parse(storedRideDetails);
+        console.log('ride details:', parsedDetails);
+    
+        setModalOpen(false);
+    
+        const orderResponse = await CreateOrder({ amount: parsedDetails.advancePayment, currency: 'INR' });
+        const order=orderResponse.data
+      
+    const options = {
+      key: 'rzp_test_GUwK0qBukL0t4v', // NOT SECRET
+      amount:  order.amount,
+      currency: 'INR',
+      name: 'Auto - Advance Ride Payment',
+      description: 'Auto ride payment',
+      order_id:  order.id,
+      handler: function (response) {
+        console.log('Payment success:', response);
+          verifypeymnet()
+        // Optionally: send response to backend to verify payment
+      },
+      prefill: {
+        name: 'User Name',
+        email: 'user@example.com',
+        contact: '9999999999',
+      },
+      theme: {
+        color: '#33cc99',
+      },
+     
+    };
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+         console.log("Driver accepted! Redirecting to payment...");
+        
+      } catch (error) {
+        console.error('Payment error:', error);
+      }
+
+ 
      };
+
+
+
+     const {data:driver}=useDriverdetialsQuery(driverId)
+     console.log(driver);
+     
 
 
   return (
@@ -53,15 +144,14 @@ function BookingDetials({ ratings =  {
                 <div className=' bg-gradient-to-tr from-green-800 to-gray-800   rounded md:w-1/2 md:flex ' >
                     <div className='text-black md:flex-row  w-full' > 
                         <div className=' w-full px-4 flex items-center justify-center ' >
-                          <img src={banner2}  alt='Profile'  className='h-32 mt-2 md:h-52 w-32 md:w-52 rounded-full border border-black'    />
+                          <img src={driver?.Profileimage??banner2}  alt='Profile'  className='h-32 mt-2 md:h-52 w-32 md:w-52 rounded-full border border-black'    />
                         </div>
                    
                         <div className='text-white p-5 items-center justify-center  flex w-full' >
                            <div className='w-full flex-col  items-center justify-center flex  ' >
                            
-                             <span className=' font-serif text-3xl ' >{driverId} </span>
-                             <p className=' font-serif text-2xl ' >Bajaj</p>
-                             <p className='font-serif' >Experience : 5Year</p>
+                             <span className=' font-serif text-3xl ' >{driver?.name??'driverId'} </span>
+                            <p className='font-serif' >Experience:{driver?.Experience?driver.Experience : '5Year'}</p>
                              <div className=' w-full   flex flex-col items-center justify-center h-full' >
                                 
                                      
@@ -70,7 +160,7 @@ function BookingDetials({ ratings =  {
                                      </div>
 
                                      <div  className=' text-white text-center bg-black w-32 h-8 ' >
-                                      kl04536
+                                       {driver?.VehicleNumber??'kl04536'} 
                                      </div>
                                 
 
@@ -140,8 +230,8 @@ function BookingDetials({ ratings =  {
                       </div>
                       <div>
                         <div className='px-2' >
-                      <h1 className='text-gray-300 md:text-2xl ' >zuabir</h1>
-                       <p className='text-white text-xs '>its a nice driving</p>
+                      <h1 className='text-gray-300 md:text-2xl ' >manoj</h1>
+                       <p className='text-white text-xs '>its very late</p>
                        </div>
                        </div>
                     </div>
@@ -169,24 +259,24 @@ function BookingDetials({ ratings =  {
 
 
 
-                <div  className=' p-2 md:p-5  w-full   h-[200px]  md:h-[300px]' >
+                <div  className=' p-2 md:p-5  w-full   h-[400px]  md:h-[300px]' >
                   <div className='bg-gradient-to-r from-green-800 to-gray-800 rounded w-full h-full border ' >
                     <div className='w-full h-1/3  flex items-center justify-center  '  >
                     <div>
-                    <span className='font-semibold  text-white  md:text-lg text-sm relative flex  sm:flex-row items-center gap-x-2 after:content-[""] after:absolute after:left-0 after:bottom-0 after:w-full after:h-[2px] after:bg-white  after:animate-[underline_1.5s_infinite]'>
-                     <span>Kozhikode</span>
+                    <span className='font-semibold  text-white pb-2 px-4 md:text-sm text-sm relative flex  sm:flex-row items-center gap-x-6 after:content-[""] after:absolute after:left-0 after:bottom-0 after:w-full  after:h-[2px] after:bg-slate-300  after:animate-[underline_3.5s_infinite]'>
+                     <span>{rideDetails?.origin?.name || 'Origin'}</span>
                    <span className=" sm:inline">→</span> 
    
-                    <span>Kasargod</span>
+                    <span>{rideDetails?.destination?.name || 'Destination'}</span>
                     </span>
                     </div>
                     </div> 
-                    <div className='w-full h-0/3  flex items-center justify-center  ' >
+                    <div className='w-full h-0/3 mt-2 flex items-center justify-center  ' >
                     <div className='  bg-yellow-400 flex  w-32 h-14 rounded ' >
                       <div className=' w-1/2 h-14   ' >
                       <div  className=' text-white p-2 ' >
                        <h1>Auto</h1>
-                        <p>₹100</p>
+                        <p>{rideDetails?.fare || '100'}</p>
                         </div>
                       </div>
                       <div className='w-1/2  h-14 p-2 ' >
@@ -206,10 +296,13 @@ function BookingDetials({ ratings =  {
                        
                      </button>
                      <RideRequestModal
-        isOpen={modalOpen}
-        onClose={handledriverClose}
-        onDriverAccepted={handleDriverAccepted}
-      />
+  isOpen={modalOpen}
+  onClose={() => {
+    setModalOpen(false);
+    setNoDriver(false); // reset state when closing
+  }}
+  noDriver={noDriver}
+/>
                     </div>
                   </div>
                 </div>
