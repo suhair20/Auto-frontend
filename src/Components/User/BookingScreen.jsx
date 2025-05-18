@@ -1,5 +1,5 @@
 import React, { useState,useEffect,useRef } from 'react'
-import { Link,useLocation } from "react-router-dom";
+import { Link,useLocation,useNavigate } from "react-router-dom";
 import axios from 'axios';
 import socket from '../../services/socketio';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -8,6 +8,8 @@ import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import Header from './Header'
 import Footer from './Footer';
+import { useGetActiveDriversQuery } from '../../slices/driverSlice';
+import { useSelector } from "react-redux";
 
 
 
@@ -22,10 +24,17 @@ function BookingScreen() {
     const locationstate=useLocation()
     const {query}=locationstate.state||{};
     const [activeDrivers, setActiveDrivers] = useState({});
-    const [location, setLocation] = useState(null);
-    const [destinationLocation, setDestinationLocation] = useState(null);
+const navigate = useNavigate()
+    const {isAuthenticated}=useSelector((state)=>state.auth)
+    
+    useEffect(()=>{
+      if(!isAuthenticated){
+          navigate('/')
+      }
+    },[navigate,isAuthenticated])
 
 
+const { data, isLoading, isError } = useGetActiveDriversQuery();
 
 
 const driverMarkers = {}; 
@@ -114,9 +123,9 @@ useEffect(() => {
     
     fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?access_token=${mapboxgl.accessToken}`)
       .then((res) => res.json())
-      .then((data) => {
-        if (data.features.length > 0) {
-          const [lng, lat] = data.features[0].center;
+      .then((geodata) => {
+        if (geodata.features.length > 0) {
+          const [lng, lat] = geodata.features[0].center;
 
           map.current.flyTo({ center: [lng, lat], zoom: 14 });
 
@@ -125,29 +134,41 @@ useEffect(() => {
             .setPopup(new mapboxgl.Popup().setText(query))
             .addTo(map.current);
 
-            updateDriverMarkers(activeDrivers);
+            if (data?.drivers) {
+
+  setActiveDrivers(data.drivers);        // ✅ Set drivers
+  updateDriverMarkers(data.drivers);  
+  
+  // ✅ Now draw routes too
+}
         }
       })
       .catch((err) => console.error('Error fetching location:', err));
   }
 }, [query]);
 
+
+useEffect(() => {
+  if (map.current && data?.drivers) {
+    console.log('Initial drivers from API:', data.drivers);
+    setActiveDrivers(data.drivers);
+    
+  }
+}, [data, map.current]);
+
 // 6. Listen to socket driver updates
 useEffect(() => {
-  socket.on('updateDrivers', (activeDrivers) => {
+  if (!map.current) return;
 
-    console.log("active drivers ", activeDrivers);
- 
-    if (map.current) {
-      setActiveDrivers(activeDrivers)
-      updateDriverMarkers(activeDrivers);
-    }
+  socket.on('updateDrivers', (activeDrivers) => {
+    setActiveDrivers(activeDrivers);
+    updateDriverMarkers(activeDrivers);
   });
 
   return () => {
-    socket.off('updateDrivers'); // 👈 Correct way to remove listener, not disconnect whole socket
+    socket.off('updateDrivers');
   };
-}, []);
+}, [map.current]); // include map.current
 
 // 7. Create auto rickshaw marker icon
 const createAutoIcon = () => {
@@ -208,7 +229,7 @@ const fetchRoute = (mapInstance, startLng, startLat, endLng, endLat, driverId) =
 
     return( 
       <>
-      <div className=' bg-gradient-to-br from-green-600 to-gray-800 text-white        '   >
+      <div className=' bg-gradient-to-l from-gray-800 via-green-700 to-gray-800 text-white        '   >
         
       <div className=" items-center justify-center">
       <div className='   sm:ml-7 sm:w-11/12 md:px-4 z-10 lg:ml-16   md:w-11/12 md:py-6 items-center justify-center animate-slide-down  '  >
@@ -232,7 +253,7 @@ const fetchRoute = (mapInstance, startLng, startLat, endLng, endLat, driverId) =
 </div>
         <div className="flex py-3  flex-col    "  >
          <div  className=' py-2   ' >
-          <h1  className='text-white md:text-4xl text-3xl text-center font-serif ' >Meet your Drivers </h1>
+          <h1  className='text-white md:text-2xl text-2xl text-center font-serif ' >Meet your Drivers </h1>
           </div>
           <div className=" naavfabr items-center justify-center rounded shadow-md p-3 w-5/6 md:w-2/4 lg:w-4/4 mx-auto ">
       
@@ -244,7 +265,46 @@ const fetchRoute = (mapInstance, startLng, startLat, endLng, endLat, driverId) =
       <div className="flex w-[calc(5*150px)] gap-3  animate-slide transition-transform duration-500"
         id="slider"
       >
-        {/* Duplicate the list to create a seamless loop */}
+        
+         
+    <ul className="text-white flex space-x-4">
+      {['Ashwin', 'Askar', 'Manoj', 'Rheem', 'Achu'].map((name, index) => (
+         <Link to={`/booking/detials/${name}`} key={`duplicate-${index}`}>
+
+        <li
+          key={`duplicate-${index}`}
+          className="flex flex-col items-center justify-between p-3 bg-white shadow-lg rounded-lg text-black md:w-44 space-y-2 md:space-y-4 relative  "
+          onMouseEnter={(e) =>
+            e.currentTarget.parentElement.parentElement.classList.add('animate-play-paused')
+          }
+          onMouseLeave={(e) =>
+            e.currentTarget.parentElement.parentElement.classList.remove('animate-play-paused')
+          }
+         >
+          <div className="bg-gray-800 rounded-full h-16 w-16 flex items-center justify-center">
+            <span className="text-white font-bold text-xl">{name.charAt(0)}</span>
+          </div>
+          <h1 className="text-lg font-semibold">{name}</h1>
+          <h1 className="text-sm font-medium text-gray-600 whitespace-nowrap">{`${index * 200 + 100} meters`}</h1>
+          <button className="navbar-color text-white text-xs sm:text-sm px-2 md:px-3 py-1 rounded hover:bg-green-950 whitespace-nowrap">
+            Book now
+          </button>
+        </li>
+        </Link>
+      ))}
+     
+    </ul>
+
+
+
+
+
+
+
+
+
+
+        
         <ul className="text-white flex space-x-4">
           {Object.entries(activeDrivers).map(([driverId,driver], index) => (
             
@@ -275,34 +335,10 @@ const fetchRoute = (mapInstance, startLng, startLat, endLng, endLat, driverId) =
 
 
 
-    {/* Duplicate for seamless rotation */}
-    <ul className="text-white flex space-x-4">
-      {['Ashwin', 'Askar', 'Manoj', 'Rheem', 'Achu'].map((name, index) => (
-         <Link to={`/booking/detials/${name}`} key={`duplicate-${index}`}>
+  
 
-        <li
-          key={`duplicate-${index}`}
-          className="flex flex-col items-center justify-between p-3 bg-white shadow-lg rounded-lg text-black md:w-44 space-y-2 md:space-y-4 relative  "
-          onMouseEnter={(e) =>
-            e.currentTarget.parentElement.parentElement.classList.add('animate-play-paused')
-          }
-          onMouseLeave={(e) =>
-            e.currentTarget.parentElement.parentElement.classList.remove('animate-play-paused')
-          }
-         >
-          <div className="bg-gray-800 rounded-full h-16 w-16 flex items-center justify-center">
-            <span className="text-white font-bold text-xl">{name.charAt(0)}</span>
-          </div>
-          <h1 className="text-lg font-semibold">{name}</h1>
-          <h1 className="text-sm font-medium text-gray-600 whitespace-nowrap">{`${index * 200 + 100} meters`}</h1>
-          <button className="navbar-color text-white text-xs sm:text-sm px-2 md:px-3 py-1 rounded hover:bg-green-950 whitespace-nowrap">
-            Book now
-          </button>
-        </li>
-        </Link>
-      ))}
-     
-    </ul>
+
+
    
 
   </div>

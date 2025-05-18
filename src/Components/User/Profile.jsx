@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect, } from 'react'
+import { useSelector } from "react-redux";
 import Header from './Header'
 import Footer from './Footer'
 import { useDispatch } from "react-redux";
@@ -12,7 +13,13 @@ function Profile() {
   const  navigate=Navigate()
   const dispatch=useDispatch()
    const [userLogout]=useUserLogotMutation()
- 
+ const {isAuthenticated}=useSelector((state)=>state.auth)
+     
+     useEffect(()=>{
+       if(!isAuthenticated){
+           navigate('/')
+       }
+     },[navigate,isAuthenticated])
 
   const logouthandler=async()=>{
    

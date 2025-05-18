@@ -69,6 +69,20 @@ export const userSlice=createApi({
         method:'POST',
         body:data
       })
+     }),
+     Ridehistory:builder.query({
+      query:()=>({
+       url:'/user/ridehistory',
+       method:'GET'
+     })
+     }),
+
+     trackingdeatials:builder.query({
+     query:(rideId)=>({
+      url:`user/trackingdeatials?rideId=${rideId}`,
+      method:'GET',
+      
+     })
      })
    }),
   
@@ -76,5 +90,16 @@ export const userSlice=createApi({
    
 })
 
-export const {useSignupMutation,useOtpMutation,useResendotpMutation,useLoginMutation,useUsercheckAuthQuery,useUserLogotMutation,useCreateOrderMutation}=userSlice
+export const {useSignupMutation,
+              useOtpMutation,
+              useResendotpMutation,
+              useLoginMutation,
+              useUsercheckAuthQuery,
+              useUserLogotMutation,
+              useCreateOrderMutation,
+              useVerifypaymentMutation,
+              useRidehistoryQuery,
+              useTrackingdeatialsQuery
+            
+            }=userSlice
 

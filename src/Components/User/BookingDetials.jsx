@@ -3,6 +3,7 @@ import { useState,useEffect } from "react";
 import React from 'react'
 import Header from './Header'
 import { useParams,useNavigate, json } from 'react-router-dom';
+import { skipToken } from "@reduxjs/toolkit/query";
 import { Currency, Star } from 'lucide-react';
 import banner from '../../assets/public/images/banner.png';
 import banner2 from '../../assets/public/images/banner2.jpg';
@@ -11,6 +12,9 @@ import socket from '../../services/socketio';
 import RideRequestModal from './RideRequestamaodal';
 import { useDriverdetialsQuery } from "../../slices/driverSlice";
 import { useCreateOrderMutation } from "../../slices/userSlice";
+import { useVerifypaymentMutation } from "../../slices/userSlice";
+import { useSelector } from "react-redux";
+
 
 
 
@@ -22,18 +26,62 @@ function BookingDetials({ ratings =  {
   5: 25  
 }}) {
   const totalRatings = Object.values(ratings).reduce((sum, count) => sum + count, 0);
-     const {driverId}=useParams()
 
+
+
+
+     const {driverId}=useParams()
+     const isValidId = /^[a-f\d]{24}$/i.test(driverId);
+
+      useEffect(() => {
+    if (!isValidId) {
+      setNoDriver(true);
+    }
+  }, [isValidId]);
+
+
+const navigate = useNavigate()
      const [modalOpen, setModalOpen] = useState(false);
      const [noDriver, setNoDriver] = useState(false);
-     const navigate = useNavigate() 
+    
      const [rideDetails, setRideDetails] = useState(null);
      const [CreateOrder] = useCreateOrderMutation();
+     const [verifypeymnet]=useVerifypaymentMutation()
+     const {user}=useSelector((state)=>state.auth);
+     const currentuserId=user?._id ;
+const {isAuthenticated}=useSelector((state)=>state.auth)
 
+useEffect(()=>{
+  if(!isAuthenticated){
+      navigate('/')
+  }
+},[navigate,isAuthenticated])
 
+    const  fuctionverifypeymnet=async(response)=>{
 
-    const  verifypeymnet=()=>{
+     try {
+      const Details=localStorage.getItem('rideDetails');
+          console.log('itscomr',Details);
+          
+      const res=await verifypeymnet({ 
+        razorpay_order_id: response.razorpay_order_id,
+        razorpay_payment_id: response.razorpay_payment_id,
+        razorpay_signature: response.razorpay_signature,
+        rideDetails: JSON.parse(Details)
+      })
+       console.log('fontres',res);
+       
+      if(res.data.success){
+          const rideDetails = JSON.parse(localStorage.getItem('rideDetails'));
+       const rideId = rideDetails?.rideId;
+        navigate(`/tracking/${rideId}`, { replace: true })
+      }
+   
       
+      
+     } catch (error) {
+      console.error('payemnt verification failed in front')
+     }
     }
 
 
@@ -47,10 +95,24 @@ function BookingDetials({ ratings =  {
 
 
     const handleDriverResponse = (data) => {
+
+      console.log("rejectteddeatials",data);
+      
       if (data.status === 'Accepted') {
+      
+        const storedRideDetailss=JSON.parse(localStorage.getItem('rideDetails')||'{}');
+        const updatedDetails={
+          ...storedRideDetailss,
+          driverId:data.driverId,
+          userId:currentuserId
+        }
+        localStorage.setItem('rideDetails', JSON.stringify(updatedDetails));
+
         setModalOpen(false);
-        handleDriverAccepted(); // triggers payment
-      } else if (data.status === 'Rejected') {
+        handleDriverAccepted(); 
+      } else if (data.status === 'rejected') {
+        console.log('rejected');
+        
         setNoDriver(true);
       }
     };
@@ -99,7 +161,8 @@ function BookingDetials({ ratings =  {
       order_id:  order.id,
       handler: function (response) {
         console.log('Payment success:', response);
-          verifypeymnet()
+
+        fuctionverifypeymnet(response)
         // Optionally: send response to backend to verify payment
       },
       prefill: {
@@ -125,13 +188,13 @@ function BookingDetials({ ratings =  {
 
 
 
-     const {data:driver}=useDriverdetialsQuery(driverId)
+     const {data:driver}=useDriverdetialsQuery(isValidId?driverId:skipToken)
      console.log(driver);
      
 
 
   return (
-    <div className=' bg-gradient-to-l from-green-600 to-gray-950   ' >
+    <div className=' bg-gradient-to-t from-green-600 to-gray-950   ' >
       <div className='   sm:ml-7 sm:w-11/12 md:px-4 z-10 lg:ml-16   md:w-11/12 md:py-6 items-center justify-center animate-slide-down  '  >
               <Header  />
      </div  >
@@ -150,7 +213,7 @@ function BookingDetials({ ratings =  {
                         <div className='text-white p-5 items-center justify-center  flex w-full' >
                            <div className='w-full flex-col  items-center justify-center flex  ' >
                            
-                             <span className=' font-serif text-3xl ' >{driver?.name??'driverId'} </span>
+                             <span className=' font-serif text-3xl ' >{driver?.name??'dummy driver'} </span>
                             <p className='font-serif' >Experience:{driver?.Experience?driver.Experience : '5Year'}</p>
                              <div className=' w-full   flex flex-col items-center justify-center h-full' >
                                 

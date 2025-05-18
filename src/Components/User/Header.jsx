@@ -42,10 +42,12 @@ function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-0  md:rounded">
-    <div className=" navbar-color bg-gradient-to-tr from-green-600 to-gray-800 h-12 flex justify-between sm:justify-end items-center sm:px-4 md:px-4 md:rounded">
+    <header className="sticky top-0 z-0  rounded">
+     
+    <div className=" navbar-color bg-gradient-to-tr from-green-600 to-gray-800 h-12 flex justify-between rounded-lg  sm:justify-end items-center sm:px-4 md:px-4 ">
+   
       <div className="   font-playball sm:absolute left-0 right-0 sm:mx-auto w-1/4">
-        Auto
+       Auto
       </div>
       {isAuthenticated?(
          
@@ -71,7 +73,7 @@ function Header() {
 
       )}
         <div
-  className={`absolute bg-white left-0 top-full w-full items-center px-5 
+  className={`absolute bg-white left-0 top-full w-full items-center px-5 rounded-sm
   ${isBookingPage ? "min-h-[1vh]" : isMenuOpen ? "min-h-[35vh]" : "md:min-h-[1vh]"}`}
   style={{ top: 'calc(100% + 0px)' }}
 >

@@ -65,8 +65,23 @@ export const driverSlice=createApi({
             url:`/driver/driverdetials/${driverId}`,
             method:'GET'
          })
-       })
+       }),
+       getActiveDrivers: builder.query({
+       query: () => ({
+        url: '/api/active-drivers',
+        method: 'GET',
+          }),
+      }),
     })
 })
 
-export const {useSignupMutation,useOtpMutation,useResendotpMutation,useVerificationMutation,useDriverLoginMutation,useDrivercheckAuthQuery,useDriverlogoutMutation,useDriverdetialsQuery}=driverSlice
+export const {useSignupMutation,
+    useOtpMutation,
+    useResendotpMutation,
+    useVerificationMutation,
+    useDriverLoginMutation,
+    useDrivercheckAuthQuery,
+     useDriverlogoutMutation,
+     useDriverdetialsQuery,
+     useGetActiveDriversQuery
+    }=driverSlice

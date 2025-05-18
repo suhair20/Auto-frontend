@@ -2,18 +2,18 @@ import React, { useEffect, useState } from 'react';
 
 const RideRequestModal = ( {isOpen, onAccept, onReject, rideDetails} ) => {
 
-  const [secondleft,setSecondleft]=useState(60)
+  const [secondleft,setSecondleft]=useState(20)
  
 
 useEffect(()=>{
   if(isOpen){
     
-    setSecondleft(60)
+    setSecondleft(20)
 
     const contdown=setInterval(()=>{
       setSecondleft((prev)=>{
         if(prev<=1){
-          onclose()
+          onReject()
           clearInterval(contdown)
           return 0
         }

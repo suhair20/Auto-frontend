@@ -41,6 +41,7 @@ function Dashboard() {
   const [modalOpen,setModalOpen]=useState(false)
   const [rideDetails,setRideDetails]=useState('')
   const [driverId,setdriverid]=useState('')
+  const [isRideAccepted, setIsRideAccepted] = useState(false);
  const user = useSelector((state)=>state.driverAuth.user)
 
  socket.on('rideRequest', (rideDetails,driverId) => {
@@ -60,7 +61,7 @@ const handledriverClose=()=>{
   socket.emit('driverRespons',{
     driverId:driverId,
     rideId: rideDetails.rideId,
-    status:'rejected '
+    status:'rejected'
   })
    }
 
@@ -72,6 +73,7 @@ const handledriverClose=()=>{
       status:'Accepted'
     })
    console.log("Driver accepted! Redirecting to payment...");
+    setIsRideAccepted(true); 
  };
   
  
@@ -79,50 +81,85 @@ const handledriverClose=()=>{
  
    const locationIntervalRef = useRef(null);
  
-   useEffect(() => {
-   
- 
-     if (isActive) {
-      
- 
-       locationIntervalRef.current = setInterval(() => {
-        
- 
-         if (navigator.geolocation) {
-           navigator.geolocation.getCurrentPosition((position) => {
-             const { latitude, longitude } = position.coords;
-             const driverId = user?._id;
-             const drivername=user?.name
- 
-             if (driverId) {
-              
-               socket.emit('driverLocation', { latitude, longitude, driverId ,drivername});
-             }
-           });
-         }
-       }, 5000);
-     } else {
-       const driver = user?._id;
-      
-       // Clear interval immediately
-       if (locationIntervalRef.current) {
-         clearInterval(locationIntervalRef.current);
-         locationIntervalRef.current = null;
-       }
- 
-       if (driver) {
-         socket.emit('driverInactive', {driverId:driver});
-       }
-     }
- 
-     // Cleanup on unmount or change
-     return () => {
-       if (locationIntervalRef.current) {
-         clearInterval(locationIntervalRef.current);
-         locationIntervalRef.current = null;
-       }
-     };
-   }, [isActive, user, socket]);
+  useEffect(() => {
+  const sendLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        const driverId = user?._id;
+        const drivername = user?.name;
+
+        if (driverId) {
+          console.log('📡 Emitting driverLocation:', { latitude, longitude, driverId });
+          socket.emit('driverLocation', { latitude, longitude, driverId, drivername });
+        }
+      });
+    }
+  };
+
+  const startLocationInterval = () => {
+    if (locationIntervalRef.current) clearInterval(locationIntervalRef.current);
+    locationIntervalRef.current = setInterval(sendLocation, 5000);
+    sendLocation(); // send immediately too
+  };
+
+  if (isActive) {
+    startLocationInterval();
+  } else {
+    // clear location updates
+    if (locationIntervalRef.current) {
+      clearInterval(locationIntervalRef.current);
+      locationIntervalRef.current = null;
+    }
+    const driverId = user?._id;
+    if (driverId) {
+      socket.emit('driverInactive', { driverId });
+    }
+  }
+
+  const handleVisibilityChange = () => {
+    if (document.visibilityState === 'visible' && isActive) {
+      console.log('Tab became visible again — restarting location');
+      startLocationInterval();
+    }
+  };
+
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+
+  return () => {
+    if (locationIntervalRef.current) {
+      clearInterval(locationIntervalRef.current);
+      locationIntervalRef.current = null;
+    }
+    document.removeEventListener('visibilitychange', handleVisibilityChange);
+  };
+}, [isActive, user, socket]);
+
+
+
+useEffect(() => {
+  if (!isRideAccepted) return; 
+
+  const sendTrackingLocation = () => {
+    if (navigator.geolocation && user?._id) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        const driverId = user._id;
+        const drivername = user.name;
+
+        console.log('🚗 Sending driver location for tracking:', latitude, longitude);
+
+        socket.emit('driverLocationForTracking', { driverId, latitude, longitude, drivername });
+      });
+    }
+  };
+
+  const interval = setInterval(sendTrackingLocation, 3000); // every 3 seconds
+  sendTrackingLocation(); // send immediately once
+
+  return () => clearInterval(interval); // clear when component unmounts or isRideAccepted changes
+}, [isRideAccepted, user, socket]);
+
  
   
  
