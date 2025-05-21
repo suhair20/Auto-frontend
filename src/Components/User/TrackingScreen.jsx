@@ -11,7 +11,9 @@ import Header from './Header'
 import Footer from './Footer';
 import ReactMapGL,{Marker} from 'react-map-gl'
 import { useTrackingdeatialsQuery } from '../../slices/userSlice';
-import { use } from 'react';
+
+import { useCreateOrderMutation } from '../../slices/userSlice';
+import { useFinalverifypaymentMutation} from '../../slices/userSlice';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibW9pZGhlZW5zdWhhaXIiLCJhIjoiY2x6YjF1cWNyMGJlMjJyb29hZ240Zmk4ayJ9.58Mg37vr5SeKrBWZtAQ2xQ'
 
@@ -27,12 +29,102 @@ const navigate=useNavigate()
        navigate('/')
    }
  },[navigate,isAuthenticated])
+             const [deatials,setdeatials]=useState()
+           const [etaToPickup, setEtaToPickup] = useState(null);
+       const [etaToDrop, setEtaToDrop] = useState(null);
+
+          const [CreateOrder] = useCreateOrderMutation();
+               const [finalverifypayment]=useFinalverifypaymentMutation()
 
             const {data}=useTrackingdeatialsQuery(rideId)
-           const [deatials,setdeatials]=useState()
+            const { data: rideStatusData } =useTrackingdeatialsQuery(rideId, {
+  pollingInterval: 5000, 
+});
+           const details = data?.data;
+              
 
-            const details = data?.data;
-              console.log('dtaisl',details);
+            useEffect(() => {
+  if (rideStatusData?.data?.status === 'payment_pending') {
+    handlePayment(); // auto-open Razorpay
+  } else {
+    console.log("Not payment_pending");
+  }
+}, [rideStatusData]);
+
+
+    const  fuctionverifypeymnet=async(response)=>{
+ console.log('Payment response:', response);
+     try {
+      
+          
+      const res = await finalverifypayment({
+      razorpay_order_id: response.razorpay_order_id,
+      razorpay_payment_id: response.razorpay_payment_id,
+      razorpay_signature: response.razorpay_signature,
+      rideId: rideId,
+    });
+       console.log('final',res);
+       if(res.data.success){
+      
+         
+      
+        navigate(`/review/${rideId}`)
+      }
+   
+      
+      
+     } catch (error) {
+      console.error('payemnt verification failed in front')
+     }
+    }
+
+
+
+
+
+
+const handlePayment = async () => {
+  try {
+    const amount=details?.fare-details?.advancePaid
+    const res = await CreateOrder({ amount: amount, currency: 'INR' }).unwrap();
+    const options = {
+      key: 'rzp_test_GUwK0qBukL0t4v',
+      amount: res.amount,
+      currency: 'INR',
+      name: 'Auto Ride',
+      description: 'Ride Payment',
+      order_id: res.id,
+      handler:  function (response) {
+     
+     console.log(response);
+     
+     fuctionverifypeymnet(response)
+
+   
+  
+}
+    };
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+  } catch (error) {
+    console.error("Payment error:", error);
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 const mapContainerRef = useRef(null);
                     const map = useRef(null);
@@ -43,6 +135,16 @@ const navigate=useNavigate()
                     const driverMarkerRef = useRef(null);
 
               console.log("drii",driverLocation);
+
+              const createCustomMarker = (imageUrl) => {
+  const el = document.createElement('div');
+  el.style.backgroundImage = `url(${imageUrl})`;
+  el.style.width = '40px';
+  el.style.height = '40px';
+  el.style.backgroundSize = 'cover';
+  el.style.borderRadius = '50%'; // optional
+  return el;
+};
               
                   const drawRoute = (start, end) => {
                 const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${start.lng},${start.lat};${end.lng},${end.lat}?geometries=geojson&access_token=${mapboxgl.accessToken}`;
@@ -171,21 +273,68 @@ const navigate=useNavigate()
                 const driverPos = { lat: driverLocation.lat, lng: driverLocation.lng };
                 const routeTo =
                   details.rideStatus === 'onTheWay'
-                    ? { lat: details.pickupLat, lng: details.pickupLng }
-                    : { lat: details.dropLat, lng: details.dropLng };
+                  
+                    ? { lat: details.dropLat, lng: details.dropLng }
+                    : { lat: details.pickupLat, lng: details.pickupLng };
 
-                if (driverMarkerRef.current) {
-                  driverMarkerRef.current.setLngLat([driverPos.lng, driverPos.lat]);
-                } else {
-                  driverMarkerRef.current = new mapboxgl.Marker({ color: 'blue' })
-                    .setLngLat([driverPos.lng, driverPos.lat])
-                    .setPopup(new mapboxgl.Popup().setText(driverLocation.name || 'Driver'))
-                    .addTo(map.current);
-                }
+               if (driverMarkerRef.current) {
+  try {
+    driverMarkerRef.current.setLngLat([driverPos.lng, driverPos.lat]);
+  } catch (err) {
+    console.warn('Marker exists but not on map. Re-adding it.');
+    driverMarkerRef.current.remove();
+    driverMarkerRef.current = new mapboxgl.Marker({ color: 'blue' })
+      .setLngLat([driverPos.lng, driverPos.lat])
+      .setPopup(new mapboxgl.Popup().setText(driverLocation.name || 'Driver'))
+      .addTo(map.current);
+  }
+} else {
+  driverMarkerRef.current = new mapboxgl.Marker({ color: 'blue' })
+    .setLngLat([driverPos.lng, driverPos.lat])
+    .setPopup(new mapboxgl.Popup().setText(driverLocation.name || 'Driver'))
+    .addTo(map.current);
+}
 
                 drawRoute(driverPos, routeTo);
               }
             }, [driverLocation, details]);
+
+
+const getETA=async(start,end)=>{
+    const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${start.lng},${start.lat};${end.lng},${end.lat}?access_token=${mapboxgl.accessToken}`;
+
+    const respons=await fetch(url)
+    const data=await respons.json();
+
+
+    if(data.routes && data.routes.length>0){
+      const second=data.routes[0].duration;
+      const minutes=Math.round(second/60);
+      return minutes
+    }
+    return null
+  
+  }
+
+  useEffect(() => {
+  if (!driverLocation || !details) return;
+
+  const driverPos = { lat: driverLocation.lat, lng: driverLocation.lng };
+  const pickupPos = { lat: details.pickupLat, lng: details.pickupLng };
+  const dropPos = { lat: details.dropLat, lng: details.dropLng };
+
+  // ETA to pickup
+  getETA(driverPos, pickupPos).then(setEtaToPickup);
+
+ 
+    getETA(pickupPos, dropPos).then(setEtaToDrop);
+  
+}, [driverLocation, details]);
+
+
+
+
+
 
 
 
@@ -243,14 +392,15 @@ const navigate=useNavigate()
           <div className="flex items-center  gap-1">
           <span> 🛺 </span>
           <span className='text-xs' >Driver</span>
-          <span> Reach in <strong>3 minutes</strong></span>
+          <span> Reach in <strong>{etaToPickup?etaToPickup:"2 mint"} mint </strong></span>
           </div>
 
 
           <div className="flex items-center   gap-2">
           <span>🗺️</span>
+           <img src="./banner.png" alt="Auto Rickshaw" className="auto-rickshaw" />
           <span className='text-xs' >Destination</span>
-           <span>In <strong>30 minutes</strong></span>
+           <span>In <strong>{etaToDrop?etaToDrop:"3 "} mint</strong></span>
          </div>
 
          <div className="flex items-center gap-1 ">

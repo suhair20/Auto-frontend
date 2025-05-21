@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import Feedback from 'react-bootstrap/esm/Feedback';
 
 
 
@@ -83,7 +84,29 @@ export const userSlice=createApi({
       method:'GET',
       
      })
-     })
+     }),
+     
+
+finalverifypayment:builder.mutation({
+  query:(data)=>({
+    url:'/user/finalverifypayment',
+    method:'POST',
+    body:data
+  })
+}),
+
+feedback:builder.mutation({
+  query:(data)=>({
+    url:'/user/feedback',
+    method:'POST',
+    body:data
+  })
+})
+
+
+
+
+
    }),
   
   
@@ -99,7 +122,9 @@ export const {useSignupMutation,
               useCreateOrderMutation,
               useVerifypaymentMutation,
               useRidehistoryQuery,
-              useTrackingdeatialsQuery
+              useTrackingdeatialsQuery,
+            useFinalverifypaymentMutation,
+            useFeedbackMutation
             
             }=userSlice
 

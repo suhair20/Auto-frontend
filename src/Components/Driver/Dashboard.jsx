@@ -1,6 +1,6 @@
 import React, { useState ,useEffect,useRef} from 'react';
-import { useSelector } from 'react-redux';
-
+import { useSelector,useDispatch } from 'react-redux';
+import { setIsRideAccepted,setRidId} from '../../slices/driverAuthSlice';
 import mapboxgl from 'mapbox-gl';
 import { FaBars, FaTachometerAlt,  FaCog } from 'react-icons/fa'; // Example icons
   import Footer from './Footer'
@@ -10,6 +10,7 @@ import { FaMoneyCheckAlt } from 'react-icons/fa';
 import { FaUser,FaInfoCircle } from 'react-icons/fa';
 import { FaMoneyBillWave, FaUserTie, FaTaxi,FaChartLine } from 'react-icons/fa';
 import RideRequestModal from './RideRequest';
+import { useRideEndMutation } from '../../slices/driverSlice';
 import {
   LineChart,
   Line,
@@ -37,12 +38,39 @@ import io from 'socket.io-client'
 function Dashboard() {
   const [isActive,setIsActive]=useState(false)    
   const [isOpen, setIsOpen] = useState(true); 
-  const [location,setlocation]=useState(true)
+  const [driverLoca,setDriverLocation]=useState(true)
   const [modalOpen,setModalOpen]=useState(false)
   const [rideDetails,setRideDetails]=useState('')
   const [driverId,setdriverid]=useState('')
-  const [isRideAccepted, setIsRideAccepted] = useState(false);
+  const [showEndRideModal, setShowEndRideModal] = useState(false);
+const [rideEnd] = useRideEndMutation ();
+   const dispatch=useDispatch()
  const user = useSelector((state)=>state.driverAuth.user)
+ const isRideAccepted=useSelector((state)=>state.driverAuth.isRideAccepted)
+ const rideId=useSelector((state)=>state.driverAuth.rideId)
+
+
+
+
+ useEffect(() => {
+  if (isRideAccepted) {
+    localStorage.setItem('isRideAccepted', 'true');
+    if (rideId) localStorage.setItem('rideId', rideId);
+  } else {
+    localStorage.removeItem('isRideAccepted');
+    localStorage.removeItem('rideId');
+  }
+}, [isRideAccepted, rideId]);
+
+useEffect(() => {
+  const saved = localStorage.getItem('isRideAccepted');
+  const savedRideId = localStorage.getItem('rideId');
+
+  if (saved === 'true') {
+    dispatch(setIsRideAccepted(true));
+    if (savedRideId) dispatch(setRidId(savedRideId));
+  }
+}, [dispatch]);
 
  socket.on('rideRequest', (rideDetails,driverId) => {
   // Handle the incoming ride request
@@ -73,7 +101,8 @@ const handledriverClose=()=>{
       status:'Accepted'
     })
    console.log("Driver accepted! Redirecting to payment...");
-    setIsRideAccepted(true); 
+     dispatch(setIsRideAccepted(true)); // ✅ Redux
+  dispatch(setRidId(rideDetails.rideId)); // optional
  };
   
  
@@ -140,19 +169,63 @@ const handledriverClose=()=>{
 useEffect(() => {
   if (!isRideAccepted) return; 
 
+  // const sendTrackingLocation = () => {
+  //   if (navigator.geolocation && user?._id) {
+  //     navigator.geolocation.getCurrentPosition((position) => {
+  //       const { latitude, longitude } = position.coords;
+  //       const driverId = user._id;
+  //       const drivername = user.name;
+
+  //       const driverLoc = { lat: latitude, lng: longitude };
+  //     setDriverLocation(driverLoc);
+
+  //       console.log('🚗 Sending driver location for tracking:', latitude, longitude);
+
+  //       socket.emit('driverLocationForTracking', { driverId, latitude, longitude, drivername });
+
+  //      if (
+  //       isNearDestination(driverLoc, rideDetails?.destination?.coordinates)
+  //     ) {
+  //       console.log("is here");
+        
+  //       setShowEndRideModal(true);
+  //     }
+
+
+  //     });
+  //   }
+  // };
   const sendTrackingLocation = () => {
-    if (navigator.geolocation && user?._id) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const { latitude, longitude } = position.coords;
-        const driverId = user._id;
-        const drivername = user.name;
+  const latitude = 10.0269;  // Very close to destination
+  const longitude = 76.3028;
+  const driverId = user._id;
+  const drivername = user.name;
 
-        console.log('🚗 Sending driver location for tracking:', latitude, longitude);
+  const driverLoc = { lat: latitude, lng: longitude };
+  setDriverLocation(driverLoc);
 
-        socket.emit('driverLocationForTracking', { driverId, latitude, longitude, drivername });
-      });
-    }
-  };
+  console.log('🚗 Sending driver location for tracking:', latitude, longitude);
+
+  socket.emit('driverLocationForTracking', { driverId, latitude, longitude, drivername });
+  console.log("📍 DriverLoc:", driverLoc);
+console.log("🎯 Destination:", rideDetails?.destination?.coordinates);
+console.log("🧮 isNearDestination:", isNearDestination(driverLoc, rideDetails?.destination?.coordinates));
+const destinationCoords = rideDetails?.destination?.coordinates;
+const destinationPos = {
+  lat: destinationCoords[1],
+  lng: destinationCoords[0],
+};
+
+  if (
+    isNearDestination(driverLoc, destinationPos)
+  ) {
+    console.log("🎉 Driver reached destination.");
+    setShowEndRideModal(true);
+    
+  }else{
+    console.log("🎉 Driver reached ggggggdestination.");
+  }
+};
 
   const interval = setInterval(sendTrackingLocation, 3000); // every 3 seconds
   sendTrackingLocation(); // send immediately once
@@ -169,6 +242,73 @@ useEffect(() => {
     setIsOpen(!isOpen);
   };
     
+
+
+
+
+
+
+////////////////////////////////
+
+
+ const handleConfirmEndRide = async () => {
+    try { console.log("kooii");
+    
+        await rideEnd({ rideId }); 
+    console.log("Ride ended.");
+  } catch (error) {
+      console.error('Error completing ride:', error);
+    }
+  };
+
+
+
+
+
+
+
+
+
+
+
+ const isNearDestination = (driverPos, destinationPos, threshold = 10000) => {
+  console.log("its coming here");
+  console.log('uuu',rideDetails?.destination?.coordinates);
+  
+  
+  const R = 6371e3; // Earth radius in meters
+  const toRad = (deg) => (deg * Math.PI) / 180;
+
+  const dLat = toRad(destinationPos.lat - driverPos.lat);
+  const dLng = toRad(destinationPos.lng - driverPos.lng);
+
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(driverPos.lat)) *
+      Math.cos(toRad(destinationPos.lat)) *
+      Math.sin(dLng / 2) *
+      Math.sin(dLng / 2);
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const distance = R * c;
+
+  return distance <= threshold;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   return (
    <>
    <div className="flex">
@@ -309,7 +449,7 @@ useEffect(() => {
       <div className="text-center text-white md:text-xl text-sm font-bold">Total Earnings</div>
       <div className="text-center text-white md:text-xl text-sm ">$500</div> {/* Replace with dynamic data */}
     </div>
-<h1 className='' >{location}</h1>
+
     {/* Total Rides Box */}
     <div className="flex flex-col justify-center  items-center bg-green-600 w-full sm:w-52  md:h-36 h-24 rounded shadow-lg">
     <FaTaxi className='  text-3xl text-blue-500  ' />
@@ -394,7 +534,26 @@ useEffect(() => {
    
  </div>
  <Footer className='' />
-
+{showEndRideModal && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="bg-white p-4 rounded-xl shadow-md w-80 text-center">
+      <h2 className="text-xl font-semibold mb-2">You’ve reached the destination</h2>
+      <p className="mb-4">Do you want to end the ride?</p>
+      <button
+        className="bg-green-600 text-white px-4 py-2 rounded-md mr-2"
+        onClick={handleConfirmEndRide}
+      >
+        End Ride & Pay
+      </button>
+      <button
+        className="bg-gray-300 px-4 py-2 rounded-md"
+        onClick={() => setShowEndRideModal(false)}
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+)}
    </>
   )
 }

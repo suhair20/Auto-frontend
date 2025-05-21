@@ -6,7 +6,10 @@ import { createSlice } from "@reduxjs/toolkit";
 const driverAuthSlice=createSlice({
     name:'driverAuth',
     initialState:{
-        isAuthenticated:false,user:null
+        isAuthenticated:false,
+        user:null,
+       isRideAccepted: false,
+       rideId: null,
     },
     reducers:{
         setdriverAuthenticated:(state,action)=>{
@@ -16,9 +19,20 @@ const driverAuthSlice=createSlice({
         driverlogout:(state)=>{
           state.isAuthenticated=false
           state.user=null
+        },
+        setIsRideAccepted:(state,action)=>{
+            state.isRideAccepted=action.payload;
+        },
+        setRidId:(state,action)=>{
+            state.rideId=action.payload
+
+        },
+        clearRideState:(state)=>{
+             state.isRideAccepted = false;
+      state.rideId = null;
         }
     }
 })
 
-export const {setdriverAuthenticated ,driverlogout}=driverAuthSlice.actions
+export const {setdriverAuthenticated ,driverlogout,setIsRideAccepted,setRidId,clearRideState}=driverAuthSlice.actions
 export default driverAuthSlice.reducer

@@ -72,6 +72,13 @@ export const driverSlice=createApi({
         method: 'GET',
           }),
       }),
+      rideEnd:builder.mutation({
+        query:(data)=>({
+            url:'/driver/rideEnd',
+            method:'POST',
+            body:data
+        })
+      })
     })
 })
 
@@ -83,5 +90,6 @@ export const {useSignupMutation,
     useDrivercheckAuthQuery,
      useDriverlogoutMutation,
      useDriverdetialsQuery,
-     useGetActiveDriversQuery
+     useGetActiveDriversQuery,
+     useRideEndMutation
     }=driverSlice

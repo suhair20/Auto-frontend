@@ -70,8 +70,8 @@ useEffect(()=>{
         rideDetails: JSON.parse(Details)
       })
        console.log('fontres',res);
-       
-      if(res.data.success){
+       if(res.data.success){
+      
           const rideDetails = JSON.parse(localStorage.getItem('rideDetails'));
        const rideId = rideDetails?.rideId;
         navigate(`/tracking/${rideId}`, { replace: true })

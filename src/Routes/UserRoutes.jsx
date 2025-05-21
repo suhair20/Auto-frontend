@@ -8,6 +8,7 @@ import Profile from "../Components/User/Profile";
 import RideHistory from "../Components/User/RideHistory";
 import BookingDetials from "../Components/User/BookingDetials";
 import TrackingScreen from "../Components/User/TrackingScreen";
+import ReviewScreen from "../Components/User/ReviewScreen";
 const UserRoutes=(
     <>
     <Route path="/" element={<HomeScreen/>}/>
@@ -18,6 +19,7 @@ const UserRoutes=(
     <Route path="/RideHistory" element={<RideHistory/>} />
     <Route path="/booking/detials/:driverId"  element={<BookingDetials/>} /> 
     <Route path="/tracking/:rideId"  element={<TrackingScreen/>}  />
+    <Route path="/review"  element={<ReviewScreen/>} />
     </>
 )
 
