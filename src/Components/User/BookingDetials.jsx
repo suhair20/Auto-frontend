@@ -75,6 +75,10 @@ useEffect(()=>{
           const rideDetails = JSON.parse(localStorage.getItem('rideDetails'));
        const rideId = rideDetails?.rideId;
         navigate(`/tracking/${rideId}`, { replace: true })
+        socket.emit('advancePaymentDone', {
+        driverId: rideDetails.driverId,
+  rideId: rideDetails.rideId,
+          });
       }
    
       

@@ -14,6 +14,9 @@ function ReviewScreen() {
 const [feedback]=useFeedbackMutation()
 
   const handlesubmit= async()=>{
+   
+      
+   
     if(!rating&&!comment.trim()){
          alert("Please provide a rating and a comment.");   
            return;
@@ -39,11 +42,9 @@ const [feedback]=useFeedbackMutation()
     } else {
       alert("Something went wrong. Please try again.");
     }
-  } catch (error) {
-    console.error("Error submitting feedback:", error);
-    alert("Server error. Please try again later.");
+  
   }
-  }
+}
 
    const feedbackOptions = [
     'Very Professional',

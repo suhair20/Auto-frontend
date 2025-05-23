@@ -1,16 +1,33 @@
 import React, { useState } from 'react';
 import { FaBars, FaTachometerAlt, FaUsers, FaCar, FaCog } from 'react-icons/fa'; // Example icons
+import { useSelector,useDispatch, } from 'react-redux';
 import Footer from './Footer'
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import { FaHistory } from 'react-icons/fa';
 import { FaMoneyCheckAlt ,FaInfoCircle,FaUser} from 'react-icons/fa';
+import { useDriverhistoryQuery} from '../../slices/driverSlice';
+import { useParams } from 'react-router-dom';
 
 
 
 
 function rideHistory() {
-   
-    const [isOpen, setIsOpen] = useState(true); // State to toggle sidebar
+
+
+
+const navigate=useNavigate()
+const user = useSelector((state)=>state.driverAuth.user)
+const driveId = user?._id;
+    const [isOpen, setIsOpen] = useState(true); 
+    const {data:driverhistory}=useDriverhistoryQuery(driveId)
+     console.log(driverhistory);
+     
+
+const getShortAddress = (address) => {
+  const parts = address.split(',').map(p => p.trim());
+  return parts.slice(0, 3).join(', ');
+};
+
 
     const toggleSidebar = () => {
       setIsOpen(!isOpen);
@@ -143,26 +160,50 @@ function rideHistory() {
               </div>
               
               <div  className='h-full   flex flex-col items-center justify-centere  py-10 ' >
-      <div  className='    w-11/12 md:h-[500px] rounded ' >
+      <div  className='    w-11/12 h-[600px] rounded overflow-y-auto' >
         <div className='  px-4 py-4  space-y-4'>
-  <div className='border-b px-4 py-3 rounded  border  transition duration-300 ease-in-out bg-green-900 text-white cursor-pointer flex flex-col sm:flex-row justify-between items-center gap-y-2 sm:gap-y-0 text-center'>
-  {/* Locations with Animated Underline */}
-  <span className='font-semibold  md:text-lg text-sm relative flex sm:flex-row items-center gap-x-2 after:content-[""] after:absolute after:left-0 after:bottom-0 after:w-full after:h-[2px] after:bg-white after:animate-[underline_1.5s_infinite]'>
-    <span>Kozhikode</span>
-    <span className=" sm:inline">→</span> 
-   
-    <span>Kasargod</span>
-  </span>
-
-  
-  
-  <span className='md:text-lg text-sm opacity-80'>04/09/24</span>
-  <span className='md:text-lg text-sm opacity-80'>300 km</span>
-  {/* View Button */}
-  <button className=' text-sm bg-white text-black  md:px-3 px-2 py-1 rounded-md shadow-md  ease-in-out    hover:bg-red-900  transition duration-300'>
-    View
-  </button>
-</div>
+              
+            {driverhistory && driverhistory.length > 0 ? (
+  driverhistory?.slice().reverse().map((ride) => (
+    <div
+      key={ride._id}
+      className="border-b px-4 py-3 rounded border transition duration-300 ease-in-out bg-gradient-to-t from-green-600 to-gray-800 text-white cursor-pointer flex flex-col sm:flex-row justify-between items-center gap-y-2 sm:gap-y-0 text-center"
+    >
+      <span className="font-semibold md:w-2/4   md:text-lg text-sm relative flex sm:flex-row items-center gap-x-2 after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-full after:h-[2px] after:bg-white after:animate-[underline_1.5s_infinite]">
+        <span className='text-xs md:w-1/2 '   >{getShortAddress(ride.pickup) }</span>
+        <span className="sm:inline">→</span>
+        <span className='text-xs md:w-1/2 '  >{getShortAddress(ride.drop)}</span>
+      </span>
+      <span className=" md:text-lg text-sm opacity-80">{new Date(ride.createdAt).toLocaleDateString()}</span>
+      
+      <span
+        className={`text-xs font-semibold px-2 py-1 rounded ${
+          ride.status === 'completed'
+            ? 'bg-gray-300 text-black'
+            : ride.status === 'confirmed'
+            ? 'bg-yellow-400 text-black'
+            : ride.status === 'payment_pending'
+            ? 'bg-orange-400 text-black'
+            : ride.status === 'cancelled'
+            ? 'bg-red-500 text-white'
+            : 'bg-blue-300 text-black'
+        }`}
+      >
+        {ride.status}
+      </span>
+      <button
+        onClick={() => navigate(`/driver/tracking/${ride._id}`)}
+        className="text-sm bg-white text-black md:px-3 px-2 py-1 rounded-md shadow-md hover:bg-red-900 hover:text-white transition duration-300"
+      >
+        View
+      </button>
+    </div>
+  ))
+) : (
+  <div className="text-center text-gray-500 py-10">
+    No ride history found for this driver.
+  </div>
+)}
   </div>
 </div>
        

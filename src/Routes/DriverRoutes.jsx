@@ -8,7 +8,7 @@ import Dashboard from "../Components/Driver/Dashboard";
 import RideHistory from "../Components/Driver/RideHistory";
 import RidePayements from "../Components/Driver/RidePayements";
 import Profile from "../Components/Driver/Profile";
-
+import Trackingscreen from "../Components/Driver/Trackingscreen";
 
 const DriverRoutes=(
     <>
@@ -17,9 +17,10 @@ const DriverRoutes=(
     <Route path="/driverLogin" element={<Login/>}/>
     <Route path="/verification" element={<Verification/>}/>
     <Route  path="/dashboard" element={< Dashboard/>} />
-    <Route  path="/driver/ridehistory" element={<RideHistory />} />
+    <Route  path="/driver/ridehistory/:driveId" element={<RideHistory />} />
     <Route  path="/ridepayements" element={<RidePayements />} />
     <Route  path="/driver/profile"  element={<Profile/>} />
+    <Route path="/driver/tracking/:rideId"  element={<Trackingscreen/>} />
     </>
 )
 

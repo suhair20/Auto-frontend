@@ -1,6 +1,7 @@
 import React, { useState ,useEffect,useRef} from 'react';
-import { useSelector,useDispatch } from 'react-redux';
+import { useSelector,useDispatch, } from 'react-redux';
 import { setIsRideAccepted,setRidId} from '../../slices/driverAuthSlice';
+import { useNavigate } from 'react-router-dom';
 import mapboxgl from 'mapbox-gl';
 import { FaBars, FaTachometerAlt,  FaCog } from 'react-icons/fa'; // Example icons
   import Footer from './Footer'
@@ -10,7 +11,7 @@ import { FaMoneyCheckAlt } from 'react-icons/fa';
 import { FaUser,FaInfoCircle } from 'react-icons/fa';
 import { FaMoneyBillWave, FaUserTie, FaTaxi,FaChartLine } from 'react-icons/fa';
 import RideRequestModal from './RideRequest';
-import { useRideEndMutation } from '../../slices/driverSlice';
+
 import {
   LineChart,
   Line,
@@ -39,15 +40,45 @@ function Dashboard() {
   const [isActive,setIsActive]=useState(false)    
   const [isOpen, setIsOpen] = useState(true); 
   const [driverLoca,setDriverLocation]=useState(true)
+  const navigate=useNavigate()
   const [modalOpen,setModalOpen]=useState(false)
   const [rideDetails,setRideDetails]=useState('')
   const [driverId,setdriverid]=useState('')
-  const [showEndRideModal, setShowEndRideModal] = useState(false);
-const [rideEnd] = useRideEndMutation ();
+
+
    const dispatch=useDispatch()
  const user = useSelector((state)=>state.driverAuth.user)
  const isRideAccepted=useSelector((state)=>state.driverAuth.isRideAccepted)
  const rideId=useSelector((state)=>state.driverAuth.rideId)
+  const driveId = user?._id;
+ const [showAdvancePaidModal,setShowAdvancePaidModal]=useState(false)
+
+
+
+ useEffect(() => {
+    if (!user) {
+      
+      navigate('/driver'); 
+    }
+  }, [user, navigate]);
+
+
+useEffect(() => {
+  socket.on('userAdvancePaid', ({  message }) => {
+    console.log("iam here");
+    
+    console.log(message);
+    setShowAdvancePaidModal(true);
+    
+  });
+
+  return () => {
+    socket.off('userAdvancePaid');
+  };
+}, []);
+
+
+
 
 
 
@@ -74,7 +105,7 @@ useEffect(() => {
 
  socket.on('rideRequest', (rideDetails,driverId) => {
   // Handle the incoming ride request
-  console.log('Received ride request:', rideDetails,driverId);
+  
   if(rideDetails&&driverId){
     setdriverid(driverId)
     setRideDetails(rideDetails)
@@ -119,7 +150,7 @@ const handledriverClose=()=>{
         const drivername = user?.name;
 
         if (driverId) {
-          console.log('📡 Emitting driverLocation:', { latitude, longitude, driverId });
+   
           socket.emit('driverLocation', { latitude, longitude, driverId, drivername });
         }
       });
@@ -169,63 +200,27 @@ const handledriverClose=()=>{
 useEffect(() => {
   if (!isRideAccepted) return; 
 
-  // const sendTrackingLocation = () => {
-  //   if (navigator.geolocation && user?._id) {
-  //     navigator.geolocation.getCurrentPosition((position) => {
-  //       const { latitude, longitude } = position.coords;
-  //       const driverId = user._id;
-  //       const drivername = user.name;
-
-  //       const driverLoc = { lat: latitude, lng: longitude };
-  //     setDriverLocation(driverLoc);
-
-  //       console.log('🚗 Sending driver location for tracking:', latitude, longitude);
-
-  //       socket.emit('driverLocationForTracking', { driverId, latitude, longitude, drivername });
-
-  //      if (
-  //       isNearDestination(driverLoc, rideDetails?.destination?.coordinates)
-  //     ) {
-  //       console.log("is here");
-        
-  //       setShowEndRideModal(true);
-  //     }
-
-
-  //     });
-  //   }
-  // };
   const sendTrackingLocation = () => {
-  const latitude = 10.0269;  // Very close to destination
-  const longitude = 76.3028;
-  const driverId = user._id;
-  const drivername = user.name;
+    if (navigator.geolocation && user?._id) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        const driverId = user._id;
+        const drivername = user.name;
 
-  const driverLoc = { lat: latitude, lng: longitude };
-  setDriverLocation(driverLoc);
+        const driverLoc = { lat: latitude, lng: longitude };
+      setDriverLocation(driverLoc);
 
-  console.log('🚗 Sending driver location for tracking:', latitude, longitude);
+      
 
-  socket.emit('driverLocationForTracking', { driverId, latitude, longitude, drivername });
-  console.log("📍 DriverLoc:", driverLoc);
-console.log("🎯 Destination:", rideDetails?.destination?.coordinates);
-console.log("🧮 isNearDestination:", isNearDestination(driverLoc, rideDetails?.destination?.coordinates));
-const destinationCoords = rideDetails?.destination?.coordinates;
-const destinationPos = {
-  lat: destinationCoords[1],
-  lng: destinationCoords[0],
-};
+        socket.emit('driverLocationForTracking', { driverId, latitude, longitude, drivername });
+      
+       
 
-  if (
-    isNearDestination(driverLoc, destinationPos)
-  ) {
-    console.log("🎉 Driver reached destination.");
-    setShowEndRideModal(true);
-    
-  }else{
-    console.log("🎉 Driver reached ggggggdestination.");
-  }
-};
+
+      });
+    }
+  };
+ 
 
   const interval = setInterval(sendTrackingLocation, 3000); // every 3 seconds
   sendTrackingLocation(); // send immediately once
@@ -251,15 +246,6 @@ const destinationPos = {
 ////////////////////////////////
 
 
- const handleConfirmEndRide = async () => {
-    try { console.log("kooii");
-    
-        await rideEnd({ rideId }); 
-    console.log("Ride ended.");
-  } catch (error) {
-      console.error('Error completing ride:', error);
-    }
-  };
 
 
 
@@ -271,29 +257,8 @@ const destinationPos = {
 
 
 
- const isNearDestination = (driverPos, destinationPos, threshold = 10000) => {
-  console.log("its coming here");
-  console.log('uuu',rideDetails?.destination?.coordinates);
-  
-  
-  const R = 6371e3; // Earth radius in meters
-  const toRad = (deg) => (deg * Math.PI) / 180;
 
-  const dLat = toRad(destinationPos.lat - driverPos.lat);
-  const dLng = toRad(destinationPos.lng - driverPos.lng);
 
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(toRad(driverPos.lat)) *
-      Math.cos(toRad(destinationPos.lat)) *
-      Math.sin(dLng / 2) *
-      Math.sin(dLng / 2);
-
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  const distance = R * c;
-
-  return distance <= threshold;
-};
 
 
 
@@ -363,7 +328,7 @@ const destinationPos = {
 
    
           <li> 
-          <Link to={'/driver/ridehistory'} >
+          <Link to={`/driver/ridehistory/${driveId}`} >
              <button
                  className="flex items-center p-2 w-full text-left hover:bg-green-800 rounded-lg"
              >
@@ -529,31 +494,25 @@ const destinationPos = {
         rideDetails={rideDetails}
       />
 
-    
+   
 
    
  </div>
  <Footer className='' />
-{showEndRideModal && (
-  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div className="bg-white p-4 rounded-xl shadow-md w-80 text-center">
-      <h2 className="text-xl font-semibold mb-2">You’ve reached the destination</h2>
-      <p className="mb-4">Do you want to end the ride?</p>
-      <button
-        className="bg-green-600 text-white px-4 py-2 rounded-md mr-2"
-        onClick={handleConfirmEndRide}
-      >
-        End Ride & Pay
-      </button>
-      <button
-        className="bg-gray-300 px-4 py-2 rounded-md"
-        onClick={() => setShowEndRideModal(false)}
-      >
-        Cancel
-      </button>
-    </div>
-  </div>
-)}
+  {showAdvancePaidModal && (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="bg-white p-6  items-center flex flex-col justify-center rounded shadow-lg">
+          <h1 className="text-sm text-red-800 font-bold ">User has paid in advance.</h1>
+          <h1 className="text-sm  font-bold mb-4"> Proceed to pick them up.</h1>
+          <button
+            className=" bg-gradient-to-br from-green-600 to-gray-800 text-white  px-4 py-2 rounded"
+            onClick={() => navigate(`/driver/tracking/${rideId}`)}
+          >
+            Continue 
+          </button>
+        </div>
+      </div>
+    )}
    </>
   )
 }

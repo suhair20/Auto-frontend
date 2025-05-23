@@ -78,7 +78,14 @@ export const driverSlice=createApi({
             method:'POST',
             body:data
         })
+      }),
+      Driverhistory:builder.query({
+       query:(driveId)=>({
+         url:`/driver/driverhistory/${driveId}`,
+        method:'GET'
+       })
       })
+
     })
 })
 
@@ -91,5 +98,6 @@ export const {useSignupMutation,
      useDriverlogoutMutation,
      useDriverdetialsQuery,
      useGetActiveDriversQuery,
-     useRideEndMutation
+     useRideEndMutation,
+     useDriverhistoryQuery
     }=driverSlice

@@ -132,8 +132,16 @@ const Login=({isOpen,onRequestClose})=>{
           <button
             type="submit"
             className="w-full p-3  uppercase bg-gradient-to-br from-green-600 to-gray-900 text-white  rounded flex items-center justify-center "
+            disabled={loginLoading}
           >
-            Login
+            {loginLoading?(
+              <span className='loder p-2 ' > </span>
+            ):(
+              ' Login'
+            )
+            
+          }
+           
           </button>
           </div>
           </form>
