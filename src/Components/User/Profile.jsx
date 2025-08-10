@@ -3,14 +3,14 @@ import { useSelector } from "react-redux";
 import Header from './Header'
 import Footer from './Footer'
 import { useDispatch } from "react-redux";
-import { Navigate} from "react-router-dom";
+import { Navigate,useNavigate} from "react-router-dom";
 import { logout } from "../../slices/Auth.slice";
 import { useUserLogotMutation } from '../../slices/userSlice';
 
 function Profile() {
 
 
-  const  navigate=Navigate()
+  const  navigate=useNavigate()
   const dispatch=useDispatch()
    const [userLogout]=useUserLogotMutation()
  const {isAuthenticated}=useSelector((state)=>state.auth)
