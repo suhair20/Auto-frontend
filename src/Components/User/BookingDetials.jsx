@@ -226,7 +226,7 @@ useEffect(()=>{
 
                                      </div>
 
-                                     <div  className=' text-white text-center  bg-black w-32 h-8 ' >
+                                     <div  className=' text-white text-center    bg-black w-32 h-8 ' >
                                        {driver?.VehicleNumber??'kl04536'} 
                                      </div>
                                 

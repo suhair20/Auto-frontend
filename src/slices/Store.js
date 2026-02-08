@@ -10,7 +10,9 @@ const rootReducer=combineReducers({
     driverAuth: driverAuthSlice,
 })
 
+    
 const store =configureStore({
+
    
     reducer:rootReducer,
     middleware:(getDefaultMidleware)=>
