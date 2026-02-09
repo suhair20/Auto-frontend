@@ -24,7 +24,7 @@ import {
 } from 'recharts';
 import io from 'socket.io-client'
 
-  const socket= io('http://localhost:5000')
+  const socket= io('https://auto-backend-jq5w.onrender.com')
 
   mapboxgl.accessToken = 'pk.eyJ1IjoibW9pZGhlZW5zdWhhaXIiLCJhIjoiY2x6YjF1cWNyMGJlMjJyb29hZ240Zmk4ayJ9.58Mg37vr5SeKrBWZtAQ2xQ'
   const data = [
